@@ -8,7 +8,7 @@ layout (location = 8) in mat4 world;
 
 out vec2 tex_coord_0;
 out vec3 normal_0;
-out vec3 worldPos_0;
+out vec3 world_pos_0;
 flat out int instance_id;
 
 void main()
@@ -16,6 +16,6 @@ void main()
     gl_Position = wvp * vec4(position, 1.0f);
     tex_coord_0 = tex_coord;
     normal_0    = (world * vec4(normal, 0.0f)).xyz;
-    worldPos_0  = (world * vec4(position, 1.0f)).xyz;
+    world_pos_0  = (world * vec4(position, 1.0f)).xyz;
     instance_id = gl_InstanceID;
 }

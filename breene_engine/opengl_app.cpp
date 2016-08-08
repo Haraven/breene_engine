@@ -550,7 +550,7 @@ GLFWwindow* SetupMainWindow(GLchar* title, GLenum is_fullscreen, GLint sample_co
 RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscreen, GLint sampling, GLint openGL_version_major, GLint openGL_version_minor, GLint openGL_profile, GLenum capture_input, GLenum hide_cursor, GLenum depth_test)
 {
     GLint result = glfwInit();
-    if (result != GL_TRUE)
+    if (result != GLFW_TRUE)
     {
         std::cerr << "An error occurred while initializing GLFW. Error code: " << result << ". The application will now close." << std::endl;
         return ERR_GLFW_INIT;
@@ -558,9 +558,7 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
 
     _wnd = SetupMainWindow(title, is_fullscreen, sampling, openGL_version_major, openGL_version_minor, GL_TRUE, openGL_profile, _wnd_width, _wnd_height);
     if (_wnd == nullptr)
-    {
         return ERR_WND_CREATE;
-    }
 
     // set newly created window as current context, and add an event handler for the keypresses
     glfwMakeContextCurrent(_wnd);
@@ -570,6 +568,7 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
         glfwSetInputMode(_wnd, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // hide cursor
 
     // setup GLEW
+	std::cout << "hi" << std::endl;
     glewExperimental = true;
     GLenum err = glewInit();
     if (err != GLEW_OK)
@@ -587,7 +586,6 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER, 0.0f);
     Init();
-
     glfwSetCursorPos(_wnd, _wnd_width / 2, _wnd_height / 2);
     return SUCCESS;
 }
