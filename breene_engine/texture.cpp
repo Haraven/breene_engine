@@ -5,7 +5,7 @@
 #include <algorithm>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include <stb\stb_image.h>
 
 #include "my_constants.h"
 #include "utils.h"

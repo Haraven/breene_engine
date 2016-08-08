@@ -195,12 +195,12 @@
     <ClInclude Include="shader_program.h" />
     <ClInclude Include="shadows.h" />
     <ClInclude Include="skybox.h" />
-    <ClInclude Include="stb_image.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="text_rendering.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\README.md" />
     <None Include="shaders\billboard_fragment_shader.frag" />
     <None Include="shaders\billboard_geometry_shader.geom" />
     <None Include="shaders\billboard_vertex_shader.vert" />
