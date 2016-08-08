@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{894601DE-0535-4CCE-AACA-653DAD3C14A7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>breene_engine</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)dependencies\x64\includes\freetype;$(ProjectDir)dependencies\x64\includes;$(IncludePath)</IncludePath>
+    <ReferencePath>$(ProjectDir)dependencies\x64\libs;$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(ProjectDir)dependencies\x64\libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)dependencies\x64\includes\freetype;$(IncludePath);$(ProjectDir)dependencies\x64\includes</IncludePath>
+    <ReferencePath>$(ProjectDir)dependencies\x64\libs;$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(ProjectDir)dependencies\x64\libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\x64\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;opengl32.lib;glew32.lib;glew32s.lib;glfw3dll.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASSIMP_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;opengl32.lib;glew32.lib;glew32s.lib;glfw3dll.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="3d_picking.cpp" />
+    <ClCompile Include="app_setup.cpp" />
+    <ClCompile Include="basic_coloring.cpp" />
+    <ClCompile Include="billboard.cpp" />
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="fbo.cpp" />
+    <ClCompile Include="lighting.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="my_constants.cpp" />
+    <ClCompile Include="opengl_app.cpp" />
+    <ClCompile Include="particle_system.cpp" />
+    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="shader_program.cpp" />
+    <ClCompile Include="shadows.cpp" />
+    <ClCompile Include="skybox.cpp" />
+    <ClCompile Include="texture.cpp" />
+    <ClCompile Include="text_rendering.cpp" />
+    <ClCompile Include="utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="3d_picking.h" />
+    <ClInclude Include="app_setup.h" />
+    <ClInclude Include="basic_coloring.h" />
+    <ClInclude Include="billboard.h" />
+    <ClInclude Include="callbacks.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="fbo.h" />
+    <ClInclude Include="lighting.h" />
+    <ClInclude Include="mesh.h" />
+    <ClInclude Include="my_constants.h" />
+    <ClInclude Include="opengl_app.h" />
+    <ClInclude Include="particle_system.h" />
+    <ClInclude Include="shader.h" />
+    <ClInclude Include="shader_program.h" />
+    <ClInclude Include="shadows.h" />
+    <ClInclude Include="skybox.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="texture.h" />
+    <ClInclude Include="text_rendering.h" />
+    <ClInclude Include="utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\models\phoenix_ugv.md2" />
+    <None Include="shaders\billboard_fragment_shader.frag" />
+    <None Include="shaders\billboard_geometry_shader.geom" />
+    <None Include="shaders\billboard_vertex_shader.vert" />
+    <None Include="shaders\font_fragment_shader.frag" />
+    <None Include="shaders\font_vertex_shader.vert" />
+    <None Include="shaders\fragment_all_lights_shader.frag" />
+    <None Include="shaders\fragment_diffuse_lighting_shader.frag" />
+    <None Include="shaders\fragment_lighting_shader.frag" />
+    <None Include="shaders\fragment_point_light_shader.frag" />
+    <None Include="shaders\fragment_shader.frag" />
+    <None Include="shaders\fragment_specular_lighting_shader.frag" />
+    <None Include="shaders\fragment_texture_shader.frag" />
+    <None Include="shaders\instanced_rendering_shader.frag" />
+    <None Include="shaders\instanced_rendering_shader.vert" />
+    <None Include="shaders\light_shader.frag" />
+    <None Include="shaders\light_shader.vert" />
+    <None Include="shaders\partsysupdate_fragment_shader.frag" />
+    <None Include="shaders\partsysupdate_geometry_shader.geom" />
+    <None Include="shaders\partsysupdate_vertex_shader.vert" />
+    <None Include="shaders\picking_fragment_shader.frag" />
+    <None Include="shaders\picking_vertex_shader.vert" />
+    <None Include="shaders\plain_fragment_shader.frag" />
+    <None Include="shaders\plain_vertex_shader.vert" />
+    <None Include="shaders\shadow_shader.frag" />
+    <None Include="shaders\shadow_shader.vert" />
+    <None Include="shaders\skybox_shader.frag" />
+    <None Include="shaders\skybox_shader.vert" />
+    <None Include="shaders\tesselation_shader.frag" />
+    <None Include="shaders\tesselation_shader.vert" />
+    <None Include="shaders\tess_alt_shader.frag" />
+    <None Include="shaders\tess_alt_shader.tesc" />
+    <None Include="shaders\tess_alt_shader.tese" />
+    <None Include="shaders\tess_control_shader.tesc" />
+    <None Include="shaders\tess_eval_shader.tese" />
+    <None Include="shaders\vertex_diffuse_lighting_shader.vert" />
+    <None Include="shaders\vertex_shader.vert" />
+    <None Include="shaders\vertex_shader_color.vert" />
+    <None Include="shaders\vertex_shader_uniform.vert" />
+    <None Include="shaders\vertex_shader_uniform_transform.vert" />
+    <None Include="shaders\vertex_specular_lighting_shader.vert" />
+    <None Include="shaders\vertex_texture_shader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="resources\fonts\arial.ttf" />
+    <Font Include="resources\fonts\arialbi.ttf" />
+    <Font Include="resources\fonts\ariali.ttf" />
+    <Font Include="resources\fonts\ARIALN.TTF" />
+    <Font Include="resources\fonts\ARIALNB.TTF" />
+    <Font Include="resources\fonts\ARIALNBI.TTF" />
+    <Font Include="resources\fonts\ARIALNI.TTF" />
+    <Font Include="resources\fonts\ariblk.ttf" />
+    <Font Include="resources\fonts\BAUHS93.TTF" />
+    <Font Include="resources\fonts\verdana.ttf" />
+    <Font Include="resources\fonts\verdanab.ttf" />
+    <Font Include="resources\fonts\verdanai.ttf" />
+    <Font Include="resources\fonts\verdanaz.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\images\bricks.jpg" />
+    <Image Include="resources\images\desert_bk.tga" />
+    <Image Include="resources\images\desert_dn.tga" />
+    <Image Include="resources\images\desert_ft.tga" />
+    <Image Include="resources\images\desert_lf.tga" />
+    <Image Include="resources\images\desert_rt.tga" />
+    <Image Include="resources\images\desert_up.tga" />
+    <Image Include="resources\images\diffuse.jpg" />
+    <Image Include="resources\images\diffuse_normal.png" />
+    <Image Include="resources\images\diffuse_normal.tif" />
+    <Image Include="resources\images\diffuse_test.png" />
+    <Image Include="resources\images\excal.png" />
+    <Image Include="resources\images\fireworks_red.jpg" />
+    <Image Include="resources\images\heightmap.jpg" />
+    <Image Include="resources\images\monster_hellknight.png" />
+    <Image Include="resources\images\normal_map.jpg" />
+    <Image Include="resources\images\normal_up.jpg" />
+    <Image Include="resources\images\prototype.png" />
+    <Image Include="resources\images\sp3back.jpg" />
+    <Image Include="resources\images\sp3bot.jpg" />
+    <Image Include="resources\images\sp3front.jpg" />
+    <Image Include="resources\images\sp3left.jpg" />
+    <Image Include="resources\images\sp3right.jpg" />
+    <Image Include="resources\images\sp3top.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="resources\models\box.obj" />
+    <Object Include="resources\models\cube.obj" />
+    <Object Include="resources\models\dragon.obj" />
+    <Object Include="resources\models\hheli.obj" />
+    <Object Include="resources\models\monkey.obj" />
+    <Object Include="resources\models\monkey2.obj" />
+    <Object Include="resources\models\nanosuit2.obj" />
+    <Object Include="resources\models\quad.obj" />
+    <Object Include="resources\models\quad2.obj" />
+    <Object Include="resources\models\sphere.obj" />
+    <Object Include="resources\models\spider.obj" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,446 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\shaders">
+      <UniqueIdentifier>{6545c4f9-64b9-4a13-985c-e5094aefb624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\fragment">
+      <UniqueIdentifier>{4a6de766-71ae-42dd-a9b4-b101f16aa84c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\vertex">
+      <UniqueIdentifier>{f1ede36f-d2e0-4cc0-bcca-c1e6f1dc9a8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\tesselation">
+      <UniqueIdentifier>{d6cd7074-6023-4753-b5a5-c9053325cc80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\tesselation\control">
+      <UniqueIdentifier>{87120379-7f71-41e6-87cd-91503049f0d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\tesselation\evaluation">
+      <UniqueIdentifier>{a8de808d-1f83-48ff-844d-6df34e2047a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\geometry">
+      <UniqueIdentifier>{ffe4da96-71d7-4ee8-94e9-0efca74b0bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\fonts">
+      <UniqueIdentifier>{1b817964-9b80-4134-b49c-ccfbf4bd4c49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\images">
+      <UniqueIdentifier>{c72131f4-3c0f-4e5c-81c3-c68d55b3091e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\models">
+      <UniqueIdentifier>{8fcd6351-937a-4818-9b83-d2c7e4e7f7ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="3d_picking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="app_setup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_coloring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="billboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fbo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lighting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="my_constants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="opengl_app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shader_program.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shadows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="text_rendering.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="3d_picking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app_setup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_coloring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="billboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="callbacks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fbo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lighting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="opengl_app.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="particle_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shader_program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shadows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="text_rendering.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\tesselation_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\tess_alt_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\skybox_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\shadow_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\plain_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\picking_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\partsysupdate_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\light_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\instanced_rendering_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\fragment_texture_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\fragment_specular_lighting_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\fragment_point_light_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\fragment_lighting_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\fragment_diffuse_lighting_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\fragment_all_lights_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\font_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\billboard_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\partsysupdate_geometry_shader.geom">
+      <Filter>Resource Files\shaders\geometry</Filter>
+    </None>
+    <None Include="shaders\billboard_geometry_shader.geom">
+      <Filter>Resource Files\shaders\geometry</Filter>
+    </None>
+    <None Include="shaders\tess_control_shader.tesc">
+      <Filter>Resource Files\shaders\tesselation\control</Filter>
+    </None>
+    <None Include="shaders\tess_alt_shader.tesc">
+      <Filter>Resource Files\shaders\tesselation\control</Filter>
+    </None>
+    <None Include="shaders\tess_eval_shader.tese">
+      <Filter>Resource Files\shaders\tesselation\evaluation</Filter>
+    </None>
+    <None Include="shaders\tess_alt_shader.tese">
+      <Filter>Resource Files\shaders\tesselation\evaluation</Filter>
+    </None>
+    <None Include="shaders\vertex_texture_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\vertex_specular_lighting_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\vertex_shader_uniform_transform.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\vertex_shader_uniform.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\vertex_shader_color.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\vertex_diffuse_lighting_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\tesselation_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\skybox_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\shadow_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\plain_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\picking_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\partsysupdate_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\light_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\instanced_rendering_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\font_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\billboard_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="resources\models\phoenix_ugv.md2">
+      <Filter>Resource Files\models</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="resources\fonts\arial.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\arialbi.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\ariali.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\ARIALN.TTF">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\ARIALNB.TTF">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\ARIALNBI.TTF">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\ARIALNI.TTF">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\ariblk.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\BAUHS93.TTF">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\verdana.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\verdanab.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\verdanai.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="resources\fonts\verdanaz.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\images\bricks.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\desert_bk.tga">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\desert_dn.tga">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\desert_ft.tga">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\desert_lf.tga">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\desert_rt.tga">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\desert_up.tga">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\diffuse.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\diffuse_normal.png">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\diffuse_normal.tif">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\diffuse_test.png">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\excal.png">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\fireworks_red.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\heightmap.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\monster_hellknight.png">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\normal_map.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\normal_up.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\prototype.png">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\sp3back.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\sp3bot.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\sp3front.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\sp3left.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\sp3right.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\images\sp3top.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="resources\models\monkey2.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\spider.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\monkey.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\cube.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\sphere.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\quad2.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\box.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\dragon.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\hheli.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\quad.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\nanosuit2.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+  </ItemGroup>
+</Project>
