@@ -74,18 +74,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)dependencies\x64\includes\freetype;$(ProjectDir)dependencies\x64\includes;$(IncludePath)</IncludePath>
-    <ReferencePath>$(ProjectDir)dependencies\x64\libs;$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(ProjectDir)dependencies\x64\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)dependencies\64bit\includes\freetype;$(IncludePath);$(ProjectDir)dependencies\64bit\includes</IncludePath>
+    <ReferencePath>$(ProjectDir)dependencies\64bit\libs;$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(ProjectDir)dependencies\64bit\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)dependencies\x64\includes\freetype;$(IncludePath);$(ProjectDir)dependencies\x64\includes</IncludePath>
-    <ReferencePath>$(ProjectDir)dependencies\x64\libs;$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(ProjectDir)dependencies\x64\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)dependencies\64bit\includes\freetype;$(IncludePath);$(ProjectDir)dependencies\64bit\includes</IncludePath>
+    <ReferencePath>$(ProjectDir)dependencies\64bit\libs;$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(ProjectDir)dependencies\64bit\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,7 +114,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\x64\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>freetype.lib;opengl32.lib;glew32.lib;glew32s.lib;glfw3dll.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

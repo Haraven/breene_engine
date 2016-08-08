@@ -569,7 +569,6 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
     if (hide_cursor == GL_TRUE)
         glfwSetInputMode(_wnd, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // hide cursor
 
-    glfwSetCursorPos(_wnd, 0, 0);
     // setup GLEW
     glewExperimental = true;
     GLenum err = glewInit();
@@ -589,6 +588,7 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
     glAlphaFunc(GL_GREATER, 0.0f);
     Init();
 
+    glfwSetCursorPos(_wnd, _wnd_width / 2, _wnd_height / 2);
     return SUCCESS;
 }
 
