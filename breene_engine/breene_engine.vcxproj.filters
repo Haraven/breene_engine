@@ -289,9 +289,6 @@
     <None Include="shaders\billboard_vertex_shader.vert">
       <Filter>Resource Files\shaders\vertex</Filter>
     </None>
-    <None Include="resources\models\phoenix_ugv.md2">
-      <Filter>Resource Files\models</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\arial.ttf">
@@ -407,40 +404,5 @@
     <Image Include="resources\images\sp3top.jpg">
       <Filter>Resource Files\images</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="resources\models\monkey2.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
-    <Object Include="resources\models\spider.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
-    <Object Include="resources\models\monkey.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
-    <Object Include="resources\models\cube.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
-    <Object Include="resources\models\sphere.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
-    <Object Include="resources\models\quad2.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
-    <Object Include="resources\models\box.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
-    <Object Include="resources\models\dragon.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
-    <Object Include="resources\models\hheli.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
-    <Object Include="resources\models\quad.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
-    <Object Include="resources\models\nanosuit2.obj">
-      <Filter>Resource Files\models</Filter>
-    </Object>
   </ItemGroup>
 </Project>

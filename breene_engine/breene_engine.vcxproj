@@ -201,7 +201,6 @@
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\models\phoenix_ugv.md2" />
     <None Include="shaders\billboard_fragment_shader.frag" />
     <None Include="shaders\billboard_geometry_shader.geom" />
     <None Include="shaders\billboard_vertex_shader.vert" />
@@ -284,19 +283,6 @@
     <Image Include="resources\images\sp3left.jpg" />
     <Image Include="resources\images\sp3right.jpg" />
     <Image Include="resources\images\sp3top.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="resources\models\box.obj" />
-    <Object Include="resources\models\cube.obj" />
-    <Object Include="resources\models\dragon.obj" />
-    <Object Include="resources\models\hheli.obj" />
-    <Object Include="resources\models\monkey.obj" />
-    <Object Include="resources\models\monkey2.obj" />
-    <Object Include="resources\models\nanosuit2.obj" />
-    <Object Include="resources\models\quad.obj" />
-    <Object Include="resources\models\quad2.obj" />
-    <Object Include="resources\models\sphere.obj" />
-    <Object Include="resources\models\spider.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
