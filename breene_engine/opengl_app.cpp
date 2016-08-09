@@ -574,9 +574,6 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
         std::cerr << "Error " << err << " initializing GLEW: " << glewGetErrorString(err) << std::endl;
         return ERR_GLEW_INIT;
     }
-    auto errs = glGetError();
-    if (errs != GL_INVALID_ENUM) // safe to ignore error caused by GLEW
-        return ERR_UNKNOWN;
 
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
