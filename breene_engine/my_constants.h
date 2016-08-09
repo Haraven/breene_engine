@@ -108,5 +108,6 @@ enum RetCodes
     SUCCESS,
     ERR_GLFW_INIT,
     ERR_GLEW_INIT,
-    ERR_WND_CREATE
+    ERR_WND_CREATE,
+    ERR_UNKNOWN
 };

@@ -6,46 +6,6 @@
 #include <fstream>
 #include "utils.h"
 
-#define TO_STREAM(stream,variable) (stream) <<#variable": "<<(variable)
-
-gl_app::UniformHandler& gl_app::UniformHandler::AddHandler(const GLuint& uniform, HandlerFn handler)
-{
-    Iterator it = _handlers.find(uniform);
-    if (it == _handlers.end())
-        _handlers.insert(KeyValPair(uniform, handler));
-    else
-        it->second = handler;
-
-    return *this;
-}
-
-gl_app::UniformHandler& gl_app::UniformHandler::HandleOne(const GLuint & uniform)
-{
-    auto fn = _handlers.at(uniform);
-    fn(uniform);
-
-    return *this;
-}
-
-gl_app::UniformHandler& gl_app::UniformHandler::HandleAll()
-{
-    std::for_each(_handlers.cbegin(), _handlers.cend(), [](KeyValPair elem)
-    {
-        GLuint uniform = elem.first;
-        HandlerFn fn = elem.second;
-        fn(uniform);
-    });
-
-    return *this;
-}
-
-gl_app::UniformHandler& gl_app::UniformHandler::DeleteHandler(const GLuint& uniform)
-{
-    _handlers.erase(uniform);
-
-    return *this;
-}
-
 gl_app::transform::Transformation::Transformation()
 : _scale(1.0f)
 , _rotation(0.0f)

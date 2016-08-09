@@ -555,7 +555,6 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
         std::cerr << "An error occurred while initializing GLFW. Error code: " << result << ". The application will now close." << std::endl;
         return ERR_GLFW_INIT;
     }
-
     _wnd = SetupMainWindow(title, is_fullscreen, sampling, openGL_version_major, openGL_version_minor, GL_TRUE, openGL_profile, _wnd_width, _wnd_height);
     if (_wnd == nullptr)
         return ERR_WND_CREATE;
@@ -568,7 +567,6 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
         glfwSetInputMode(_wnd, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // hide cursor
 
     // setup GLEW
-	std::cout << "hi" << std::endl;
     glewExperimental = true;
     GLenum err = glewInit();
     if (err != GLEW_OK)
@@ -576,6 +574,9 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
         std::cerr << "Error " << err << " initializing GLEW: " << glewGetErrorString(err) << std::endl;
         return ERR_GLEW_INIT;
     }
+    auto errs = glGetError();
+    if (errs != GL_INVALID_ENUM) // safe to ignore error caused by GLEW
+        return ERR_UNKNOWN;
 
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);

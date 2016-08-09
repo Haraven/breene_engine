@@ -9,39 +9,6 @@
 
 namespace gl_app
 {
-    // Class for handling uniforms. Each uniform will have an associated handler, which manipulates the data for said uniform as it pleases
-    class UniformHandler
-    {
-    private:
-        typedef std::function<void(GLuint)> HandlerFn;
-        typedef std::pair<GLuint, HandlerFn> KeyValPair;
-        typedef std::map<GLuint, HandlerFn> HandlerMap;
-        typedef HandlerMap::iterator Iterator;
-    public:
-        UniformHandler() { _handlers = std::map<GLuint, HandlerFn>(); }
-        ///<summary>
-        /// Adds a single handler for a uniform. If the handler already exists, it gets overridden.
-        ///</summary>
-        UniformHandler& AddHandler(const GLuint& uniform, HandlerFn handler);
-        ///<summary>
-        /// Calls the handler for the given uniform.
-        ///</summary>
-        UniformHandler& HandleOne(const GLuint& uniform);
-        ///<summary>
-        /// Calls the handlers for all of the uniforms that have been added thus far.
-        ///</summary>
-        ///<remarks>
-        /// Does not call HandleOne();
-        ///</remarks>
-        UniformHandler& HandleAll();
-        ///<summary>
-        /// Deletes the handler for the given uniform
-        ///</summary>
-        UniformHandler& DeleteHandler(const GLuint& uniform);
-    private:
-        HandlerMap _handlers;
-    };
-
     namespace transform
     {
         enum
