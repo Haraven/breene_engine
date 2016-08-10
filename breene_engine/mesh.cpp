@@ -273,51 +273,6 @@ gl_app::Mesh & gl_app::Mesh::Render(RenderCallback* render_callback, bool draw_p
 
     glBindVertexArray(0);
 
-    //glEnableVertexAttribArray(POS_INDEX);
-    //glEnableVertexAttribArray(TEX_INDEX);
-    //glEnableVertexAttribArray(NORMAL_INDEX);
-    //glEnableVertexAttribArray(TAN_INDEX);
-    //
-    //std::for_each(_meshes.begin(), _meshes.end(), [&draw_patches, &render_callback, &POS_INDEX, &TEX_INDEX, &NORMAL_INDEX, &TAN_INDEX, this](MeshEntry& mesh_entry)
-    //{
-    //    GLuint vbo = mesh_entry.GetVBO();
-    //    GLuint ibo = mesh_entry.GetIBO();
-    //    GLuint index_count = mesh_entry.GetIndexCount();
-    //    GLuint mat_index = mesh_entry.GetMaterialIndex();
-    //    const GLvoid* vertex_pos_offset = 0; // starts right at the beginning of the vertex data, in memory
-    //    const GLvoid* vertex_tex_offset = (const GLvoid*)(sizeof(GLfloat) * 3); // starts 3 floats (due to position) after the beginning of the vertex data
-    //    const GLvoid* vertex_normal_offset = (const GLvoid*)(sizeof(GLfloat) * 5); // starts 5 floats (3 floats from position + 2 from texture coords) after the beginning
-    //    const GLvoid* vertex_tan_offset = (const GLvoid*)(sizeof(GLfloat) * 8); // starts 8 floats (3 position + 2 tex coords + 3 normal coords) after beginning
-
-    //    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    //    glVertexAttribPointer(POS_INDEX, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), vertex_pos_offset);
-    //    glVertexAttribPointer(TEX_INDEX, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), vertex_tex_offset);
-    //    glVertexAttribPointer(NORMAL_INDEX, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), vertex_normal_offset);
-    //    glVertexAttribPointer(TAN_INDEX, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), vertex_tan_offset);
-
-    //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-
-    //    //std::cout << (_textures[mat_index] != nullptr) << std::endl;
-    //    if (mat_index < _textures.size() && _textures[mat_index] != nullptr)
-    //    {
-    //        if (!_textures[mat_index]->IsLoaded())
-    //            _textures[mat_index]->Load();
-
-    //        _textures[mat_index]->Bind(COLOR_TEXTURE_UNIT);
-    //    }
-
-    //    if (render_callback != nullptr)
-    //        render_callback->DrawStart(index);
-    //    ++index;
-
-    //    glDrawElements(draw_patches ? GL_PATCHES : GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
-    //});
-
-    //glDisableVertexAttribArray(POS_INDEX);
-    //glDisableVertexAttribArray(TEX_INDEX);
-    //glDisableVertexAttribArray(NORMAL_INDEX);
-    //glDisableVertexAttribArray(TAN_INDEX);
-
     return *this;
 }
 

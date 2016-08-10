@@ -17,7 +17,5 @@ namespace gl_app
         virtual gl_app::FramebufferObject& BindTextureRead(GLenum texture_unit);
     protected:
         GLuint _fbo;
-    private:
-        GLint _prev_fbo;
     };
 }

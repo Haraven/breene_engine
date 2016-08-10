@@ -31,6 +31,7 @@ void gl_app::OpenGLApplication::Init()
         _deferred_shading_program = new DefShadingGeomProgram();
     _deferred_shading_program->Init().Use();
     _deferred_shading_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX);
+
     //if (_lighting_program == nullptr)
     //    _lighting_program = new LightingProgram();
     //_lighting_program->Init();
@@ -130,61 +131,6 @@ void gl_app::OpenGLApplication::Init()
     //CalcPositions();
 }
 
-//void gl_app::OpenGLApplication::InitLighting()
-//{
-//    std::vector<PointLight> point_lights;
-//    point_lights.push_back
-//    (
-//        PointLight
-//        (
-//            COLOR_RED,
-//            LIGHT_INTENSITY_MAX / 10.0f,
-//            0.25f,
-//            glm::vec3(3.0f, 1.0f, FIELD_DEPTH * (glm::cos(_scale) + 1.0f) / 2.0f),
-//            0.0f,
-//            0.1f,
-//            0.0f
-//        )
-//    );
-//    point_lights.push_back
-//    (
-//        PointLight
-//        (
-//            glm::vec3(0.0f, 0.5f, 1.0f),
-//            LIGHT_INTENSITY_MAX / 10.0f,
-//            0.9f,
-//            glm::vec3(7.0f, 1.0f, FIELD_DEPTH * (glm::sin(_scale) + 1.0f) / 2.0f),
-//            0.0f,
-//            0.1f,
-//            0.0f
-//        )
-//    );
-//
-//    std::vector<SpotLight> spot_lights;
-//    spot_lights.push_back
-//    (
-//        SpotLight
-//        (
-//            COLOR_WHITE,
-//            LIGHT_INTENSITY_MAX,
-//            LIGHT_INTENSITY_MAX - 0.1f,
-//            glm::vec3(5.0f, 3.0f, 10.0f),
-//            0.0f,
-//            0.1f,
-//            0.0f,
-//            glm::vec3(0.0f, -5.0f, 3.0f),
-//            50.0f
-//        )
-//    );
-//   
-//    _lighting_program->SetPointLights(point_lights);
-//    _lighting_program->SetSpotLights(spot_lights);
-//    _lighting_program->SetPointLightsCount(convert(point_lights.size()));
-//    _lighting_program->SetSpotLightsCount(convert(spot_lights.size()));
-//    _lighting_program->SetSpecularIntensity(LIGHT_INTENSITY_MIN);
-//    _lighting_program->SetSpecularPower(SPECULAR_POWER_MIN);
-//}
-
 void gl_app::OpenGLApplication::ShadowMapPass()
 {
     /*_shadow_fbo->BindWrite();
@@ -234,7 +180,6 @@ void gl_app::OpenGLApplication::PickingPass()
 
 void gl_app::OpenGLApplication::RenderPass()
 {
-
     //long long crt_time = GetTickCount();
     //assert(crt_time >= _crt_time_ms);
     //GLuint delta_millis = static_cast<GLuint>(crt_time - _crt_time_ms);
@@ -294,57 +239,6 @@ void gl_app::OpenGLApplication::RenderPass()
         //.SetWM(trans.WorldTransform())
         //.SetTesselationLevel(1.0f);
     //_mesh->Render(nullptr, true);
-    //std::cout << glGetError() << std::endl;
-    //_lighting_program->Use();
-    //_ground_tex->Bind(COLOR_TEXTURE_UNIT);
-    //_ground_tex_normal_map->Bind(NORMAL_TEXTURE_UNIT);
-    //transform::Transformation trans;
-    //trans.Scaling(20.0f, 20.0f, 1.0f)
-    //    .Rotation(90.0f, 0.0f, 0.0f)
-    //    .Cam(*_camera)
-    //    .PerspectiveProjection(_perspective_info);
-
-    //_lighting_program->SetWVP(trans.WVPTransform())
-    //    .SetWM(trans.WorldTransform());
-    //    //.SetDirectionalLight(_dir_light);
-    //_ground->Render();
-    //_particle_system->Render(delta_millis, trans.VPTransform(), _camera->GetEye());
-
-    //_billboard->Render(trans.VPTransform(), _camera->GetEye());
-
-    //_lighting_program->SetEWP(_camera->GetEye());
-
-    //_shadow_fbo->BindTextureRead(SHADOW_TEXTURE_UNIT);
-
-    //transform::Transformation trans;
-    //trans.PerspectiveProjection(_perspective_info);
-
-    //trans.Scaling(30.0f)
-    //    .Translation(0.0f, -20.0f, 3.0f)
-    //    .Rotation(90.0f, 0.0f, 0.0f)
-    //    .Cam(*_camera);
-    //_lighting_program->SetWVP(trans.WVPTransform());
-    //_lighting_program->SetWM(trans.WorldTransform());
-    //
-    //trans.Cam(_spot_light.GetPosition(), _spot_light.GetDirection(), glm::vec3(0.0f, 1.0f, 0.0f));
-    //_lighting_program->SetLightWVP(trans.WVPTransform());
-    //_ground_tex->Bind(COLOR_TEXTURE_UNIT);
-    //_ground->Render();
-
-    //trans.Scaling(1.0f)
-    //    .Rotation(0.0f, _scale, 0.0f)
-    //    .Translation(0.0f, 0.0f, 3.0f)
-    //    .Cam(*_camera);
-    //
-    //_mesh_tex->Bind(COLOR_TEXTURE_UNIT);
-    //_ground_tex_normal_map->Bind(NORMAL_TEXTURE_UNIT);
-    //
-    //_lighting_program->SetWVP(trans.WVPTransform())
-    //    .SetWM(trans.WorldTransform())
-    //    .SetDirectionalLight(_dir_light);
-
-    //_mesh->Render();
-    //_skybox->Render();
 }
 
 void gl_app::OpenGLApplication::DeferredShadingGeometryPass()
@@ -368,27 +262,27 @@ void gl_app::OpenGLApplication::DeferredShadingGeometryPass()
 
 void gl_app::OpenGLApplication::DeferredShadingLightPass()
 {
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    _geometry_buffer->DisableWrite();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     _geometry_buffer->BindRead();
 
-    GLint HalfWidth = (GLint)(_wnd_width / 2.0f);
-    GLint HalfHeight = (GLint)(_wnd_height / 2.0f);
+    GLint half_width = (GLint)(_wnd_width / 2.0f);
+    GLint half_height = (GLint)(_wnd_height / 2.0f);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, HalfWidth, HalfHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, half_width, half_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
     std::cout << glGetError() << std::endl;
 
-    /*_geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, HalfHeight, HalfWidth, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+    _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, half_height, half_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, HalfWidth, HalfHeight, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, half_height, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_TEXCOORD);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, HalfWidth, 0, _wnd_width, HalfHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR);*/
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, 0, _wnd_width, half_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 }
 
 void gl_app::OpenGLApplication::CalcPositions()
@@ -636,14 +530,18 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
         std::cerr << "Error " << err << " initializing GLEW: " << glewGetErrorString(err) << std::endl;
         return ERR_GLEW_INIT;
     }
+
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
     glEnable(GL_CULL_FACE);
 
     if (depth_test == GL_TRUE)
         glEnable(GL_DEPTH_TEST);
-    Init();
+
     glfwSetCursorPos(_wnd, _wnd_width / 2, _wnd_height / 2);
+
+    Init();
+    
     return SUCCESS;
 }
 
@@ -684,15 +582,14 @@ gl_app::OpenGLApplication & gl_app::OpenGLApplication::Run()
 
         _camera->OnRender();
         _scale += 0.05f;
+        
         //ShadowMapPass();
         //PickingPass();
         //RenderPass();
+        
         DeferredShadingGeometryPass();
-        std::cout << "before light" << std::endl;
         DeferredShadingLightPass();
-        std::cout << "after light" << std::endl;
-        //_text_renderer->Render("{}(),.\\/;:'\"?><!@#$%^&*_-+=", _verdana, glm::vec2(_wnd_width / 5, 50.0f), 1.0f, glm::vec4(COLOR_CYAN, 1.0f))
-        //    .Render("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG", _verdana, glm::vec2(0, 150.0f), 1.0f, glm::vec4(COLOR_CYAN, 1.0f));
+
         //if (_display_stats)
         //{
         //    CalcFPS();

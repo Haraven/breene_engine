@@ -92,7 +92,7 @@ gl_app::DefShadingGeomProgram & gl_app::DefShadingGeomProgram::SetWVP(const glm:
 {
     GLuint wvp_loc = GetUniformLocation(WVP_UNIFORM);
 
-    glUniformMatrix4fv(wvp_loc, 1, GL_TRUE, glm::value_ptr(wvp));
+    glUniformMatrix4fv(wvp_loc, 1, GL_FALSE, glm::value_ptr(wvp));
 
     return *this;
 }
@@ -101,7 +101,7 @@ gl_app::DefShadingGeomProgram & gl_app::DefShadingGeomProgram::SetWorldMatrix(co
 {
     GLuint world_loc = GetUniformLocation(WVP_UNIFORM);
 
-    glUniformMatrix4fv(world_loc, 1, GL_TRUE, glm::value_ptr(world));
+    glUniformMatrix4fv(world_loc, 1, GL_FALSE, glm::value_ptr(world));
 
     return *this;
 }

@@ -5,7 +5,6 @@
 
 gl_app::FramebufferObject::FramebufferObject()
 : _fbo(INVALID_VAL)
-, _prev_fbo(NULL)
 {}
 
 
@@ -20,7 +19,6 @@ gl_app::FramebufferObject::~FramebufferObject()
 
 gl_app::FramebufferObject& gl_app::FramebufferObject::BindWrite()
 {
-    //glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &_prev_fbo);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
 
     return *this;
