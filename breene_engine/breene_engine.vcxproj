@@ -164,6 +164,7 @@
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="fbo.cpp" />
+    <ClCompile Include="deferred_shading.cpp" />
     <ClCompile Include="lighting.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="callbacks.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="fbo.h" />
+    <ClInclude Include="deferred_shading.h" />
     <ClInclude Include="lighting.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="my_constants.h" />
@@ -213,6 +215,8 @@
     <None Include="shaders\fragment_shader.frag" />
     <None Include="shaders\fragment_specular_lighting_shader.frag" />
     <None Include="shaders\fragment_texture_shader.frag" />
+    <None Include="shaders\geom_pass_fragment_shader.frag" />
+    <None Include="shaders\geom_pass_vertex_shader.vert" />
     <None Include="shaders\instanced_rendering_shader.frag" />
     <None Include="shaders\instanced_rendering_shader.vert" />
     <None Include="shaders\light_shader.frag" />

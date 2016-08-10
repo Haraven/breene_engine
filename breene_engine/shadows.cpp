@@ -40,14 +40,7 @@ gl_app::ShadowMapFBO& gl_app::ShadowMapFBO::Init(GLuint wnd_width, GLuint wnd_he
     return *this;
 }
 
-//gl_app::ShadowMapFBO & gl_app::ShadowMapFBO::BindWrite()
-//{
-//    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
-//
-//    return *this;
-//}
-
-gl_app::ShadowMapFBO & gl_app::ShadowMapFBO::BindRead(GLenum texture_unit)
+gl_app::ShadowMapFBO & gl_app::ShadowMapFBO::BindTextureRead(GLenum texture_unit)
 {
     glActiveTexture(texture_unit);
     glBindTexture(GL_TEXTURE_2D, _shadow_map_texture);

@@ -15,6 +15,7 @@
 #include "basic_coloring.h"
 #include "3d_picking.h"
 #include "text_rendering.h"
+#include "deferred_shading.h"
 #include "my_constants.h"
 
 namespace gl_app
@@ -30,11 +31,12 @@ namespace gl_app
         GLfloat CalcUptime();
         void DeallocateResources();
         void Init();
-        //void InitLighting();
-        //void MouseCallback(GLFWwindow*, GLint, GLint, GLint);
+
         void ShadowMapPass();
         void PickingPass();
         void RenderPass();
+        void DeferredShadingGeometryPass();
+        void DeferredShadingLightPass();
     public:
         typedef GLFWkeyfun KeyCallbackFn;
         typedef GLFWcursorposfun MouseCallbackFn;
@@ -102,6 +104,8 @@ namespace gl_app
         Texture2D* _ground_tex_normal_map;*/
         //Texture2D* _mesh_tex;
         //ShadowProgram* _shadowmap_program;
+        DefShadingGeomProgram* _deferred_shading_program;
+        GeometryBuffer* _geometry_buffer;
         LightingProgram* _lighting_program;
         text_rendering::TextRenderer* _text_renderer;
         text_rendering::TextureAtlas* _verdana;

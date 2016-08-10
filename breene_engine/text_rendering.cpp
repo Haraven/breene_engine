@@ -135,8 +135,7 @@ gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::Ini
     
     _program = new TextProgram();
     _program->Init().Use();
-    _program->SetOrthographicProjection(glm::ortho(0.0f, static_cast<GLfloat>(width), 0.0f, static_cast<GLfloat>(height)))
-        .SetTextTextureUnit(TEXT_TEXTURE_UNIT_INDEX);
+    _program->SetOrthographicProjection(glm::ortho(0.0f, static_cast<GLfloat>(width), 0.0f, static_cast<GLfloat>(height)));
 
     glGenVertexArrays(1, &_vao);
     glBindVertexArray(_vao);
@@ -148,6 +147,7 @@ gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::Ini
 
 gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::SetTextureUnit(GLuint texture_unit)
 {
+    _program->Use();
     _program->SetTextTextureUnit(texture_unit);
 
     return *this;
@@ -454,7 +454,6 @@ gl_app::text_rendering::TextureAtlas & gl_app::text_rendering::TextureAtlas::Loa
     glGenTextures(1, &_txo);
     Bind(TEXT_TEXTURE_UNIT);
     // _program->SetTextTextureUnit(TEXT_TEXTURE_UNIT_INDEX) needs to be called before this
-
     glTexImage2D(_texture_target, 0, GL_RED, _width, _height, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -479,7 +478,7 @@ gl_app::text_rendering::TextureAtlas & gl_app::text_rendering::TextureAtlas::Loa
 
         if (offset_x + glyph->bitmap.width + 1 >= TEX_MAX_WIDTH)
         {
-            offset_y += row_height + 1;
+            offset_y += row_height;
             row_height = offset_x = 0;
         }
 
@@ -494,7 +493,7 @@ gl_app::text_rendering::TextureAtlas & gl_app::text_rendering::TextureAtlas::Loa
         _chars[ch].bitmap_top = static_cast<GLfloat>(glyph->bitmap_top);
 
         _chars[ch].texture_offset_x = offset_x / static_cast<GLfloat>(_width);
-        _chars[ch].texture_offset_y = offset_y / static_cast<GLfloat>(_height);
+        _chars[ch].texture_offset_y = (offset_y + 0.23f) / static_cast<GLfloat>(_height);
 
         row_height = std::max(row_height, glyph->bitmap.rows);
         offset_x += glyph->bitmap.width + 1;

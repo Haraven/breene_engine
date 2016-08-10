@@ -102,6 +102,9 @@
     <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="deferred_shading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d_picking.h">
@@ -159,6 +162,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="deferred_shading.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -288,6 +294,12 @@
     </None>
     <None Include="..\README.md">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\geom_pass_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\geom_pass_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -58,25 +58,4 @@ namespace gl_app
     private:
         size_t _size;
     };
-
-    class TextureCharacter : public TextureBase
-    {
-    public:
-        TextureCharacter(const FT_Face& face);
-
-        gl_app::TextureCharacter& Load() override;
-        GLuint GetSizeX() const { return _width; }
-        GLuint GetSizeY() const { return _height; }
-        GLuint GetBearingLeft() const { return _bearing_left; }
-        GLuint GetBearingTop() const { return _bearing_top; }
-        GLuint GetAdvance() const { return _advance; }
-    private:
-        GLuint _width;
-        GLuint _height;
-        GLuint _bearing_left;
-        GLuint _bearing_top;
-        GLuint _advance;
-        unsigned char* _pixels;
-    };
 }
-

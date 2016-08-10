@@ -5,22 +5,17 @@ const unsigned long DEFAULT_WND_WIDTH = 1920L;
 const unsigned long DEFAULT_WND_HEIGHT = 1080L;
 
 const float Z_NEAR = 1.0f;
-const float Z_FAR = 1024.0f;
+const float Z_FAR = 1080.0f;
 const float DEFAULT_FOV = 60.0f;
 const float DEFAULT_SCALE = 0.0f;
 
 const unsigned int COLOR_TEXTURE_UNIT = GL_TEXTURE0;
-const unsigned short COLOR_TEXTURE_UNIT_INDEX = 0;
 const unsigned int SHADOW_TEXTURE_UNIT = GL_TEXTURE1;
-const unsigned short SHADOW_TEXTURE_UNIT_INDEX = 1;
 const unsigned int NORMAL_TEXTURE_UNIT = GL_TEXTURE2;
-const unsigned short NORMAL_TEXTURE_UNIT_INDEX = 2;
 const unsigned int RANDOM_TEXTURE_UNIT = GL_TEXTURE3;
-const unsigned short RANDOM_TEXTURE_UNIT_INDEX = 3;
 const unsigned int DISPLACEMENT_TEXTURE_UNIT = GL_TEXTURE4;
-const unsigned short DISPLACEMENT_TEXTURE_UNIT_INDEX = 4;
 const unsigned int TEXT_TEXTURE_UNIT = GL_TEXTURE5;
-const unsigned short TEXT_TEXTURE_UNIT_INDEX = 5;
+
 
 const char LIGHTING_VERTEX_SHADER[] = "shaders/instanced_rendering_shader.vert";
 const char LIGHTING_FRAGMENT_SHADER[] = "shaders/instanced_rendering_shader.frag";
@@ -42,6 +37,8 @@ const char TES_SHADER[] = "shaders/tess_alt_shader.tese";
 const char TCS_SHADER[] = "shaders/tess_alt_shader.tesc";
 const char FONT_VERT_SHADER[] = "shaders/font_vertex_shader.vert";
 const char FONT_FRAG_SHADER[] = "shaders/font_fragment_shader.frag";
+const char DEFSHADING_GEOM_PASS_VERTEX_SHADER[] = "shaders/geom_pass_vertex_shader.vert";
+const char DEFSHADING_GEOM_PASS_FRAGMENT_SHADER[] = "shaders/geom_pass_fragment_shader.frag";
 
 const int INVALID_UNIFORM_LOCATION = 0xFFFFFFFF;
 

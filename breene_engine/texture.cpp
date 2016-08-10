@@ -152,32 +152,3 @@ gl_app::Texture1DRandom & gl_app::Texture1DRandom::SetSize(size_t size)
     _is_loaded = false;
     return *this;
 }
-
-gl_app::TextureCharacter::TextureCharacter(const FT_Face & face)
-: TextureBase(GL_TEXTURE_2D)
-{
-    _width = face->glyph->bitmap.width;
-    _height = face->glyph->bitmap.rows;
-    _bearing_left = face->glyph->bitmap_left;
-    _bearing_top = face->glyph->bitmap_top;
-    _advance = face->glyph->advance.x;
-    _pixels = face->glyph->bitmap.buffer;
-}
-
-gl_app::TextureCharacter & gl_app::TextureCharacter::Load()
-{
-    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
-
-    glGenTextures(1, &_txo);
-    glBindTexture(_texture_target, _txo);
-    glTexImage2D(_texture_target, 0, GL_RED, _width, _height, 0, GL_RED, GL_UNSIGNED_BYTE, _pixels);
-    glTexParameteri(_texture_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(_texture_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(_texture_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(_texture_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glBindTexture(_texture_target, 0);
-
-    _is_loaded = true;
-
-    return *this;
-}

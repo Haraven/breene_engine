@@ -14,8 +14,7 @@ namespace gl_app
 
         gl_app::ShadowMapFBO& Init(GLuint wnd_width, GLuint wnd_height) override;
 
-        //gl_app::ShadowMapFBO& BindWrite();
-        gl_app::ShadowMapFBO& BindRead(GLenum texture_unit) override;
+        gl_app::ShadowMapFBO& BindTextureRead(GLenum texture_unit) override;
 
         ~ShadowMapFBO();
     private:

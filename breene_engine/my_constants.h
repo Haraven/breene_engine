@@ -5,18 +5,21 @@
 extern const unsigned long DEFAULT_WND_WIDTH;
 extern const unsigned long DEFAULT_WND_HEIGHT;
 
+enum UnitIndex
+{
+    COLOR_TEXTURE_UNIT_INDEX = 0,
+    SHADOW_TEXTURE_UNIT_INDEX,
+    NORMAL_TEXTURE_UNIT_INDEX,
+    RANDOM_TEXTURE_UNIT_INDEX,
+    DISPLACEMENT_TEXTURE_UNIT_INDEX,
+    TEXT_TEXTURE_UNIT_INDEX
+};
 extern const unsigned int COLOR_TEXTURE_UNIT;
-extern const unsigned short COLOR_TEXTURE_UNIT_INDEX;
 extern const unsigned int SHADOW_TEXTURE_UNIT;
-extern const unsigned short SHADOW_TEXTURE_UNIT_INDEX;
 extern const unsigned int NORMAL_TEXTURE_UNIT;
-extern const unsigned short NORMAL_TEXTURE_UNIT_INDEX;
 extern const unsigned int RANDOM_TEXTURE_UNIT;
-extern const unsigned short RANDOM_TEXTURE_UNIT_INDEX;
 extern const unsigned int DISPLACEMENT_TEXTURE_UNIT;
-extern const unsigned short DISPLACEMENT_TEXTURE_UNIT_INDEX;
 extern const unsigned int TEXT_TEXTURE_UNIT;
-extern const unsigned short TEXT_TEXTURE_UNIT_INDEX;
 
 extern const float Z_NEAR;
 extern const float Z_FAR;
@@ -43,6 +46,8 @@ extern const char TES_SHADER[];
 extern const char TCS_SHADER[];
 extern const char FONT_VERT_SHADER[];
 extern const char FONT_FRAG_SHADER[];
+extern const char DEFSHADING_GEOM_PASS_VERTEX_SHADER[];
+extern const char DEFSHADING_GEOM_PASS_FRAGMENT_SHADER[];
 
 extern const int INVALID_UNIFORM_LOCATION;
 

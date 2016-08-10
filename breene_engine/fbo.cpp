@@ -1,5 +1,6 @@
 #include "fbo.h"
 #include <stdexcept>
+#include <iostream>
 #include "my_constants.h"
 
 gl_app::FramebufferObject::FramebufferObject()
@@ -19,7 +20,7 @@ gl_app::FramebufferObject::~FramebufferObject()
 
 gl_app::FramebufferObject& gl_app::FramebufferObject::BindWrite()
 {
-    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &_prev_fbo);
+    //glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &_prev_fbo);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
 
     return *this;
@@ -27,12 +28,12 @@ gl_app::FramebufferObject& gl_app::FramebufferObject::BindWrite()
 
 gl_app::FramebufferObject& gl_app::FramebufferObject::DisableWrite()
 {
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _prev_fbo);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
     return *this;
 }
 
-gl_app::FramebufferObject & gl_app::FramebufferObject::BindRead(GLenum texture_unit)
+gl_app::FramebufferObject & gl_app::FramebufferObject::BindTextureRead(GLenum texture_unit)
 {
     throw std::domain_error("Read binding is not available");
 }

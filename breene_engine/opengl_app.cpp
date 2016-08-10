@@ -13,25 +13,33 @@ const glm::vec3 UP(0.0f, 1.0f, 0.0f);
 
 void gl_app::OpenGLApplication::Init()
 {
-    glm::vec3 pos(7.0f, 3.0f, 0.0f);
-    glm::vec3 look_at(0.0f, -0.2f, 1.0f);
+    //glm::vec3 pos(7.0f, 3.0f, 0.0f);
+    //glm::vec3 look_at(0.0f, -0.2f, 1.0f);
 
     /*if (_shadow_fbo == nullptr)
         _shadow_fbo = new ShadowMapFBO();
     _shadow_fbo->Init(_wnd_width, _wnd_height);*/
 
+    if (_geometry_buffer == nullptr)
+        _geometry_buffer = new GeometryBuffer();
+    _geometry_buffer->Init(_wnd_width, _wnd_height);
+
     if (_camera == nullptr)
-        _camera = new Camera(_wnd_width, _wnd_height, look_at, pos, UP);
-    
-    if (_lighting_program == nullptr)
-        _lighting_program = new LightingProgram();
-    _lighting_program->Init();
-    if (_text_renderer == nullptr)
-        _text_renderer = new text_rendering::TextRenderer();
-    _text_renderer->Init(_wnd_width, _wnd_height)
-        .SetTextureUnit(TEXT_TEXTURE_UNIT_INDEX);
-    _verdana = _text_renderer->GetAtlas("resources/fonts/verdana.ttf", 50);
-    _arial = _text_renderer->GetAtlas("resources/fonts/arial.ttf", 25);
+        _camera = new Camera(_wnd_width, _wnd_height);
+
+    if (_deferred_shading_program == nullptr)
+        _deferred_shading_program = new DefShadingGeomProgram();
+    _deferred_shading_program->Init().Use();
+    _deferred_shading_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX);
+    //if (_lighting_program == nullptr)
+    //    _lighting_program = new LightingProgram();
+    //_lighting_program->Init();
+    //if (_text_renderer == nullptr)
+    //    _text_renderer = new text_rendering::TextRenderer();
+    //_text_renderer->Init(_wnd_width, _wnd_height);
+    //    _text_renderer->SetTextureUnit(TEXT_TEXTURE_UNIT_INDEX);
+    //_verdana = _text_renderer->GetAtlas("resources/fonts/verdana.ttf", 50);
+    //_arial = _text_renderer->GetAtlas("resources/fonts/arial.ttf", 20);
     //if (_picking_fbo == nullptr)
     //    _picking_fbo = new PickingFBO();
     //_picking_fbo->Init(_wnd_width, _wnd_height);
@@ -55,17 +63,17 @@ void gl_app::OpenGLApplication::Init()
     //if (_normal_map == nullptr)
     //    _normal_map = new Texture2D("diffuse_normal.png", GL_TEXTURE_2D);
     //_normal_map->Load();
-    _lighting_program->Use();
-    _lighting_program//->AddSpotLight(_spot_light)
-                     //.SetSpotLightsCount(1)
-        ->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX)
-        //.SetSpecularIntensity(0.0f)
-        //.SetSpecularPower(0.0f)
-        .SetDirectionalLight(_dir_light)
-        .SetColor(0, glm::vec4(1.0f, 0.5f, 0.5f, 0.0f))
-        .SetColor(1, glm::vec4(0.5f, 1.0f, 1.0f, 0.0f))
-        .SetColor(2, glm::vec4(1.0f, 0.5f, 1.0f, 0.0f))
-        .SetColor(3, glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
+    //_lighting_program->Use();
+    //_lighting_program//->AddSpotLight(_spot_light)
+    //                 //.SetSpotLightsCount(1)
+    //    ->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX)
+    //    //.SetSpecularIntensity(0.0f)
+    //    //.SetSpecularPower(0.0f)
+    //    .SetDirectionalLight(_dir_light)
+    //    .SetColor(0, glm::vec4(1.0f, 0.5f, 0.5f, 0.0f))
+    //    .SetColor(1, glm::vec4(0.5f, 1.0f, 1.0f, 0.0f))
+    //    .SetColor(2, glm::vec4(1.0f, 0.5f, 1.0f, 0.0f))
+    //    .SetColor(3, glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
         //.SetDisplacementMapTextureUnit(DISPLACEMENT_TEXTURE_UNIT_INDEX)
         //.SetNormalMapTextureUnit(NORMAL_TEXTURE_UNIT_INDEX)
         //.SetDisplacementFactor(_displacement_factor);
@@ -119,7 +127,7 @@ void gl_app::OpenGLApplication::Init()
         std::cerr << "Error initializing meshes" << std::endl;
         throw e;
     }
-    CalcPositions();
+    //CalcPositions();
 }
 
 //void gl_app::OpenGLApplication::InitLighting()
@@ -257,14 +265,7 @@ void gl_app::OpenGLApplication::RenderPass()
 
     //_text_renderer->SetWVP(trans.WVPTransform());
     _mesh->Render(INSTANCE_COUNT, wvp_matrices, w_matrices);
-    _text_renderer->Render("0123456789", _verdana, glm::vec2(_wnd_width / 5, 50.0f), 1.0f, glm::vec4(COLOR_CYAN, 1.0f))
-        .Render("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG", _verdana, glm::vec2(_wnd_width / 5, 150.0f), 1.0f, glm::vec4(COLOR_CYAN, 1.0f));
-    if (_display_stats)
-    {
-        CalcFPS();
-        _text_renderer->Render("FPS: " + std::to_string(_fps), _arial, glm::vec2(0.0f, _wnd_height - 30), 1.0f, glm::vec4(COLOR_WHITE, 0.2f));
-        _text_renderer->Render("Uptime: " + std::to_string(CalcUptime()) + " seconds", _arial, glm::vec2(0.0f, _wnd_height - 55), 1.0f, glm::vec4(COLOR_WHITE, 0.2f));
-    }
+
     /*if (_left_mb.is_pressed)
     {
         PickingFBO::PixelInfo pixel = _picking_fbo->ReadPixel(_left_mb.x, _wnd_height - _left_mb.y - 1);
@@ -313,7 +314,7 @@ void gl_app::OpenGLApplication::RenderPass()
 
     //_lighting_program->SetEWP(_camera->GetEye());
 
-    //_shadow_fbo->BindRead(SHADOW_TEXTURE_UNIT);
+    //_shadow_fbo->BindTextureRead(SHADOW_TEXTURE_UNIT);
 
     //transform::Transformation trans;
     //trans.PerspectiveProjection(_perspective_info);
@@ -344,6 +345,50 @@ void gl_app::OpenGLApplication::RenderPass()
 
     //_mesh->Render();
     //_skybox->Render();
+}
+
+void gl_app::OpenGLApplication::DeferredShadingGeometryPass()
+{
+    _deferred_shading_program->Use();
+
+    _geometry_buffer->BindWrite();
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    transform::Transformation trans;
+    trans.Scaling(0.1f, 0.1f, 0.1f);
+    trans.Rotation(0.0f, _scale, 0.0f);
+    trans.Translation(-0.8f, -1.0f, 12.0f);
+    trans.Cam(*_camera);
+    trans.PerspectiveProjection(_perspective_info);
+    _deferred_shading_program->SetWVP(trans.WVPTransform())
+        .SetWorldMatrix(trans.WorldTransform());
+    _mesh->Render();
+}
+
+void gl_app::OpenGLApplication::DeferredShadingLightPass()
+{
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    _geometry_buffer->BindRead();
+
+    GLint HalfWidth = (GLint)(_wnd_width / 2.0f);
+    GLint HalfHeight = (GLint)(_wnd_height / 2.0f);
+
+    _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, HalfWidth, HalfHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+    std::cout << glGetError() << std::endl;
+
+    /*_geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, HalfHeight, HalfWidth, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+
+    _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, HalfWidth, HalfHeight, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+
+    _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_TEXCOORD);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, HalfWidth, 0, _wnd_width, HalfHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR);*/
 }
 
 void gl_app::OpenGLApplication::CalcPositions()
@@ -405,6 +450,21 @@ void gl_app::OpenGLApplication::DeallocateResources()
     {
         delete _lighting_program;
         _lighting_program = nullptr;
+    }
+    if (_text_renderer != nullptr)
+    {
+        delete _text_renderer;
+        _text_renderer = nullptr;
+    }
+    if (_geometry_buffer != nullptr)
+    {
+        delete _geometry_buffer;
+        _geometry_buffer = nullptr;
+    }
+    if (_deferred_shading_program != nullptr)
+    {
+        delete _deferred_shading_program;
+        _deferred_shading_program = nullptr;
     }
     //if (_normal_map != nullptr)
     //{
@@ -474,9 +534,9 @@ gl_app::OpenGLApplication::OpenGLApplication()
 : OpenGLApplication(DEFAULT_WND_WIDTH, DEFAULT_WND_HEIGHT)
 {}
 
-gl_app::OpenGLApplication::OpenGLApplication(GLulong window_width, GLulong window_height)
-: _wnd_width(window_width)
-, _wnd_height(window_height)
+gl_app::OpenGLApplication::OpenGLApplication(GLulong _wnd_width, GLulong _wnd_height)
+: _wnd_width(_wnd_width)
+, _wnd_height(_wnd_height)
 , _wnd(nullptr)
 , _camera(nullptr)
 , _mesh(nullptr)
@@ -484,7 +544,9 @@ gl_app::OpenGLApplication::OpenGLApplication(GLulong window_width, GLulong windo
 //, _displacement_map(nullptr)
 //, _normal_map(nullptr)
 //, _picking_program(nullptr)
+, _deferred_shading_program(nullptr)
 , _lighting_program(nullptr)
+, _geometry_buffer(nullptr)
 //, _billboard(nullptr)
 //, _particle_system(nullptr)
 //, _skybox(nullptr)
@@ -518,10 +580,10 @@ gl_app::OpenGLApplication::OpenGLApplication(GLulong window_width, GLulong windo
     //    .SetPosition(glm::vec3(-20.0, 20.0, 1.0f))
     //    .SetAttenuation(0.0f, 0.01f, 0.0f);
 
-    _dir_light.SetColor(COLOR_WHITE)
-        .SetAmbientIntensity(0.55f)
-        .SetDiffuseIntensity(0.9f);
-    _dir_light.SetDirection(glm::vec3(1.0f, 0.0f, 0.0f));
+    //_dir_light.SetColor(COLOR_WHITE)
+    //    .SetAmbientIntensity(0.55f)
+    //    .SetDiffuseIntensity(0.9f);
+    //_dir_light.SetDirection(glm::vec3(1.0f, 0.0f, 0.0f));
     //_left_mb.is_pressed = false;
     //_world_pos[0] = glm::vec3(-10.0f, 0.0f, 5.0f);
     //_world_pos[1] = glm::vec3(10.0f, 0.0f, 5.0f);
@@ -530,8 +592,8 @@ gl_app::OpenGLApplication::OpenGLApplication(GLulong window_width, GLulong windo
     _frametime = _start_time = GetTickCount();
 }
 
-gl_app::OpenGLApplication::OpenGLApplication(GLulong window_width, GLulong window_height, Camera* camera)
-: OpenGLApplication(window_width, window_height)
+gl_app::OpenGLApplication::OpenGLApplication(GLulong _wnd_width, GLulong _wnd_height, Camera* camera)
+: OpenGLApplication(_wnd_width, _wnd_height)
 {
     _camera = camera;
 }
@@ -574,15 +636,12 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
         std::cerr << "Error " << err << " initializing GLEW: " << glewGetErrorString(err) << std::endl;
         return ERR_GLEW_INIT;
     }
-
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
     glEnable(GL_CULL_FACE);
 
     if (depth_test == GL_TRUE)
         glEnable(GL_DEPTH_TEST);
-    glEnable(GL_ALPHA_TEST);
-    glAlphaFunc(GL_GREATER, 0.0f);
     Init();
     glfwSetCursorPos(_wnd, _wnd_width / 2, _wnd_height / 2);
     return SUCCESS;
@@ -619,21 +678,31 @@ gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetBackgroundColor(GLfloa
 gl_app::OpenGLApplication & gl_app::OpenGLApplication::Run()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
-
     do
     {
         glClearColor(_clear_color.r, _clear_color.g, _clear_color.b, _clear_color.a);
 
         _camera->OnRender();
-        _scale += 0.005f;
+        _scale += 0.05f;
         //ShadowMapPass();
         //PickingPass();
-        RenderPass();
+        //RenderPass();
+        DeferredShadingGeometryPass();
+        std::cout << "before light" << std::endl;
+        DeferredShadingLightPass();
+        std::cout << "after light" << std::endl;
+        //_text_renderer->Render("{}(),.\\/;:'\"?><!@#$%^&*_-+=", _verdana, glm::vec2(_wnd_width / 5, 50.0f), 1.0f, glm::vec4(COLOR_CYAN, 1.0f))
+        //    .Render("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG", _verdana, glm::vec2(0, 150.0f), 1.0f, glm::vec4(COLOR_CYAN, 1.0f));
+        //if (_display_stats)
+        //{
+        //    CalcFPS();
+        //    _text_renderer->Render("FPS: " + std::to_string(_fps), _arial, glm::vec2(10.0f, _wnd_height - 30), 1.0f, glm::vec4(COLOR_WHITE, 0.2f));
+        //    _text_renderer->Render("Uptime: " + std::to_string(CalcUptime()) + " seconds", _arial, glm::vec2(10.0f, _wnd_height - 55), 1.0f, glm::vec4(COLOR_WHITE, 0.2f));
+        //}
 
         glfwSwapBuffers(_wnd);
         glfwPollEvents();
     } while (!glfwWindowShouldClose(_wnd));
-
     return *this;
 }
 
