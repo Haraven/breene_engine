@@ -273,7 +273,6 @@ void gl_app::OpenGLApplication::DeferredShadingLightPass()
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION);
     glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, half_width, half_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-    std::cout << glGetError() << std::endl;
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE);
     glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, half_height, half_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
