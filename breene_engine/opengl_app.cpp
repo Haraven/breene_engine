@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <glm\gtc\type_ptr.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 #include "my_constants.h"
 
 static const GLfloat FIELD_DEPTH = 20.0f;
@@ -250,11 +251,12 @@ void gl_app::OpenGLApplication::DeferredShadingGeometryPass()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     transform::Transformation trans;
-    trans.Scaling(0.1f, 0.1f, 0.1f);
-    trans.Rotation(0.0f, _scale, 0.0f);
-    trans.Translation(-0.8f, -1.0f, 12.0f);
-    trans.Cam(*_camera);
-    trans.PerspectiveProjection(_perspective_info);
+    trans.Scaling(0.1f)
+        .Rotation(0.0f, _scale, 0.0f)
+        .Translation(-0.8f, -1.0f, 12.0f)
+        .Cam(*_camera)
+        .PerspectiveProjection(_perspective_info);
+
     _deferred_shading_program->SetWVP(trans.WVPTransform())
         .SetWorldMatrix(trans.WorldTransform());
     _mesh->Render();

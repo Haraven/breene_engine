@@ -5,7 +5,7 @@ const unsigned long DEFAULT_WND_WIDTH = 1920L;
 const unsigned long DEFAULT_WND_HEIGHT = 1080L;
 
 const float Z_NEAR = 1.0f;
-const float Z_FAR = 1080.0f;
+const float Z_FAR = 100.0f;
 const float DEFAULT_FOV = 60.0f;
 const float DEFAULT_SCALE = 0.0f;
 
