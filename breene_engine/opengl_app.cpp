@@ -87,7 +87,7 @@ void gl_app::OpenGLApplication::Init()
     {
         if (_mesh == nullptr)
             _mesh = new Mesh();
-        _mesh->Load("resources/models/spider.obj");
+        _mesh->Load("resources/models/hheli.obj");
         //if (_ground == nullptr)
         //    _ground = new Mesh();
         //_ground->Load("quad.obj");
@@ -272,16 +272,16 @@ void gl_app::OpenGLApplication::DeferredShadingLightPass()
     GLint half_height = (GLint)(_wnd_height / 2.0f);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, half_width, half_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, half_width, half_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, half_height, half_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, half_height, half_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, half_height, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, half_height, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_TEXCOORD);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, 0, _wnd_width, half_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, 0, _wnd_width, half_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }
 
 void gl_app::OpenGLApplication::CalcPositions()

@@ -24,7 +24,7 @@ int main()
 
     try
     {
-        auto res = app->MakeWindow("OpenGL app", GL_TRUE, 16, 3, 3, GLFW_OPENGL_CORE_PROFILE, GL_TRUE, GL_TRUE, GL_TRUE);
+        auto res = app->MakeWindow("OpenGL app", GL_TRUE, 0, 3, 3, GLFW_OPENGL_CORE_PROFILE, GL_TRUE, GL_TRUE, GL_TRUE);
         if (res != SUCCESS)
         {
             std::cerr << "Error initializing OpenGL application window. Error code: " << res << std::endl;
