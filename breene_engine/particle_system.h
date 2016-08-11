@@ -3,7 +3,7 @@
 #include "shader_program.h"
 #include "billboard.h"
 
-namespace gl_app
+namespace breene
 {
     struct Particle
     {
@@ -27,27 +27,27 @@ namespace gl_app
     public:
         PartSysUpdateProgram();
 
-        virtual gl_app::PartSysUpdateProgram& Init() override;
+        virtual breene::PartSysUpdateProgram& Init() override;
 
-        gl_app::PartSysUpdateProgram& SetDeltaTime(GLuint millis);
-        gl_app::PartSysUpdateProgram& SetTime(GLint time);
-        gl_app::PartSysUpdateProgram& SetRandomTextureUnit(GLuint texture_unit);
-        gl_app::PartSysUpdateProgram& SetLauncherLifetime(GLfloat lifespan_secs);
-        gl_app::PartSysUpdateProgram& SetPrimaryParticleLifetime(GLfloat lifespan_secs);
-        gl_app::PartSysUpdateProgram& SetSecondaryParticleLifetime(GLfloat lifespan_secs);
+        breene::PartSysUpdateProgram& SetDeltaTime(GLuint millis);
+        breene::PartSysUpdateProgram& SetTime(GLint time);
+        breene::PartSysUpdateProgram& SetRandomTextureUnit(GLuint texture_unit);
+        breene::PartSysUpdateProgram& SetLauncherLifetime(GLfloat lifespan_secs);
+        breene::PartSysUpdateProgram& SetPrimaryParticleLifetime(GLfloat lifespan_secs);
+        breene::PartSysUpdateProgram& SetSecondaryParticleLifetime(GLfloat lifespan_secs);
     private:
     };
 
     class ParticleSystem
     {
     private:
-        gl_app::ParticleSystem& UpdateParticles(GLint millis);
-        gl_app::ParticleSystem& RenderParticles(const glm::mat4 vp, const glm::vec3& cam_pos);
+        breene::ParticleSystem& UpdateParticles(GLint millis);
+        breene::ParticleSystem& RenderParticles(const glm::mat4 vp, const glm::vec3& cam_pos);
     public:
         ParticleSystem();
 
-        gl_app::ParticleSystem& Init(const glm::vec3& pos);
-        gl_app::ParticleSystem& Render(GLint delta_millis, const glm::mat4& vp, const glm::vec3& cam_pos);
+        breene::ParticleSystem& Init(const glm::vec3& pos);
+        breene::ParticleSystem& Render(GLint delta_millis, const glm::mat4& vp, const glm::vec3& cam_pos);
 
         ~ParticleSystem();
     private:

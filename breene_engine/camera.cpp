@@ -17,7 +17,7 @@ glm::vec3 EYE_ORIGIN(0.0f, 0.0f, 0.0f);
 glm::vec3 LOOK_AT_ORIGIN(0.0f, 0.0f, 1.0f);
 glm::vec3 UP_ORIGIN(0.0f, 1.0f, 0.0f);
 
-gl_app::Camera& gl_app::Camera::Init()
+breene::Camera& breene::Camera::Init()
 {
     glm::vec3 horizontal_target(_look_at.x, 0.0f, _look_at.z);
     horizontal_target = glm::normalize(horizontal_target);
@@ -31,7 +31,7 @@ gl_app::Camera& gl_app::Camera::Init()
     return *this;
 }
 
-gl_app::Camera& gl_app::Camera::Update()
+breene::Camera& breene::Camera::Update()
 {
     const glm::vec3 vertical_axis(0.0f, 1.0f, 0.0f);
 
@@ -49,18 +49,18 @@ gl_app::Camera& gl_app::Camera::Update()
     return *this;
 }
 
-gl_app::Camera& gl_app::Camera::IncrementStep()
+breene::Camera& breene::Camera::IncrementStep()
 {
     _step = _step < CAMERA_MAX_STEP ? _step + _step_size : CAMERA_MAX_STEP;
 
     return *this;
 }
 
-gl_app::Camera::Camera()
+breene::Camera::Camera()
 : Camera(DEFAULT_WIDTH, DEFAULT_HEIGHT)
 {}
 
-gl_app::Camera::Camera(GLulong window_width, GLulong window_height)
+breene::Camera::Camera(GLulong window_width, GLulong window_height)
 : _wnd_width(window_width)
 , _wnd_height(window_height)
 , _eye(EYE_ORIGIN)
@@ -77,7 +77,7 @@ gl_app::Camera::Camera(GLulong window_width, GLulong window_height)
     Init();
 }
 
-gl_app::Camera::Camera(GLulong window_width, GLulong window_height, const glm::vec3& target, const glm::vec3& position, const glm::vec3& up)
+breene::Camera::Camera(GLulong window_width, GLulong window_height, const glm::vec3& target, const glm::vec3& position, const glm::vec3& up)
 : _wnd_width(window_width)
 , _wnd_height(window_height)
 , _eye(position)
@@ -92,21 +92,21 @@ gl_app::Camera::Camera(GLulong window_width, GLulong window_height, const glm::v
     Init();
 }
 
-gl_app::Camera& gl_app::Camera::SetStepSize(GLfloat step_size)
+breene::Camera& breene::Camera::SetStepSize(GLfloat step_size)
 {
     _step_size = glm::clamp(step_size, 0.0f, 1.0f);
 
     return *this;
 }
 
-gl_app::Camera& gl_app::Camera::ResetStep() 
+breene::Camera& breene::Camera::ResetStep() 
 { 
     _step = CAMERA_MIN_STEP;
 
     return *this; 
 }
 
-gl_app::Camera & gl_app::Camera::Reset()
+breene::Camera & breene::Camera::Reset()
 {
     _eye         = EYE_ORIGIN;
     _look_at     = LOOK_AT_ORIGIN;
@@ -124,7 +124,7 @@ gl_app::Camera & gl_app::Camera::Reset()
     return *this;
 }
 
-gl_app::Camera& gl_app::Camera::MoveForward()
+breene::Camera& breene::Camera::MoveForward()
 {
     IncrementStep();
     _eye += _look_at * _step;
@@ -132,7 +132,7 @@ gl_app::Camera& gl_app::Camera::MoveForward()
     return *this;
 }
 
-gl_app::Camera& gl_app::Camera::MoveLeft()
+breene::Camera& breene::Camera::MoveLeft()
 {
     IncrementStep();
     glm::vec3 left = glm::normalize(glm::cross(_look_at, _up));
@@ -142,7 +142,7 @@ gl_app::Camera& gl_app::Camera::MoveLeft()
     return *this;
 }
 
-gl_app::Camera& gl_app::Camera::MoveBackward()
+breene::Camera& breene::Camera::MoveBackward()
 {
     IncrementStep();
     _eye -= _look_at * _step;
@@ -150,7 +150,7 @@ gl_app::Camera& gl_app::Camera::MoveBackward()
     return *this;
 }
 
-gl_app::Camera & gl_app::Camera::MoveRight()
+breene::Camera & breene::Camera::MoveRight()
 {
     IncrementStep();
     glm::vec3 right = glm::normalize(glm::cross(_up, _look_at));
@@ -160,7 +160,7 @@ gl_app::Camera & gl_app::Camera::MoveRight()
     return *this;
 }
 
-gl_app::Camera& gl_app::Camera::MouseInput(GLdouble x, GLdouble y)
+breene::Camera& breene::Camera::MouseInput(GLdouble x, GLdouble y)
 {
     const GLint delta_x = static_cast<GLint>(glm::round(x - _mouse_pos.x));
     const GLint delta_y = static_cast<GLint>(glm::round(y - _mouse_pos.y));
@@ -195,7 +195,7 @@ gl_app::Camera& gl_app::Camera::MouseInput(GLdouble x, GLdouble y)
     return *this;
 }
 
-gl_app::Camera & gl_app::Camera::OnRender()
+breene::Camera & breene::Camera::OnRender()
 {
     bool should_update = false;
 

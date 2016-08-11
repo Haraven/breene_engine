@@ -7,7 +7,7 @@
 
 const GLuint ROWCOUNT = 10, COLCOUNT = 10;
 
-gl_app::Billboard & gl_app::Billboard::CreatePosBuffer()
+breene::Billboard & breene::Billboard::CreatePosBuffer()
 {
     glm::vec3 positions[ROWCOUNT * COLCOUNT];
 
@@ -22,13 +22,13 @@ gl_app::Billboard & gl_app::Billboard::CreatePosBuffer()
     return *this;
 }
 
-gl_app::Billboard::Billboard()
+breene::Billboard::Billboard()
 : _tex(nullptr)
 , _program(nullptr)
 , _vbo(INVALID_VAL)
 {}
 
-gl_app::Billboard& gl_app::Billboard::Init(const std::string & tex_path)
+breene::Billboard& breene::Billboard::Init(const std::string & tex_path)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -46,7 +46,7 @@ gl_app::Billboard& gl_app::Billboard::Init(const std::string & tex_path)
     return *this;
 }
 
-gl_app::Billboard & gl_app::Billboard::Render(const glm::mat4 & vp, const glm::vec3& cam_pos)
+breene::Billboard & breene::Billboard::Render(const glm::mat4 & vp, const glm::vec3& cam_pos)
 {
 
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
@@ -70,7 +70,7 @@ gl_app::Billboard & gl_app::Billboard::Render(const glm::mat4 & vp, const glm::v
 }
 
 
-gl_app::Billboard::~Billboard()
+breene::Billboard::~Billboard()
 {
     if (glfwGetCurrentContext() != nullptr &&_vbo != INVALID_VAL)
     {
@@ -89,10 +89,10 @@ gl_app::Billboard::~Billboard()
     }
 }
 
-gl_app::BillboardProgram::BillboardProgram()
+breene::BillboardProgram::BillboardProgram()
 {}
 
-gl_app::BillboardProgram & gl_app::BillboardProgram::Init()
+breene::BillboardProgram & breene::BillboardProgram::Init()
 {
     ShaderProgram::Init();
     AddShader(Shader(BILLBOARD_VERTEX_SHADER, GL_VERTEX_SHADER));
@@ -103,7 +103,7 @@ gl_app::BillboardProgram & gl_app::BillboardProgram::Init()
     return *this;
 }
 
-gl_app::BillboardProgram & gl_app::BillboardProgram::SetVP(const glm::mat4 & vp)
+breene::BillboardProgram & breene::BillboardProgram::SetVP(const glm::mat4 & vp)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -113,7 +113,7 @@ gl_app::BillboardProgram & gl_app::BillboardProgram::SetVP(const glm::mat4 & vp)
     return *this;
 }
 
-gl_app::BillboardProgram & gl_app::BillboardProgram::SetCamPos(const glm::vec3 & cam_pos)
+breene::BillboardProgram & breene::BillboardProgram::SetCamPos(const glm::vec3 & cam_pos)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -124,7 +124,7 @@ gl_app::BillboardProgram & gl_app::BillboardProgram::SetCamPos(const glm::vec3 &
     return *this;
 }
 
-gl_app::BillboardProgram & gl_app::BillboardProgram::SetColorTextureUnit(GLuint texture_unit)
+breene::BillboardProgram & breene::BillboardProgram::SetColorTextureUnit(GLuint texture_unit)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -135,7 +135,7 @@ gl_app::BillboardProgram & gl_app::BillboardProgram::SetColorTextureUnit(GLuint 
     return *this;
 }
 
-gl_app::BillboardProgram & gl_app::BillboardProgram::SetSize(GLfloat billboard_size)
+breene::BillboardProgram & breene::BillboardProgram::SetSize(GLfloat billboard_size)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 

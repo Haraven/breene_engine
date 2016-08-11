@@ -3,14 +3,14 @@
 #include <glm\glm.hpp>
 #include <GL\glew.h>
 
-namespace gl_app
+namespace breene
 {
     class Camera
     {
     private:
-        gl_app::Camera& Init();
-        gl_app::Camera& Update();
-        gl_app::Camera& IncrementStep();
+        breene::Camera& Init();
+        breene::Camera& Update();
+        breene::Camera& IncrementStep();
     public:
         Camera();
         Camera(GLulong window_width, GLulong window_height);
@@ -25,20 +25,20 @@ namespace gl_app
         const GLulong GetWidth() const { return _wnd_width; }
         const GLfloat GetStepSize() const { return _step_size; }
 
-        gl_app::Camera& SetStepSize(GLfloat step_size);
-        gl_app::Camera& ResetStep();
-        gl_app::Camera& Reset();
+        breene::Camera& SetStepSize(GLfloat step_size);
+        breene::Camera& ResetStep();
+        breene::Camera& Reset();
         //// handle keyboard input, and move the camera either forward/backward, or to the left/right, depending on the key being pressed
         //bool KeyInput(GLint key);
-        gl_app::Camera& MoveForward();
-        gl_app::Camera& MoveLeft();
-        gl_app::Camera& MoveBackward();
-        gl_app::Camera& MoveRight();
+        breene::Camera& MoveForward();
+        breene::Camera& MoveLeft();
+        breene::Camera& MoveBackward();
+        breene::Camera& MoveRight();
 
         // handle mouse input, and rotate the camera either vertically or horizontally, depending on the mouse position
-        gl_app::Camera& MouseInput(GLdouble x, GLdouble y);
+        breene::Camera& MouseInput(GLdouble x, GLdouble y);
 
-        gl_app::Camera& OnRender();
+        breene::Camera& OnRender();
     private:
         glm::vec3 _look_at;
         glm::vec3 _eye;

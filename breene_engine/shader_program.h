@@ -1,10 +1,10 @@
 #pragma once
 
-#include "app_setup.h"
+//#include "utils.h"
 #include "shader.h"
 #include <map>
 
-namespace gl_app
+namespace breene
 {
     class ShaderProgram
     {
@@ -15,15 +15,15 @@ namespace gl_app
     public:
         ShaderProgram();
 
-        virtual gl_app::ShaderProgram& Init();
-        gl_app::ShaderProgram& Use();
-        gl_app::ShaderProgram& Disable();
+        virtual breene::ShaderProgram& Init();
+        breene::ShaderProgram& Use();
+        breene::ShaderProgram& Disable();
 
         //typedef std::function<void(GLuint)> UniformHandlerFn;
         
-        gl_app::ShaderProgram& AddShader(Shader& shader);
-        gl_app::ShaderProgram& AddShaders(std::vector<Shader>& shaders);
-        gl_app::ShaderProgram& Finalize();
+        breene::ShaderProgram& AddShader(Shader& shader);
+        breene::ShaderProgram& AddShaders(std::vector<Shader>& shaders);
+        breene::ShaderProgram& Finalize();
         //gl_app::OpenGLShaderProgram& AddUniformHandler(const GLchar* uniform_name, const UniformHandlerFn& handler);
         //gl_app::OpenGLShaderProgram& HandleUniforms();
 

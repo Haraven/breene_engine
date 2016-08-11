@@ -10,7 +10,7 @@ const GLfloat DEFAULT_LINEAR_ATTENUATION   = 0.0f;
 const GLfloat DEFAULT_EXP_ATTENUATION      = 0.0f;
 const GLfloat DEFAULT_SPECULAR_POWER       = 32.0f;
 
-gl_app::PointLightUniform gl_app::LightingProgram::GetNextUniform(const PointLight& light)
+breene::PointLightUniform breene::LightingProgram::GetNextUniform(const PointLight& light)
 {
     std::string base_name = PTLIGHTS_UNIFORM;
     base_name += "[";
@@ -29,7 +29,7 @@ gl_app::PointLightUniform gl_app::LightingProgram::GetNextUniform(const PointLig
     return unif;
 }
 
-gl_app::SpotLightUniform gl_app::LightingProgram::GetNextUniform(const SpotLight& light)
+breene::SpotLightUniform breene::LightingProgram::GetNextUniform(const SpotLight& light)
 {
     std::string base_name = SPOTLIGHTS_UNIFORM;
     base_name += "[";
@@ -50,7 +50,7 @@ gl_app::SpotLightUniform gl_app::LightingProgram::GetNextUniform(const SpotLight
     return unif;
 }
 
-gl_app::LightingProgram::LightingProgram()
+breene::LightingProgram::LightingProgram()
 : ShaderProgram()
 , _specular_intensity(LIGHT_INTENSITY_MAX)
 , _specular_power(DEFAULT_SPECULAR_POWER)
@@ -58,7 +58,7 @@ gl_app::LightingProgram::LightingProgram()
 , _spot_lights_count(0)
 {}
 
-gl_app::LightingProgram & gl_app::LightingProgram::Init()
+breene::LightingProgram & breene::LightingProgram::Init()
 {
     ShaderProgram::Init();
 
@@ -82,7 +82,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::Init()
 //    return *this;
 //}
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetVP(const glm::mat4 & vp)
+breene::LightingProgram & breene::LightingProgram::SetVP(const glm::mat4 & vp)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -93,7 +93,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetVP(const glm::mat4 & vp)
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetLightWVP(const glm::mat4 & wvp)
+breene::LightingProgram & breene::LightingProgram::SetLightWVP(const glm::mat4 & wvp)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -104,7 +104,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetLightWVP(const glm::mat4 &
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetEWP(const glm::vec3 & eye)
+breene::LightingProgram & breene::LightingProgram::SetEWP(const glm::vec3 & eye)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -125,7 +125,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetEWP(const glm::vec3 & eye)
 //    return *this;
 //}
 
-gl_app::LightingProgram& gl_app::LightingProgram::SetColorTextureUnit(GLuint texture_unit)
+breene::LightingProgram& breene::LightingProgram::SetColorTextureUnit(GLuint texture_unit)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -136,7 +136,7 @@ gl_app::LightingProgram& gl_app::LightingProgram::SetColorTextureUnit(GLuint tex
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetShadowMapTextureUnit(GLuint texture_unit)
+breene::LightingProgram & breene::LightingProgram::SetShadowMapTextureUnit(GLuint texture_unit)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -147,7 +147,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetShadowMapTextureUnit(GLuin
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetNormalMapTextureUnit(GLuint texture_unit)
+breene::LightingProgram & breene::LightingProgram::SetNormalMapTextureUnit(GLuint texture_unit)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -158,7 +158,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetNormalMapTextureUnit(GLuin
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetDisplacementMapTextureUnit(GLuint texture_unit)
+breene::LightingProgram & breene::LightingProgram::SetDisplacementMapTextureUnit(GLuint texture_unit)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -168,7 +168,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetDisplacementMapTextureUnit
     return *this;
 }
 
-gl_app::LightingProgram& gl_app::LightingProgram::SetDirectionalLight(const DirectionalLight& light)
+breene::LightingProgram& breene::LightingProgram::SetDirectionalLight(const DirectionalLight& light)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -189,7 +189,7 @@ gl_app::LightingProgram& gl_app::LightingProgram::SetDirectionalLight(const Dire
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetPointLights(const std::vector<PointLight>& lights)
+breene::LightingProgram & breene::LightingProgram::SetPointLights(const std::vector<PointLight>& lights)
 {
     _point_lights_count = 0;
     AddPointLights(lights);
@@ -197,7 +197,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetPointLights(const std::vec
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::ResetPointLights()
+breene::LightingProgram & breene::LightingProgram::ResetPointLights()
 {
     _point_lights_count = 0;
     SetPointLightsCount(0);
@@ -205,7 +205,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::ResetPointLights()
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::AddPointLights(const std::vector<PointLight>& lights)
+breene::LightingProgram & breene::LightingProgram::AddPointLights(const std::vector<PointLight>& lights)
 {
     std::for_each(lights.begin(), lights.end(), [this](const PointLight& light)
     {
@@ -215,7 +215,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::AddPointLights(const std::vec
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetPointLightsCount(GLuint count)
+breene::LightingProgram & breene::LightingProgram::SetPointLightsCount(GLuint count)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -226,7 +226,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetPointLightsCount(GLuint co
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::AddPointLight(const PointLight& light)
+breene::LightingProgram & breene::LightingProgram::AddPointLight(const PointLight& light)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -250,7 +250,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::AddPointLight(const PointLigh
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetSpotLights(const std::vector<SpotLight>& lights)
+breene::LightingProgram & breene::LightingProgram::SetSpotLights(const std::vector<SpotLight>& lights)
 {
     _spot_lights_count = 0;
     AddSpotLights(lights);
@@ -258,7 +258,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetSpotLights(const std::vect
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::ResetSpotLights()
+breene::LightingProgram & breene::LightingProgram::ResetSpotLights()
 {
     _spot_lights_count = 0;
     SetSpotLightsCount(0);
@@ -266,7 +266,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::ResetSpotLights()
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetSpotLightsCount(GLuint count)
+breene::LightingProgram & breene::LightingProgram::SetSpotLightsCount(GLuint count)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -277,7 +277,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetSpotLightsCount(GLuint cou
     return *this;
 }
 
-gl_app::LightingProgram& gl_app::LightingProgram::AddSpotLights(const std::vector<SpotLight>& lights)
+breene::LightingProgram& breene::LightingProgram::AddSpotLights(const std::vector<SpotLight>& lights)
 {
     std::for_each(lights.begin(), lights.end(), [this](SpotLight light)
     {
@@ -287,7 +287,7 @@ gl_app::LightingProgram& gl_app::LightingProgram::AddSpotLights(const std::vecto
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::AddSpotLight(const SpotLight & light)
+breene::LightingProgram & breene::LightingProgram::AddSpotLight(const SpotLight & light)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -314,71 +314,71 @@ gl_app::LightingProgram & gl_app::LightingProgram::AddSpotLight(const SpotLight 
     return *this;
 }
 
-gl_app::Light::Light()
+breene::Light::Light()
 : _color(COLOR_WHITE)
 , _ambient_intensity(LIGHT_INTENSITY_MIN)
 , _diffuse_intensity(LIGHT_INTENSITY_MIN)
 {}
 
-gl_app::Light::Light(const glm::vec3 & color, GLfloat ambient_intensity)
+breene::Light::Light(const glm::vec3 & color, GLfloat ambient_intensity)
 : Light(color, ambient_intensity, LIGHT_INTENSITY_MIN)
 {}
 
-gl_app::Light::Light(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity)
+breene::Light::Light(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity)
 : _color(color)
 , _ambient_intensity(glm::clamp(ambient_intensity, LIGHT_INTENSITY_MIN, LIGHT_INTENSITY_MAX))
 , _diffuse_intensity(glm::clamp(ambient_intensity, LIGHT_INTENSITY_MIN, LIGHT_INTENSITY_MAX))
 {}
 
-gl_app::Light & gl_app::Light::SetColor(const glm::vec3 & color)
+breene::Light & breene::Light::SetColor(const glm::vec3 & color)
 {
     _color = color;
 
     return *this;
 }
 
-gl_app::Light & gl_app::Light::SetAmbientIntensity(GLfloat ambient_intensity)
+breene::Light & breene::Light::SetAmbientIntensity(GLfloat ambient_intensity)
 {
     _ambient_intensity = glm::clamp(ambient_intensity, LIGHT_INTENSITY_MIN, LIGHT_INTENSITY_MAX);
 
     return *this;
 }
 
-gl_app::Light & gl_app::Light::SetDiffuseIntensity(GLfloat diffuse_intensity)
+breene::Light & breene::Light::SetDiffuseIntensity(GLfloat diffuse_intensity)
 {
     _diffuse_intensity = glm::clamp(diffuse_intensity, LIGHT_INTENSITY_MIN, LIGHT_INTENSITY_MAX);
 
     return *this;
 }
 
-gl_app::DirectionalLight::DirectionalLight()
+breene::DirectionalLight::DirectionalLight()
 : Light()
 , _direction(0.0f)
 {}
 
-gl_app::DirectionalLight::DirectionalLight(const glm::vec3 & direction)
+breene::DirectionalLight::DirectionalLight(const glm::vec3 & direction)
 : Light()
 , _direction(direction)
 {}
 
-gl_app::DirectionalLight::DirectionalLight(const glm::vec3 & color, GLfloat ambient_intensity, const glm::vec3 & direction)
+breene::DirectionalLight::DirectionalLight(const glm::vec3 & color, GLfloat ambient_intensity, const glm::vec3 & direction)
 : Light(color, ambient_intensity, LIGHT_INTENSITY_MIN)
 , _direction(direction)
 {}
 
-gl_app::DirectionalLight::DirectionalLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity, const glm::vec3 & direction)
+breene::DirectionalLight::DirectionalLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity, const glm::vec3 & direction)
 : Light(color, ambient_intensity, diffuse_intensity)
 , _direction(direction)
 {}
 
-gl_app::DirectionalLight & gl_app::DirectionalLight::SetDirection(const glm::vec3 & direction)
+breene::DirectionalLight & breene::DirectionalLight::SetDirection(const glm::vec3 & direction)
 {
     _direction = direction;
 
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetSpecularIntensity(GLfloat specular_intensity)
+breene::LightingProgram & breene::LightingProgram::SetSpecularIntensity(GLfloat specular_intensity)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -390,7 +390,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetSpecularIntensity(GLfloat 
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetSpecularPower(GLfloat specular_power)
+breene::LightingProgram & breene::LightingProgram::SetSpecularPower(GLfloat specular_power)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -402,7 +402,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetSpecularPower(GLfloat spec
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetDisplacementFactor(GLfloat disp_factor)
+breene::LightingProgram & breene::LightingProgram::SetDisplacementFactor(GLfloat disp_factor)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -412,7 +412,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetDisplacementFactor(GLfloat
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetTesselationLevel(GLfloat level)
+breene::LightingProgram & breene::LightingProgram::SetTesselationLevel(GLfloat level)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -422,7 +422,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetTesselationLevel(GLfloat l
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetTesselationAlpha(GLfloat alpha)
+breene::LightingProgram & breene::LightingProgram::SetTesselationAlpha(GLfloat alpha)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -432,7 +432,7 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetTesselationAlpha(GLfloat a
     return *this;
 }
 
-gl_app::LightingProgram & gl_app::LightingProgram::SetColor(GLuint index, const glm::vec4 & color)
+breene::LightingProgram & breene::LightingProgram::SetColor(GLuint index, const glm::vec4 & color)
 {
     GLuint color_loc = GetUniformLocation(std::string(COLOR_UNIFORM) + "[" + std::to_string(index) + "]");
 
@@ -441,38 +441,38 @@ gl_app::LightingProgram & gl_app::LightingProgram::SetColor(GLuint index, const 
     return *this;
 }
 
-gl_app::PointLight::PointLight()
+breene::PointLight::PointLight()
 : Light()
 , _position(ORIGIN)
 , _attenuation(DEFAULT_CONSTANT_ATTENUATION, DEFAULT_LINEAR_ATTENUATION, DEFAULT_EXP_ATTENUATION)
 {}
 
-gl_app::PointLight::PointLight(const glm::vec3 & color, GLfloat ambient_intensity)
+breene::PointLight::PointLight(const glm::vec3 & color, GLfloat ambient_intensity)
 : Light(color, ambient_intensity)
 , _position(ORIGIN)
 , _attenuation(DEFAULT_CONSTANT_ATTENUATION, DEFAULT_LINEAR_ATTENUATION, DEFAULT_EXP_ATTENUATION)
 {}
 
-gl_app::PointLight::PointLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity)
+breene::PointLight::PointLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity)
 : Light(color, ambient_intensity, diffuse_intensity)
 , _position(ORIGIN)
 , _attenuation(DEFAULT_CONSTANT_ATTENUATION, DEFAULT_LINEAR_ATTENUATION, DEFAULT_EXP_ATTENUATION)
 {}
 
-gl_app::PointLight::PointLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity, const glm::vec3 & position, GLfloat constant_attenuation, GLfloat linear_attenuation, GLfloat exponential_attenuation)
+breene::PointLight::PointLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity, const glm::vec3 & position, GLfloat constant_attenuation, GLfloat linear_attenuation, GLfloat exponential_attenuation)
 : Light(color, ambient_intensity, diffuse_intensity)
 , _position(position)
 , _attenuation(constant_attenuation, linear_attenuation, exponential_attenuation)
 {}
 
-gl_app::PointLight & gl_app::PointLight::SetPosition(const glm::vec3 & position)
+breene::PointLight & breene::PointLight::SetPosition(const glm::vec3 & position)
 {
     _position = position;
 
     return *this;
 }
 
-gl_app::PointLight & gl_app::PointLight::SetAttenuation(GLfloat constant, GLfloat linear, GLfloat exponential)
+breene::PointLight & breene::PointLight::SetAttenuation(GLfloat constant, GLfloat linear, GLfloat exponential)
 {
     _attenuation.constant    = constant;
     _attenuation.linear      = linear;
@@ -481,45 +481,45 @@ gl_app::PointLight & gl_app::PointLight::SetAttenuation(GLfloat constant, GLfloa
     return *this;
 }
 
-gl_app::SpotLight::SpotLight()
+breene::SpotLight::SpotLight()
 : PointLight()
 , _direction(ORIGIN)
 , _cone_angle(0.0f)
 {}
 
-gl_app::SpotLight::SpotLight(const glm::vec3 & color, GLfloat ambient_intensity)
+breene::SpotLight::SpotLight(const glm::vec3 & color, GLfloat ambient_intensity)
 : PointLight(color, ambient_intensity)
 , _direction(ORIGIN)
 , _cone_angle(0.0f)
 {}
 
-gl_app::SpotLight::SpotLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity)
+breene::SpotLight::SpotLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity)
 : PointLight(color, ambient_intensity, diffuse_intensity)
 , _direction(ORIGIN)
 , _cone_angle(0.0f)
 {}
 
-gl_app::SpotLight::SpotLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity, const glm::vec3 & position, GLfloat constant_attenuation, GLfloat linear_attenuation, GLfloat exponential_attenuation)
+breene::SpotLight::SpotLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity, const glm::vec3 & position, GLfloat constant_attenuation, GLfloat linear_attenuation, GLfloat exponential_attenuation)
 : PointLight(color, ambient_intensity, diffuse_intensity, position, constant_attenuation, linear_attenuation, exponential_attenuation)
 , _direction(ORIGIN)
 , _cone_angle(0.0f)
 {}
 
-gl_app::SpotLight::SpotLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity, const glm::vec3 & position, GLfloat constant_attenuation, GLfloat linear_attenuation, GLfloat exponential_attenuation, const glm::vec3& direction, GLfloat cone_angle)
+breene::SpotLight::SpotLight(const glm::vec3 & color, GLfloat ambient_intensity, GLfloat diffuse_intensity, const glm::vec3 & position, GLfloat constant_attenuation, GLfloat linear_attenuation, GLfloat exponential_attenuation, const glm::vec3& direction, GLfloat cone_angle)
 : SpotLight(color, ambient_intensity, diffuse_intensity, position, constant_attenuation, linear_attenuation, exponential_attenuation)
 {
     _direction  = direction;
     _cone_angle = cone_angle;
 }
 
-gl_app::SpotLight & gl_app::SpotLight::SetDirection(const glm::vec3 & direction)
+breene::SpotLight & breene::SpotLight::SetDirection(const glm::vec3 & direction)
 {
     _direction = direction;
 
     return *this;
 }
 
-gl_app::SpotLight & gl_app::SpotLight::SetConeAngle(GLfloat cone_angle)
+breene::SpotLight & breene::SpotLight::SetConeAngle(GLfloat cone_angle)
 {
     _cone_angle = cone_angle;
 

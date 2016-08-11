@@ -7,7 +7,7 @@
 #include "texture.h"
 #include "callbacks.h"
 
-namespace gl_app
+namespace breene
 {
     struct Vertex
     {
@@ -42,10 +42,10 @@ namespace gl_app
     class Mesh
     {
     private:
-        gl_app::Mesh& InitFromScene(const aiScene* scene, const std::string& filename);
-        gl_app::Mesh& InitMesh(const aiMesh* mesh, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& texcoords, std::vector<GLuint>& indices, std::vector<glm::vec3>& tangents = std::vector<glm::vec3>());
-        gl_app::Mesh& InitMats(const aiScene* scene, const std::string& filename);
-        gl_app::Mesh& Clear();
+        breene::Mesh& InitFromScene(const aiScene* scene, const std::string& filename);
+        breene::Mesh& InitMesh(const aiMesh* mesh, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& texcoords, std::vector<GLuint>& indices, std::vector<glm::vec3>& tangents = std::vector<glm::vec3>());
+        breene::Mesh& InitMats(const aiScene* scene, const std::string& filename);
+        breene::Mesh& Clear();
 
         const static size_t BUFFER_COUNT = 7;
         enum BufferIndex
@@ -61,10 +61,10 @@ namespace gl_app
     public:
         Mesh();
 
-        gl_app::Mesh& Load(const std::string& filename);
-        gl_app::Mesh& Render(RenderCallback* render_callback = nullptr, bool draw_patches = false);
+        breene::Mesh& Load(const std::string& filename);
+        breene::Mesh& Render(RenderCallback* render_callback = nullptr, bool draw_patches = false);
         //gl_app::Mesh& Render(GLuint draw_index, GLuint primitive_id);
-        gl_app::Mesh& Render(GLuint instance_count, const glm::mat4* wvp_mats, const glm::mat4* w_mats, RenderCallback* render_callback = nullptr, bool draw_patches = false);
+        breene::Mesh& Render(GLuint instance_count, const glm::mat4* wvp_mats, const glm::mat4* w_mats, RenderCallback* render_callback = nullptr, bool draw_patches = false);
 
         ~Mesh();
     private:
@@ -77,10 +77,10 @@ namespace gl_app
             GLuint GetBaseIndex() const { return _base_index; }
             GLuint GetIndexCount() const { return _index_count; }
             GLuint GetMaterialIndex() const { return _material_index; }
-            gl_app::Mesh::MeshEntry& SetMaterialIndex(GLuint index);
-            gl_app::Mesh::MeshEntry& SetBaseVertex(GLuint vert);
-            gl_app::Mesh::MeshEntry& SetIndexCount(GLuint count);
-            gl_app::Mesh::MeshEntry& SetBaseIndex(GLuint index);
+            breene::Mesh::MeshEntry& SetMaterialIndex(GLuint index);
+            breene::Mesh::MeshEntry& SetBaseVertex(GLuint vert);
+            breene::Mesh::MeshEntry& SetIndexCount(GLuint count);
+            breene::Mesh::MeshEntry& SetBaseIndex(GLuint index);
         private:
             GLuint _base_vertex;
             GLuint _base_index;

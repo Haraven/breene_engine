@@ -2,11 +2,11 @@
 #include <glm\gtc\type_ptr.hpp>
 #include "my_constants.h"
 
-gl_app::PlainColorProgram::PlainColorProgram()
+breene::PlainColorProgram::PlainColorProgram()
 : ShaderProgram()
 {}
 
-gl_app::PlainColorProgram & gl_app::PlainColorProgram::Init()
+breene::PlainColorProgram & breene::PlainColorProgram::Init()
 {
     ShaderProgram::Init();
 
@@ -17,7 +17,7 @@ gl_app::PlainColorProgram & gl_app::PlainColorProgram::Init()
     return *this;
 }
 
-gl_app::PlainColorProgram & gl_app::PlainColorProgram::SetWVP(const glm::mat4 & wvp)
+breene::PlainColorProgram & breene::PlainColorProgram::SetWVP(const glm::mat4 & wvp)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 

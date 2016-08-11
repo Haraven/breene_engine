@@ -5,17 +5,17 @@
 #include "fbo.h"
 #include "my_constants.h"
 
-namespace gl_app
+namespace breene
 {
     class PickingProgram : public ShaderProgram, public RenderCallback
     {
     public:
         PickingProgram();
 
-        virtual gl_app::PickingProgram& Init() override;
-        gl_app::PickingProgram& SetWVP(const glm::mat4& wvp);
-        gl_app::PickingProgram& SetObjIndex(GLuint index);
-        virtual gl_app::PickingProgram& DrawStart(GLuint draw_index) override;
+        virtual breene::PickingProgram& Init() override;
+        breene::PickingProgram& SetWVP(const glm::mat4& wvp);
+        breene::PickingProgram& SetObjIndex(GLuint index);
+        virtual breene::PickingProgram& DrawStart(GLuint draw_index) override;
     };
 
     class PickingFBO : public FramebufferObject
@@ -42,7 +42,7 @@ namespace gl_app
 
         PickingFBO();
 
-        gl_app::FramebufferObject& Init(GLuint wnd_width, GLuint wnd_height) override;
+        breene::FramebufferObject& Init(GLuint wnd_width, GLuint wnd_height) override;
 
         PixelInfo ReadPixel(GLuint x, GLuint y);
 

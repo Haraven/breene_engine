@@ -6,7 +6,7 @@
 #include "my_constants.h"
 #include "utils.h"
 
-gl_app::Mesh & gl_app::Mesh::InitFromScene(const aiScene * scene, const std::string & filename)
+breene::Mesh & breene::Mesh::InitFromScene(const aiScene * scene, const std::string & filename)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL Context has not been initialized");
     if (scene == nullptr) throw std::runtime_error("ASSIMP scene was null");
@@ -97,7 +97,7 @@ gl_app::Mesh & gl_app::Mesh::InitFromScene(const aiScene * scene, const std::str
     return *this;
 }
 
-gl_app::Mesh & gl_app::Mesh::InitMesh(const aiMesh* mesh, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& texcoords, std::vector<GLuint>& indices, std::vector<glm::vec3>& tangents)
+breene::Mesh & breene::Mesh::InitMesh(const aiMesh* mesh, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& texcoords, std::vector<GLuint>& indices, std::vector<glm::vec3>& tangents)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL Context has not been initialized");
 
@@ -127,7 +127,7 @@ gl_app::Mesh & gl_app::Mesh::InitMesh(const aiMesh* mesh, std::vector<glm::vec3>
     return *this;
 }
 
-gl_app::Mesh & gl_app::Mesh::InitMats(const aiScene * scene, const std::string & filename)
+breene::Mesh & breene::Mesh::InitMats(const aiScene * scene, const std::string & filename)
 {
     std::string::size_type slash_index = filename.find_last_of("/");
     std::string directory;
@@ -179,7 +179,7 @@ gl_app::Mesh & gl_app::Mesh::InitMats(const aiScene * scene, const std::string &
     return *this;
 }
 
-gl_app::Mesh & gl_app::Mesh::Clear()
+breene::Mesh & breene::Mesh::Clear()
 {
     std::for_each(_textures.begin(), _textures.end(), [](Texture2D* texture)
     {
@@ -207,13 +207,13 @@ gl_app::Mesh & gl_app::Mesh::Clear()
     return *this;
 }
 
-gl_app::Mesh::Mesh()
+breene::Mesh::Mesh()
 : _vao(INVALID_VAL)
 {
     memset(_buffers, NULL, BUFFER_COUNT * sizeof(GLuint));
 }
 
-gl_app::Mesh& gl_app::Mesh::Load(const std::string & filename)
+breene::Mesh& breene::Mesh::Load(const std::string & filename)
 {
     if (!_textures.empty())
         Clear();
@@ -237,7 +237,7 @@ gl_app::Mesh& gl_app::Mesh::Load(const std::string & filename)
     return *this;
 }
 
-gl_app::Mesh & gl_app::Mesh::Render(RenderCallback* render_callback, bool draw_patches)
+breene::Mesh & breene::Mesh::Render(RenderCallback* render_callback, bool draw_patches)
 {
     GLuint index = 0;
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL Context has not been initialized");
@@ -276,7 +276,7 @@ gl_app::Mesh & gl_app::Mesh::Render(RenderCallback* render_callback, bool draw_p
     return *this;
 }
 
-gl_app::Mesh & gl_app::Mesh::Render(GLuint instance_count, const glm::mat4* wvp_mats, const glm::mat4* w_mats, RenderCallback* render_callback, bool draw_patches)
+breene::Mesh & breene::Mesh::Render(GLuint instance_count, const glm::mat4* wvp_mats, const glm::mat4* w_mats, RenderCallback* render_callback, bool draw_patches)
 {
     GLuint index = 0;
 
@@ -336,40 +336,40 @@ gl_app::Mesh & gl_app::Mesh::Render(GLuint instance_count, const glm::mat4* wvp_
 //    return *this;
 //}
 
-gl_app::Mesh::~Mesh()
+breene::Mesh::~Mesh()
 {
     Clear();
 }
 
-gl_app::Mesh::MeshEntry::MeshEntry()
+breene::Mesh::MeshEntry::MeshEntry()
 : _index_count(0)
 , _base_vertex(0)
 , _base_index(0)
 , _material_index(INVALID_VAL)
 {}
 
-gl_app::Mesh::MeshEntry & gl_app::Mesh::MeshEntry::SetMaterialIndex(GLuint index)
+breene::Mesh::MeshEntry & breene::Mesh::MeshEntry::SetMaterialIndex(GLuint index)
 {
     _material_index = index;
 
     return *this;
 }
 
-gl_app::Mesh::MeshEntry & gl_app::Mesh::MeshEntry::SetBaseVertex(GLuint vert)
+breene::Mesh::MeshEntry & breene::Mesh::MeshEntry::SetBaseVertex(GLuint vert)
 {
     _base_vertex = vert;
 
     return *this;
 }
 
-gl_app::Mesh::MeshEntry & gl_app::Mesh::MeshEntry::SetIndexCount(GLuint count)
+breene::Mesh::MeshEntry & breene::Mesh::MeshEntry::SetIndexCount(GLuint count)
 {
     _index_count = count;
 
     return *this;
 }
 
-gl_app::Mesh::MeshEntry & gl_app::Mesh::MeshEntry::SetBaseIndex(GLuint index)
+breene::Mesh::MeshEntry & breene::Mesh::MeshEntry::SetBaseIndex(GLuint index)
 {
     _base_index = index;
 

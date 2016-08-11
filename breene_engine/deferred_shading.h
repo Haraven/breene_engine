@@ -2,8 +2,9 @@
 
 #include "fbo.h"
 #include "shader_program.h"
+#include <glm\glm.hpp>
 
-namespace gl_app
+namespace breene
 {
     class GeometryBuffer : public FramebufferObject
     {
@@ -19,10 +20,10 @@ namespace gl_app
         
         GeometryBuffer();
 
-        virtual gl_app::GeometryBuffer& Init(GLuint width, GLuint height) override;
-        gl_app::GeometryBuffer& BindRead();
+        virtual breene::GeometryBuffer& Init(GLuint width, GLuint height) override;
+        breene::GeometryBuffer& BindRead();
 
-        gl_app::GeometryBuffer& SetReadBuffer(GBufferTexType type);
+        breene::GeometryBuffer& SetReadBuffer(GBufferTexType type);
 
         ~GeometryBuffer();
     private:
@@ -35,10 +36,10 @@ namespace gl_app
     public:
         DefShadingGeomProgram();
 
-        virtual gl_app::DefShadingGeomProgram& Init() override;
+        virtual breene::DefShadingGeomProgram& Init() override;
 
-        gl_app::DefShadingGeomProgram& SetWVP(const glm::mat4& wvp);
-        gl_app::DefShadingGeomProgram& SetWorldMatrix(const glm::mat4& world);
-        gl_app::DefShadingGeomProgram& SetColorTextureUnit(GLuint texture_unit);
+        breene::DefShadingGeomProgram& SetWVP(const glm::mat4& wvp);
+        breene::DefShadingGeomProgram& SetWorldMatrix(const glm::mat4& world);
+        breene::DefShadingGeomProgram& SetColorTextureUnit(GLuint texture_unit);
     };
 }

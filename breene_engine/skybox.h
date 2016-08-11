@@ -3,10 +3,10 @@
 #include "shader_program.h"
 #include "texture.h"
 #include "mesh.h"
-#include "app_setup.h"
+#include "utils.h"
 #include "my_constants.h"
 
-namespace gl_app
+namespace breene
 {
 
     class SkyBoxProgram : public ShaderProgram
@@ -14,10 +14,10 @@ namespace gl_app
     public:
         SkyBoxProgram();
 
-        virtual gl_app::SkyBoxProgram& Init();
+        virtual breene::SkyBoxProgram& Init();
 
-        gl_app::SkyBoxProgram& SetWVP(const glm::mat4 wvp);
-        gl_app::SkyBoxProgram& SetTextureUnit(GLuint texture_unit);
+        breene::SkyBoxProgram& SetWVP(const glm::mat4 wvp);
+        breene::SkyBoxProgram& SetTextureUnit(GLuint texture_unit);
     };
 
     class SkyBox
@@ -25,9 +25,9 @@ namespace gl_app
     public:
         SkyBox(const Camera* cam, const transform::PerspectiveProjectionInfo& info);
 
-        gl_app::SkyBox& Init(const GLchar* mesh_file, const std::string & posx_file, const std::string & negx_file, const std::string & posy_file, const std::string & negy_file, const std::string & posz_file, const std::string & negz_file);
+        breene::SkyBox& Init(const GLchar* mesh_file, const std::string & posx_file, const std::string & negx_file, const std::string & posy_file, const std::string & negy_file, const std::string & posz_file, const std::string & negz_file);
 
-        gl_app::SkyBox& Render();
+        breene::SkyBox& Render();
 
         ~SkyBox();
     private:

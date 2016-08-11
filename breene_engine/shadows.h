@@ -5,16 +5,16 @@
 #include "shader_program.h"
 #include "fbo.h"
 
-namespace gl_app
+namespace breene
 {
     class ShadowMapFBO : public FramebufferObject
     {
     public:
         ShadowMapFBO();
 
-        gl_app::ShadowMapFBO& Init(GLuint wnd_width, GLuint wnd_height) override;
+        breene::ShadowMapFBO& Init(GLuint wnd_width, GLuint wnd_height) override;
 
-        gl_app::ShadowMapFBO& BindTextureRead(GLenum texture_unit) override;
+        breene::ShadowMapFBO& BindTextureRead(GLenum texture_unit) override;
 
         ~ShadowMapFBO();
     private:
@@ -28,10 +28,10 @@ namespace gl_app
     public:
         ShadowProgram() {}
 
-        virtual gl_app::ShadowProgram& Init() override;
+        virtual breene::ShadowProgram& Init() override;
 
-        gl_app::ShadowProgram& SetWVP(const glm::mat4& wvp);
-        gl_app::ShadowProgram& SetTextureUnit(GLuint texture_unit);
+        breene::ShadowProgram& SetWVP(const glm::mat4& wvp);
+        breene::ShadowProgram& SetTextureUnit(GLuint texture_unit);
     };
 }
 

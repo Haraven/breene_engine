@@ -4,6 +4,7 @@
 #include <GLFW\glfw3.h>
 #include <glm\gtc\type_ptr.hpp>
 #include <vector>
+#include <functional>
 #include "utils.h"
 #include "camera.h"
 #include "mesh.h"
@@ -18,9 +19,9 @@
 #include "deferred_shading.h"
 #include "my_constants.h"
 
-namespace gl_app
+namespace breene
 {
-    class OpenGLApplication
+    class BreeneApplication
     {
     private:
         const static size_t ROWCOUNT = 50, COLCOUNT = 20;
@@ -45,32 +46,32 @@ namespace gl_app
         typedef std::function<void(void)> DisplayManipFn;
         typedef std::function<void(GLuint)> UniformHandlerFn;
 
-        OpenGLApplication();
-        OpenGLApplication(GLulong window_width, GLulong window_height);
-        OpenGLApplication(GLulong window_width, GLulong window_height, Camera* camera);
+        BreeneApplication();
+        BreeneApplication(GLulong window_width, GLulong window_height);
+        BreeneApplication(GLulong window_width, GLulong window_height, Camera* camera);
                 
-        gl_app::OpenGLApplication& Run();
+        breene::BreeneApplication& Run();
         
         /*GLfloat GetDisplacementFactor() const { return _displacement_factor; }
         GLfloat GetTesselationLevel() const { return _tess_level; }
         GLfloat GetTesselationAlpha() const { return _tess_alpha; }*/
 
         RetCodes MakeWindow(GLchar* title, GLenum is_fullscreen, GLint sampling, GLint openGL_version_major, GLint openGL_version_minor, GLint openGL_profile, GLenum capture_input, GLenum hide_cursor = GL_FALSE, GLenum depth_test = GL_FALSE);
-        gl_app::OpenGLApplication& SetWindowWidth(GLulong width);
-        gl_app::OpenGLApplication& SetWindowHeight(GLulong height);
-        gl_app::OpenGLApplication& SetBackgroundColor(const glm::vec4& rgba);
-        gl_app::OpenGLApplication& SetBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-        gl_app::OpenGLApplication& SetCamera(Camera* camera);
+        breene::BreeneApplication& SetWindowWidth(GLulong width);
+        breene::BreeneApplication& SetWindowHeight(GLulong height);
+        breene::BreeneApplication& SetBackgroundColor(const glm::vec4& rgba);
+        breene::BreeneApplication& SetBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+        breene::BreeneApplication& SetCamera(Camera* camera);
         //gl_app::OpenGLApplication& SetDisplacementFactor(GLfloat displacement_factor);
-        gl_app::OpenGLApplication& SetPerspectiveZNear(GLfloat z_near);
-        gl_app::OpenGLApplication& SetPerspectiveZFAR(GLfloat z_far);
-        gl_app::OpenGLApplication& SetPerspectiveFOV(GLfloat fov);
-        gl_app::OpenGLApplication& SetErrorCallback(const ErrorCallbackFn& callback);
-        gl_app::OpenGLApplication& SetKeyCallback(const KeyCallbackFn& callback);
-        gl_app::OpenGLApplication& SetCursorCallback(const MouseCallbackFn& callback);
-        gl_app::OpenGLApplication& SetMouseButtonCallback(const GLFWmousebuttonfun& callback);
-        gl_app::OpenGLApplication& SetMouseScrollCallback(const MouseCallbackFn& callback);
-        gl_app::OpenGLApplication& ToggleStatsDisplay();
+        breene::BreeneApplication& SetPerspectiveZNear(GLfloat z_near);
+        breene::BreeneApplication& SetPerspectiveZFAR(GLfloat z_far);
+        breene::BreeneApplication& SetPerspectiveFOV(GLfloat fov);
+        breene::BreeneApplication& SetErrorCallback(const ErrorCallbackFn& callback);
+        breene::BreeneApplication& SetKeyCallback(const KeyCallbackFn& callback);
+        breene::BreeneApplication& SetCursorCallback(const MouseCallbackFn& callback);
+        breene::BreeneApplication& SetMouseButtonCallback(const GLFWmousebuttonfun& callback);
+        breene::BreeneApplication& SetMouseScrollCallback(const MouseCallbackFn& callback);
+        breene::BreeneApplication& ToggleStatsDisplay();
         //gl_app::OpenGLApplication& SetTesselationLevel(const GLfloat level);
         //gl_app::OpenGLApplication& SetTesselationAlpha(const GLfloat alpha);
         std::pair<GLint, GLint> GetMousePos();
@@ -91,7 +92,7 @@ namespace gl_app
         //};
         //MouseButton _left_mb;
 
-        ~OpenGLApplication();
+        ~BreeneApplication();
     private:
 
         GLFWwindow* _wnd;

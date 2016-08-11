@@ -2,12 +2,12 @@
 #include <algorithm>
 #include "utils.h"
 
-gl_app::Shader::Shader(const std::string& file_path, GLenum shader_type)
+breene::Shader::Shader(const std::string& file_path, GLenum shader_type)
 : _shader_path(file_path)
 , _shader_type(shader_type)
 {}
 
-gl_app::Shader& gl_app::Shader::Compile()
+breene::Shader& breene::Shader::Compile()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized.");
 	if (_shader_path.empty() || _shader_type == NULL) throw std::runtime_error("Shader data is invalid");
@@ -33,7 +33,7 @@ gl_app::Shader& gl_app::Shader::Compile()
 	return *this;
 }
 
-gl_app::Shader& gl_app::Shader::AttachTo(GLuint program)
+breene::Shader& breene::Shader::AttachTo(GLuint program)
 {
 	GLint res;
 	glGetShaderiv(_shader_obj, GL_COMPILE_STATUS, &res);
@@ -49,12 +49,12 @@ gl_app::Shader& gl_app::Shader::AttachTo(GLuint program)
 	return *this;
 }
 
-gl_app::Shader& gl_app::Shader::CompileAndAttachTo(GLuint program)
+breene::Shader& breene::Shader::CompileAndAttachTo(GLuint program)
 {
 	return Compile().AttachTo(program);
 }
 
-gl_app::Shader & gl_app::Shader::DetachFrom(GLuint program)
+breene::Shader & breene::Shader::DetachFrom(GLuint program)
 {
     glDetachShader(program, _shader_obj);
     glDeleteShader(_shader_obj);
@@ -62,7 +62,7 @@ gl_app::Shader & gl_app::Shader::DetachFrom(GLuint program)
     return *this;
 }
 
-GLuint gl_app::InitializeProgram(std::vector<Shader> shaders)
+GLuint breene::InitializeProgram(std::vector<Shader> shaders)
 {
     const size_t log_size = 1024;
 

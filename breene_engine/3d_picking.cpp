@@ -2,11 +2,11 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <iostream>
 
-gl_app::PickingProgram::PickingProgram()
+breene::PickingProgram::PickingProgram()
 : ShaderProgram()
 {}
 
-gl_app::PickingProgram & gl_app::PickingProgram::Init()
+breene::PickingProgram & breene::PickingProgram::Init()
 {
     ShaderProgram::Init();
 
@@ -17,7 +17,7 @@ gl_app::PickingProgram & gl_app::PickingProgram::Init()
     return *this;
 }
 
-gl_app::PickingProgram & gl_app::PickingProgram::SetWVP(const glm::mat4 & wvp)
+breene::PickingProgram & breene::PickingProgram::SetWVP(const glm::mat4 & wvp)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -28,7 +28,7 @@ gl_app::PickingProgram & gl_app::PickingProgram::SetWVP(const glm::mat4 & wvp)
     return *this;
 }
 
-gl_app::PickingProgram & gl_app::PickingProgram::SetObjIndex(GLuint index)
+breene::PickingProgram & breene::PickingProgram::SetObjIndex(GLuint index)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -39,7 +39,7 @@ gl_app::PickingProgram & gl_app::PickingProgram::SetObjIndex(GLuint index)
     return *this;
 }
 
-gl_app::PickingProgram & gl_app::PickingProgram::DrawStart(GLuint draw_index)
+breene::PickingProgram & breene::PickingProgram::DrawStart(GLuint draw_index)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -50,14 +50,14 @@ gl_app::PickingProgram & gl_app::PickingProgram::DrawStart(GLuint draw_index)
     return *this;
 }
 
-gl_app::PickingFBO::PickingFBO()
+breene::PickingFBO::PickingFBO()
 : FramebufferObject()
 {
     _picking_tex = INVALID_VAL;
     _depth_tex = INVALID_VAL;
 }
 
-gl_app::FramebufferObject & gl_app::PickingFBO::Init(GLuint wnd_width, GLuint wnd_height)
+breene::FramebufferObject & breene::PickingFBO::Init(GLuint wnd_width, GLuint wnd_height)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -90,7 +90,7 @@ gl_app::FramebufferObject & gl_app::PickingFBO::Init(GLuint wnd_width, GLuint wn
     return *this;
 }
 
-gl_app::PickingFBO::PixelInfo gl_app::PickingFBO::ReadPixel(GLuint x, GLuint y)
+breene::PickingFBO::PixelInfo breene::PickingFBO::ReadPixel(GLuint x, GLuint y)
 {
     GLint old_fbo;
     glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &old_fbo);
@@ -105,7 +105,7 @@ gl_app::PickingFBO::PixelInfo gl_app::PickingFBO::ReadPixel(GLuint x, GLuint y)
     return pixel;
 }
 
-gl_app::PickingFBO::~PickingFBO()
+breene::PickingFBO::~PickingFBO()
 {
     FramebufferObject::~FramebufferObject();
     if (_picking_tex != INVALID_VAL)

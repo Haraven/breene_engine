@@ -3,7 +3,7 @@
 #include <iostream>
 #include "my_constants.h"
 
-GLuint gl_app::ShaderProgram::GetUniformLocation(const GLchar* uniform)
+GLuint breene::ShaderProgram::GetUniformLocation(const GLchar* uniform)
 {
     if (_program == NULL) throw std::runtime_error("Shader program has not been initialized");
     GLuint uniform_loc = glGetUniformLocation(_program, uniform);
@@ -12,16 +12,16 @@ GLuint gl_app::ShaderProgram::GetUniformLocation(const GLchar* uniform)
     return uniform_loc;
 }
 
-GLuint gl_app::ShaderProgram::GetUniformLocation(const std::string & uniform)
+GLuint breene::ShaderProgram::GetUniformLocation(const std::string & uniform)
 {
     return GetUniformLocation(uniform.c_str());
 }
 
-gl_app::ShaderProgram::ShaderProgram()
+breene::ShaderProgram::ShaderProgram()
 : _program(NULL)
 {}
 
-gl_app::ShaderProgram & gl_app::ShaderProgram::Init()
+breene::ShaderProgram & breene::ShaderProgram::Init()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -33,7 +33,7 @@ gl_app::ShaderProgram & gl_app::ShaderProgram::Init()
     return *this;
 }
 
-gl_app::ShaderProgram & gl_app::ShaderProgram::Use()
+breene::ShaderProgram & breene::ShaderProgram::Use()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -42,7 +42,7 @@ gl_app::ShaderProgram & gl_app::ShaderProgram::Use()
     return *this;
 }
 
-gl_app::ShaderProgram & gl_app::ShaderProgram::Disable()
+breene::ShaderProgram & breene::ShaderProgram::Disable()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -52,7 +52,7 @@ gl_app::ShaderProgram & gl_app::ShaderProgram::Disable()
 }
 
 
-gl_app::ShaderProgram::~ShaderProgram()
+breene::ShaderProgram::~ShaderProgram()
 {
     if (_program != NULL)
     {
@@ -61,7 +61,7 @@ gl_app::ShaderProgram::~ShaderProgram()
     }
 }
 
-gl_app::ShaderProgram & gl_app::ShaderProgram::AddShader(Shader & shader)
+breene::ShaderProgram & breene::ShaderProgram::AddShader(Shader & shader)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -71,7 +71,7 @@ gl_app::ShaderProgram & gl_app::ShaderProgram::AddShader(Shader & shader)
     return *this;
 }
 
-gl_app::ShaderProgram& gl_app::ShaderProgram::AddShaders(std::vector<Shader>& shaders)
+breene::ShaderProgram& breene::ShaderProgram::AddShaders(std::vector<Shader>& shaders)
 {
     std::for_each(shaders.begin(), shaders.end(), [this](Shader& shader)
     {
@@ -81,7 +81,7 @@ gl_app::ShaderProgram& gl_app::ShaderProgram::AddShaders(std::vector<Shader>& sh
     return *this;
 }
 
-gl_app::ShaderProgram & gl_app::ShaderProgram::Finalize()
+breene::ShaderProgram & breene::ShaderProgram::Finalize()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 

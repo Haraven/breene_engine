@@ -159,7 +159,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="3d_picking.cpp" />
-    <ClCompile Include="app_setup.cpp" />
     <ClCompile Include="basic_coloring.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -181,7 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d_picking.h" />
-    <ClInclude Include="app_setup.h" />
     <ClInclude Include="basic_coloring.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="callbacks.h" />
@@ -191,7 +189,7 @@
     <ClInclude Include="lighting.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="my_constants.h" />
-    <ClInclude Include="opengl_app.h" />
+    <ClInclude Include="app.h" />
     <ClInclude Include="particle_system.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shader_program.h" />

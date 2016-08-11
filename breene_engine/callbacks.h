@@ -2,7 +2,7 @@
 
 #include <GL\glew.h>
 
-namespace gl_app
+namespace breene
 {
     class RenderCallback
     {

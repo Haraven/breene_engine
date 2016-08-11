@@ -10,13 +10,13 @@
 #include "my_constants.h"
 #include "utils.h"
 
-gl_app::Texture2D::Texture2D(const std::string & filename, GLenum texture_target)
-: gl_app::TextureBase(texture_target)
+breene::Texture2D::Texture2D(const std::string & filename, GLenum texture_target)
+: breene::TextureBase(texture_target)
 {
     _filename = filename;
 }
 
-gl_app::Texture2D& gl_app::Texture2D::Load()
+breene::Texture2D& breene::Texture2D::Load()
 {
     unsigned char* pixels = stbi_load(_filename.c_str(), &_width, &_height, &_components, STBI_rgb_alpha);
     if (pixels == nullptr) throw std::runtime_error("STBI could not load pixel information for image \"" + _filename + "\"");
@@ -37,18 +37,18 @@ gl_app::Texture2D& gl_app::Texture2D::Load()
     return *this;
 }
 
-gl_app::TextureBase::TextureBase(GLenum texture_target)
+breene::TextureBase::TextureBase(GLenum texture_target)
 : _texture_target(texture_target)
 , _txo(INVALID_VAL)
 , _is_loaded(false)
 {}
 
-bool gl_app::TextureBase::IsLoaded()
+bool breene::TextureBase::IsLoaded()
 {
     return _is_loaded;
 }
 
-gl_app::TextureBase& gl_app::TextureBase::Bind(GLenum texture_unit)
+breene::TextureBase& breene::TextureBase::Bind(GLenum texture_unit)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
     
@@ -58,7 +58,7 @@ gl_app::TextureBase& gl_app::TextureBase::Bind(GLenum texture_unit)
     return *this;
 }
 
-gl_app::TextureCubeMap::TextureCubeMap(const std::string & posx_file, const std::string & negx_file, const std::string & posy_file, const std::string & negy_file, const std::string & posz_file, const std::string & negz_file)
+breene::TextureCubeMap::TextureCubeMap(const std::string & posx_file, const std::string & negx_file, const std::string & posy_file, const std::string & negy_file, const std::string & posz_file, const std::string & negz_file)
 : TextureBase()
 {
     _is_loaded = false;
@@ -72,7 +72,7 @@ gl_app::TextureCubeMap::TextureCubeMap(const std::string & posx_file, const std:
     _filenames.insert(std::pair<std::string, GLenum>(negz_file, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z));
 }
 
-gl_app::TextureCubeMap::~TextureCubeMap()
+breene::TextureCubeMap::~TextureCubeMap()
 {
     if (glfwGetCurrentContext() != nullptr && _txo != INVALID_VAL)
     {
@@ -81,7 +81,7 @@ gl_app::TextureCubeMap::~TextureCubeMap()
     }
 }
 
-gl_app::TextureCubeMap& gl_app::TextureCubeMap::Load()
+breene::TextureCubeMap& breene::TextureCubeMap::Load()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -110,13 +110,13 @@ gl_app::TextureCubeMap& gl_app::TextureCubeMap::Load()
     return *this;
 }
 
-gl_app::Texture1DRandom::Texture1DRandom(size_t size)
+breene::Texture1DRandom::Texture1DRandom(size_t size)
 : TextureBase::TextureBase()
 {
     _texture_target = GL_TEXTURE_1D;
 }
 
-gl_app::Texture1DRandom & gl_app::Texture1DRandom::Load()
+breene::Texture1DRandom & breene::Texture1DRandom::Load()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -145,7 +145,7 @@ gl_app::Texture1DRandom & gl_app::Texture1DRandom::Load()
     return *this;
 }
 
-gl_app::Texture1DRandom & gl_app::Texture1DRandom::SetSize(size_t size)
+breene::Texture1DRandom & breene::Texture1DRandom::SetSize(size_t size)
 {
     _size = size;
 

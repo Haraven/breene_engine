@@ -1,5 +1,5 @@
 #include <Windows.h>
-#include "opengl_app.h"
+#include "app.h"
 #include <cstdio>
 #include <cstring>
 #include <algorithm>
@@ -12,7 +12,7 @@ static const GLfloat FIELD_DEPTH = 20.0f;
 static const GLfloat FIELD_WIDTH = 10.0f;
 const glm::vec3 UP(0.0f, 1.0f, 0.0f);
 
-void gl_app::OpenGLApplication::Init()
+void breene::BreeneApplication::Init()
 {
     //glm::vec3 pos(7.0f, 3.0f, 0.0f);
     //glm::vec3 look_at(0.0f, -0.2f, 1.0f);
@@ -132,7 +132,7 @@ void gl_app::OpenGLApplication::Init()
     //CalcPositions();
 }
 
-void gl_app::OpenGLApplication::ShadowMapPass()
+void breene::BreeneApplication::ShadowMapPass()
 {
     /*_shadow_fbo->BindWrite();
 
@@ -154,7 +154,7 @@ void gl_app::OpenGLApplication::ShadowMapPass()
     glBindFramebuffer(GL_FRAMEBUFFER, NULL);*/
 }
 
-void gl_app::OpenGLApplication::PickingPass()
+void breene::BreeneApplication::PickingPass()
 {
     //transform::Transformation trans;
 
@@ -179,7 +179,7 @@ void gl_app::OpenGLApplication::PickingPass()
     //_picking_fbo->DisableWrite();
 }
 
-void gl_app::OpenGLApplication::RenderPass()
+void breene::BreeneApplication::RenderPass()
 {
     //long long crt_time = GetTickCount();
     //assert(crt_time >= _crt_time_ms);
@@ -242,7 +242,7 @@ void gl_app::OpenGLApplication::RenderPass()
     //_mesh->Render(nullptr, true);
 }
 
-void gl_app::OpenGLApplication::DeferredShadingGeometryPass()
+void breene::BreeneApplication::DeferredShadingGeometryPass()
 {
     _deferred_shading_program->Use();
 
@@ -262,7 +262,7 @@ void gl_app::OpenGLApplication::DeferredShadingGeometryPass()
     _mesh->Render();
 }
 
-void gl_app::OpenGLApplication::DeferredShadingLightPass()
+void breene::BreeneApplication::DeferredShadingLightPass()
 {
     _geometry_buffer->DisableWrite();
 
@@ -274,19 +274,19 @@ void gl_app::OpenGLApplication::DeferredShadingLightPass()
     GLint half_height = (GLint)(_wnd_height / 2.0f);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, half_width, half_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, half_width, half_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, half_height, half_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, half_height, half_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, half_height, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, half_height, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
     _geometry_buffer->SetReadBuffer(GeometryBuffer::GBUFFER_TEX_TYPE_TEXCOORD);
-    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, 0, _wnd_width, half_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+    glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, 0, _wnd_width, half_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 }
 
-void gl_app::OpenGLApplication::CalcPositions()
+void breene::BreeneApplication::CalcPositions()
 {
     for (GLuint i = 0; i < ROWCOUNT; ++i)
         for (GLuint j = 0; j < COLCOUNT; ++j)
@@ -303,7 +303,7 @@ void gl_app::OpenGLApplication::CalcPositions()
         }
 }
 
-void gl_app::OpenGLApplication::CalcFPS()
+void breene::BreeneApplication::CalcFPS()
 {
     static GLuint framecount = 0;
     ++framecount;
@@ -317,14 +317,14 @@ void gl_app::OpenGLApplication::CalcFPS()
     }
 }
 
-GLfloat gl_app::OpenGLApplication::CalcUptime()
+GLfloat breene::BreeneApplication::CalcUptime()
 {
     GLfloat running_time = static_cast<GLfloat>(GetTickCount() - _start_time) / 1000.0f;
 
     return running_time;
 }
 
-void gl_app::OpenGLApplication::DeallocateResources()
+void breene::BreeneApplication::DeallocateResources()
 {
     if (_camera != nullptr)
     {
@@ -425,11 +425,11 @@ void gl_app::OpenGLApplication::DeallocateResources()
     glfwTerminate();
 }
 
-gl_app::OpenGLApplication::OpenGLApplication()
-: OpenGLApplication(DEFAULT_WND_WIDTH, DEFAULT_WND_HEIGHT)
+breene::BreeneApplication::BreeneApplication()
+: BreeneApplication(DEFAULT_WND_WIDTH, DEFAULT_WND_HEIGHT)
 {}
 
-gl_app::OpenGLApplication::OpenGLApplication(GLulong _wnd_width, GLulong _wnd_height)
+breene::BreeneApplication::BreeneApplication(GLulong _wnd_width, GLulong _wnd_height)
 : _wnd_width(_wnd_width)
 , _wnd_height(_wnd_height)
 , _wnd(nullptr)
@@ -487,8 +487,8 @@ gl_app::OpenGLApplication::OpenGLApplication(GLulong _wnd_width, GLulong _wnd_he
     _frametime = _start_time = GetTickCount();
 }
 
-gl_app::OpenGLApplication::OpenGLApplication(GLulong _wnd_width, GLulong _wnd_height, Camera* camera)
-: OpenGLApplication(_wnd_width, _wnd_height)
+breene::BreeneApplication::BreeneApplication(GLulong _wnd_width, GLulong _wnd_height, Camera* camera)
+: BreeneApplication(_wnd_width, _wnd_height)
 {
     _camera = camera;
 }
@@ -504,7 +504,7 @@ GLFWwindow* SetupMainWindow(GLchar* title, GLenum is_fullscreen, GLint sample_co
     return glfwCreateWindow(width, height, title, is_fullscreen == GL_TRUE ? glfwGetPrimaryMonitor() : nullptr, nullptr);
 }
 
-RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscreen, GLint sampling, GLint openGL_version_major, GLint openGL_version_minor, GLint openGL_profile, GLenum capture_input, GLenum hide_cursor, GLenum depth_test)
+RetCodes breene::BreeneApplication::MakeWindow(GLchar* title, GLenum is_fullscreen, GLint sampling, GLint openGL_version_major, GLint openGL_version_minor, GLint openGL_profile, GLenum capture_input, GLenum hide_cursor, GLenum depth_test)
 {
     GLint result = glfwInit();
     if (result != GLFW_TRUE)
@@ -546,35 +546,35 @@ RetCodes gl_app::OpenGLApplication::MakeWindow(GLchar* title, GLenum is_fullscre
     return SUCCESS;
 }
 
-gl_app::OpenGLApplication& gl_app::OpenGLApplication::SetWindowWidth(GLulong width)
+breene::BreeneApplication& breene::BreeneApplication::SetWindowWidth(GLulong width)
 {
     _wnd_width = width;
 
     return *this;
 }
 
-gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetWindowHeight(GLulong height)
+breene::BreeneApplication & breene::BreeneApplication::SetWindowHeight(GLulong height)
 {
     _wnd_height = height;
 
     return *this;
 }
 
-gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetBackgroundColor(const glm::vec4& rgba)
+breene::BreeneApplication & breene::BreeneApplication::SetBackgroundColor(const glm::vec4& rgba)
 {
     _clear_color = rgba;
 
     return *this;
 }
 
-gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+breene::BreeneApplication & breene::BreeneApplication::SetBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {
     SetBackgroundColor(glm::vec4(r, g, b, a));
 
     return *this;
 }
 
-gl_app::OpenGLApplication & gl_app::OpenGLApplication::Run()
+breene::BreeneApplication & breene::BreeneApplication::Run()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
     do
@@ -604,7 +604,7 @@ gl_app::OpenGLApplication & gl_app::OpenGLApplication::Run()
     return *this;
 }
 
-gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetCamera(Camera* camera)
+breene::BreeneApplication & breene::BreeneApplication::SetCamera(Camera* camera)
 {
     _camera = camera;
 
@@ -618,28 +618,28 @@ gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetCamera(Camera* camera)
 //    return *this;
 //}
 
-gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetPerspectiveZNear(GLfloat z_near)
+breene::BreeneApplication & breene::BreeneApplication::SetPerspectiveZNear(GLfloat z_near)
 {
     _perspective_info.z_near = z_near;
 
     return *this;
 }
 
-gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetPerspectiveZFAR(GLfloat z_far)
+breene::BreeneApplication & breene::BreeneApplication::SetPerspectiveZFAR(GLfloat z_far)
 {
     _perspective_info.z_far = z_far;
 
     return *this;
 }
 
-gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetPerspectiveFOV(GLfloat fov)
+breene::BreeneApplication & breene::BreeneApplication::SetPerspectiveFOV(GLfloat fov)
 {
     _perspective_info.fov = fov;
 
     return *this;
 }
 
-gl_app::OpenGLApplication& gl_app::OpenGLApplication::SetErrorCallback(const ErrorCallbackFn& callback)
+breene::BreeneApplication& breene::BreeneApplication::SetErrorCallback(const ErrorCallbackFn& callback)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -648,7 +648,7 @@ gl_app::OpenGLApplication& gl_app::OpenGLApplication::SetErrorCallback(const Err
     return *this;
 }
 
-gl_app::OpenGLApplication& gl_app::OpenGLApplication::SetKeyCallback(const KeyCallbackFn& callback)
+breene::BreeneApplication& breene::BreeneApplication::SetKeyCallback(const KeyCallbackFn& callback)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -657,7 +657,7 @@ gl_app::OpenGLApplication& gl_app::OpenGLApplication::SetKeyCallback(const KeyCa
     return *this;
 }
 
-gl_app::OpenGLApplication& gl_app::OpenGLApplication::SetCursorCallback(const MouseCallbackFn& callback)
+breene::BreeneApplication& breene::BreeneApplication::SetCursorCallback(const MouseCallbackFn& callback)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -666,7 +666,7 @@ gl_app::OpenGLApplication& gl_app::OpenGLApplication::SetCursorCallback(const Mo
     return *this;
 }
 
-gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetMouseButtonCallback(const GLFWmousebuttonfun & callback)
+breene::BreeneApplication & breene::BreeneApplication::SetMouseButtonCallback(const GLFWmousebuttonfun & callback)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -675,7 +675,7 @@ gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetMouseButtonCallback(co
     return *this;
 }
 
-gl_app::OpenGLApplication& gl_app::OpenGLApplication::SetMouseScrollCallback(const MouseCallbackFn& callback)
+breene::BreeneApplication& breene::BreeneApplication::SetMouseScrollCallback(const MouseCallbackFn& callback)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -684,7 +684,7 @@ gl_app::OpenGLApplication& gl_app::OpenGLApplication::SetMouseScrollCallback(con
     return *this;
 }
 
-gl_app::OpenGLApplication & gl_app::OpenGLApplication::ToggleStatsDisplay()
+breene::BreeneApplication & breene::BreeneApplication::ToggleStatsDisplay()
 {
     _display_stats = !_display_stats;
 
@@ -705,7 +705,7 @@ gl_app::OpenGLApplication & gl_app::OpenGLApplication::ToggleStatsDisplay()
 //    return *this;
 //}
 
-std::pair<GLint, GLint> gl_app::OpenGLApplication::GetMousePos()
+std::pair<GLint, GLint> breene::BreeneApplication::GetMousePos()
 {
     GLdouble x, y;
     glfwGetCursorPos(_wnd, &x, &y);
@@ -713,7 +713,7 @@ std::pair<GLint, GLint> gl_app::OpenGLApplication::GetMousePos()
     return std::pair<GLint, GLint>(static_cast<GLint>(x), static_cast<GLint>(y));
 }
 
-gl_app::OpenGLApplication::~OpenGLApplication()
+breene::BreeneApplication::~BreeneApplication()
 {
     DeallocateResources();
 }

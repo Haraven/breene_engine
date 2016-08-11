@@ -1,16 +1,17 @@
 #pragma once
 
 #include "shader_program.h"
+#include <glm\glm.hpp>
 
-namespace gl_app
+namespace breene
 {
     class PlainColorProgram : public ShaderProgram
     {
     public:
         PlainColorProgram();
 
-        virtual gl_app::PlainColorProgram& Init() override;
+        virtual breene::PlainColorProgram& Init() override;
 
-        gl_app::PlainColorProgram& SetWVP(const glm::mat4& wvp);
+        breene::PlainColorProgram& SetWVP(const glm::mat4& wvp);
     };
 }

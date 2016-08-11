@@ -5,7 +5,7 @@
 #include FT_FREETYPE_H
 #include <map>
 
-namespace gl_app
+namespace breene
 {
     class TextureBase
     {
@@ -51,9 +51,9 @@ namespace gl_app
     public:
         Texture1DRandom(size_t size);
 
-        gl_app::Texture1DRandom& Load() override;
+        breene::Texture1DRandom& Load() override;
 
-        gl_app::Texture1DRandom& SetSize(size_t size);
+        breene::Texture1DRandom& SetSize(size_t size);
         size_t GetSize() { return _size; }
     private:
         size_t _size;

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace gl_app
+namespace breene
 {
 	// Basic shader class, that allows for compiling a shader & attaching it to a program
 	class Shader

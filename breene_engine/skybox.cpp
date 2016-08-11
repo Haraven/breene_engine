@@ -2,11 +2,11 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <iostream>
 
-gl_app::SkyBoxProgram::SkyBoxProgram()
+breene::SkyBoxProgram::SkyBoxProgram()
 : ShaderProgram()
 {}
 
-gl_app::SkyBoxProgram & gl_app::SkyBoxProgram::Init()
+breene::SkyBoxProgram & breene::SkyBoxProgram::Init()
 {
     ShaderProgram::Init();
 
@@ -17,7 +17,7 @@ gl_app::SkyBoxProgram & gl_app::SkyBoxProgram::Init()
     return *this;
 }
 
-gl_app::SkyBoxProgram & gl_app::SkyBoxProgram::SetWVP(const glm::mat4 wvp)
+breene::SkyBoxProgram & breene::SkyBoxProgram::SetWVP(const glm::mat4 wvp)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -28,7 +28,7 @@ gl_app::SkyBoxProgram & gl_app::SkyBoxProgram::SetWVP(const glm::mat4 wvp)
     return *this;
 }
 
-gl_app::SkyBoxProgram& gl_app::SkyBoxProgram::SetTextureUnit(GLuint texture_unit)
+breene::SkyBoxProgram& breene::SkyBoxProgram::SetTextureUnit(GLuint texture_unit)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -39,7 +39,7 @@ gl_app::SkyBoxProgram& gl_app::SkyBoxProgram::SetTextureUnit(GLuint texture_unit
     return *this;
 }
 
-gl_app::SkyBox::SkyBox(const Camera * cam, const transform::PerspectiveProjectionInfo & info)
+breene::SkyBox::SkyBox(const Camera * cam, const transform::PerspectiveProjectionInfo & info)
 : _program(nullptr)
 , _tex(nullptr)
 , _mesh(nullptr)
@@ -47,7 +47,7 @@ gl_app::SkyBox::SkyBox(const Camera * cam, const transform::PerspectiveProjectio
 , _perspective_info(info)
 {}
 
-gl_app::SkyBox & gl_app::SkyBox::Init(const GLchar* mesh_file, const std::string & posx_file, const std::string & negx_file, const std::string & posy_file, const std::string & negy_file, const std::string & posz_file, const std::string & negz_file)
+breene::SkyBox & breene::SkyBox::Init(const GLchar* mesh_file, const std::string & posx_file, const std::string & negx_file, const std::string & posy_file, const std::string & negy_file, const std::string & posz_file, const std::string & negz_file)
 {
     _program = new SkyBoxProgram();
 
@@ -64,7 +64,7 @@ gl_app::SkyBox & gl_app::SkyBox::Init(const GLchar* mesh_file, const std::string
     return *this;
 }
 
-gl_app::SkyBox & gl_app::SkyBox::Render()
+breene::SkyBox & breene::SkyBox::Render()
 {
     _program->Use();
 
@@ -93,7 +93,7 @@ gl_app::SkyBox & gl_app::SkyBox::Render()
     return *this;
 }
 
-gl_app::SkyBox::~SkyBox()
+breene::SkyBox::~SkyBox()
 {
     if (_program != nullptr)
     {

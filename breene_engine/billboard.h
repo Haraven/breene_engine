@@ -5,30 +5,30 @@
 #include "texture.h"
 #include "shader_program.h"
 
-namespace gl_app
+namespace breene
 {
     class BillboardProgram : public ShaderProgram
     {
     public:
         BillboardProgram();
 
-        virtual gl_app::BillboardProgram& Init() override;
+        virtual breene::BillboardProgram& Init() override;
 
-        gl_app::BillboardProgram& SetVP(const glm::mat4& vp);
-        gl_app::BillboardProgram& SetCamPos(const glm::vec3& cam_pos);
-        gl_app::BillboardProgram& SetColorTextureUnit(GLuint texture_unit);
-        gl_app::BillboardProgram& SetSize(GLfloat billboard_size);
+        breene::BillboardProgram& SetVP(const glm::mat4& vp);
+        breene::BillboardProgram& SetCamPos(const glm::vec3& cam_pos);
+        breene::BillboardProgram& SetColorTextureUnit(GLuint texture_unit);
+        breene::BillboardProgram& SetSize(GLfloat billboard_size);
     };
 
     class Billboard
     {
     private:
-        gl_app::Billboard& CreatePosBuffer();
+        breene::Billboard& CreatePosBuffer();
     public:
         Billboard();
 
-        gl_app::Billboard& Init(const std::string& tex_path);
-        gl_app::Billboard& Render(const glm::mat4& vp, const glm::vec3& cam_pos);
+        breene::Billboard& Init(const std::string& tex_path);
+        breene::Billboard& Render(const glm::mat4& vp, const glm::vec3& cam_pos);
 
         ~Billboard();
     private:

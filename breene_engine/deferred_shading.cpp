@@ -5,14 +5,14 @@
 #include <iostream>
 #include "my_constants.h"
 
-gl_app::GeometryBuffer::GeometryBuffer()
+breene::GeometryBuffer::GeometryBuffer()
 : FramebufferObject()
 {
     memset(_textures, NULL, sizeof(GLuint) * GBUFFER_NUM_TEXTURES);
     _depth_tex = NULL;
 }
 
-gl_app::GeometryBuffer & gl_app::GeometryBuffer::Init(GLuint width, GLuint height)
+breene::GeometryBuffer & breene::GeometryBuffer::Init(GLuint width, GLuint height)
 {
     glGenFramebuffers(1, &_fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
@@ -43,14 +43,14 @@ gl_app::GeometryBuffer & gl_app::GeometryBuffer::Init(GLuint width, GLuint heigh
     return *this;
 }
 
-gl_app::GeometryBuffer & gl_app::GeometryBuffer::BindRead()
+breene::GeometryBuffer & breene::GeometryBuffer::BindRead()
 {
     glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
 
     return *this;
 }
 
-gl_app::GeometryBuffer & gl_app::GeometryBuffer::SetReadBuffer(GBufferTexType type)
+breene::GeometryBuffer & breene::GeometryBuffer::SetReadBuffer(GBufferTexType type)
 {
     if (type == GBUFFER_NUM_TEXTURES) throw std::runtime_error("Invalid buffer texture type");
     glReadBuffer(GL_COLOR_ATTACHMENT0 + type);
@@ -58,7 +58,7 @@ gl_app::GeometryBuffer & gl_app::GeometryBuffer::SetReadBuffer(GBufferTexType ty
     return *this;
 }
 
-gl_app::GeometryBuffer::~GeometryBuffer()
+breene::GeometryBuffer::~GeometryBuffer()
 {
     FramebufferObject::~FramebufferObject();
     if (_textures[0] != NULL)
@@ -73,11 +73,11 @@ gl_app::GeometryBuffer::~GeometryBuffer()
     }
 }
 
-gl_app::DefShadingGeomProgram::DefShadingGeomProgram()
+breene::DefShadingGeomProgram::DefShadingGeomProgram()
 : ShaderProgram()
 {}
 
-gl_app::DefShadingGeomProgram & gl_app::DefShadingGeomProgram::Init()
+breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::Init()
 {
     ShaderProgram::Init();
 
@@ -88,7 +88,7 @@ gl_app::DefShadingGeomProgram & gl_app::DefShadingGeomProgram::Init()
     return *this;
 }
 
-gl_app::DefShadingGeomProgram & gl_app::DefShadingGeomProgram::SetWVP(const glm::mat4 & wvp)
+breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetWVP(const glm::mat4 & wvp)
 {
     GLuint wvp_loc = GetUniformLocation(WVP_UNIFORM);
 
@@ -97,7 +97,7 @@ gl_app::DefShadingGeomProgram & gl_app::DefShadingGeomProgram::SetWVP(const glm:
     return *this;
 }
 
-gl_app::DefShadingGeomProgram & gl_app::DefShadingGeomProgram::SetWorldMatrix(const glm::mat4 & world)
+breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetWorldMatrix(const glm::mat4 & world)
 {
     GLuint world_loc = GetUniformLocation(W_UNIFORM);
     glUniformMatrix4fv(world_loc, 1, GL_TRUE, glm::value_ptr(world));
@@ -105,7 +105,7 @@ gl_app::DefShadingGeomProgram & gl_app::DefShadingGeomProgram::SetWorldMatrix(co
     return *this;
 }
 
-gl_app::DefShadingGeomProgram & gl_app::DefShadingGeomProgram::SetColorTextureUnit(GLuint texture_unit)
+breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetColorTextureUnit(GLuint texture_unit)
 {
     GLuint color_sampler_loc = GetUniformLocation(COLORMAP_UNIFORM);
 

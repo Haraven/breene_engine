@@ -1,14 +1,14 @@
 #include <iostream>
-#include "opengl_app.h"
+#include "app.h"
 #include "camera.h"
 #include "texture.h"
 #include "utils.h"
 #include "my_constants.h"
 #include <glm\glm.hpp>
 
-using namespace gl_app;
+using namespace breene;
 
-OpenGLApplication* app = new OpenGLApplication(DEFAULT_WND_WIDTH, DEFAULT_WND_HEIGHT);
+BreeneApplication* app = new BreeneApplication(DEFAULT_WND_WIDTH, DEFAULT_WND_HEIGHT);
 
 void ErrCallback(const int, const char*);
 void KeyCallback(GLFWwindow*, GLint, GLint, GLint, GLint);

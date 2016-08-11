@@ -4,13 +4,13 @@
 #include <iostream>
 #include "my_constants.h"
 
-gl_app::ShadowMapFBO::ShadowMapFBO()
+breene::ShadowMapFBO::ShadowMapFBO()
 : FramebufferObject()
 {
     _shadow_map_texture = NULL;
 }
 
-gl_app::ShadowMapFBO& gl_app::ShadowMapFBO::Init(GLuint wnd_width, GLuint wnd_height)
+breene::ShadowMapFBO& breene::ShadowMapFBO::Init(GLuint wnd_width, GLuint wnd_height)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL Context has not been initialized");
 
@@ -40,7 +40,7 @@ gl_app::ShadowMapFBO& gl_app::ShadowMapFBO::Init(GLuint wnd_width, GLuint wnd_he
     return *this;
 }
 
-gl_app::ShadowMapFBO & gl_app::ShadowMapFBO::BindTextureRead(GLenum texture_unit)
+breene::ShadowMapFBO & breene::ShadowMapFBO::BindTextureRead(GLenum texture_unit)
 {
     glActiveTexture(texture_unit);
     glBindTexture(GL_TEXTURE_2D, _shadow_map_texture);
@@ -49,7 +49,7 @@ gl_app::ShadowMapFBO & gl_app::ShadowMapFBO::BindTextureRead(GLenum texture_unit
 }
 
 
-gl_app::ShadowMapFBO::~ShadowMapFBO()
+breene::ShadowMapFBO::~ShadowMapFBO()
 {
     FramebufferObject::~FramebufferObject();
 
@@ -60,7 +60,7 @@ gl_app::ShadowMapFBO::~ShadowMapFBO()
     }
 }
 
-gl_app::ShadowProgram & gl_app::ShadowProgram::Init()
+breene::ShadowProgram & breene::ShadowProgram::Init()
 {
     ShaderProgram::Init();
 
@@ -71,7 +71,7 @@ gl_app::ShadowProgram & gl_app::ShadowProgram::Init()
     return *this;
 }
 
-gl_app::ShadowProgram & gl_app::ShadowProgram::SetWVP(const glm::mat4 & wvp)
+breene::ShadowProgram & breene::ShadowProgram::SetWVP(const glm::mat4 & wvp)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -82,7 +82,7 @@ gl_app::ShadowProgram & gl_app::ShadowProgram::SetWVP(const glm::mat4 & wvp)
     return *this;
 }
 
-gl_app::ShadowProgram & gl_app::ShadowProgram::SetTextureUnit(GLuint texture_unit)
+breene::ShadowProgram & breene::ShadowProgram::SetTextureUnit(GLuint texture_unit)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 

@@ -12,10 +12,10 @@ enum ParticleType
     PARTICLE_TYPE_SECONDARY_SHELL
 };
 
-gl_app::PartSysUpdateProgram::PartSysUpdateProgram()
+breene::PartSysUpdateProgram::PartSysUpdateProgram()
 {}
 
-gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::Init()
+breene::PartSysUpdateProgram & breene::PartSysUpdateProgram::Init()
 {
     const size_t VARYINGS_COUNT = 4;
 
@@ -40,7 +40,7 @@ gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::Init()
     return *this;
 }
 
-gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetDeltaTime(GLuint millis)
+breene::PartSysUpdateProgram & breene::PartSysUpdateProgram::SetDeltaTime(GLuint millis)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -50,7 +50,7 @@ gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetDeltaTime(GLuint
     return *this;
 }
 
-gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetTime(GLint time)
+breene::PartSysUpdateProgram & breene::PartSysUpdateProgram::SetTime(GLint time)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -60,7 +60,7 @@ gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetTime(GLint time)
     return *this;
 }
 
-gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetRandomTextureUnit(GLuint texture_unit)
+breene::PartSysUpdateProgram & breene::PartSysUpdateProgram::SetRandomTextureUnit(GLuint texture_unit)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -70,7 +70,7 @@ gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetRandomTextureUni
     return *this;
 }
 
-gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetLauncherLifetime(GLfloat lifespan_secs)
+breene::PartSysUpdateProgram & breene::PartSysUpdateProgram::SetLauncherLifetime(GLfloat lifespan_secs)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -80,7 +80,7 @@ gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetLauncherLifetime
     return *this;
 }
 
-gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetPrimaryParticleLifetime(GLfloat lifespan_secs)
+breene::PartSysUpdateProgram & breene::PartSysUpdateProgram::SetPrimaryParticleLifetime(GLfloat lifespan_secs)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -90,7 +90,7 @@ gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetPrimaryParticleL
     return *this;
 }
 
-gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetSecondaryParticleLifetime(GLfloat lifespan_secs)
+breene::PartSysUpdateProgram & breene::PartSysUpdateProgram::SetSecondaryParticleLifetime(GLfloat lifespan_secs)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -100,7 +100,7 @@ gl_app::PartSysUpdateProgram & gl_app::PartSysUpdateProgram::SetSecondaryParticl
     return *this;
 }
 
-gl_app::ParticleSystem & gl_app::ParticleSystem::UpdateParticles(GLint millis)
+breene::ParticleSystem & breene::ParticleSystem::UpdateParticles(GLint millis)
 {
     const GLuint TYPE_INDEX = 0,
         POS_INDEX           = 1,
@@ -151,7 +151,7 @@ gl_app::ParticleSystem & gl_app::ParticleSystem::UpdateParticles(GLint millis)
     return *this;
 }
 
-gl_app::ParticleSystem & gl_app::ParticleSystem::RenderParticles(const glm::mat4 vp, const glm::vec3 & cam_pos)
+breene::ParticleSystem & breene::ParticleSystem::RenderParticles(const glm::mat4 vp, const glm::vec3 & cam_pos)
 {
     _billboard_program->Use();
     _billboard_program->SetCamPos(cam_pos)
@@ -174,7 +174,7 @@ gl_app::ParticleSystem & gl_app::ParticleSystem::RenderParticles(const glm::mat4
     return *this;
 }
 
-gl_app::ParticleSystem::ParticleSystem()
+breene::ParticleSystem::ParticleSystem()
 : _crt_vbo(0)
 , _crt_tfbo(1)
 , _first_call(true)
@@ -187,7 +187,7 @@ gl_app::ParticleSystem::ParticleSystem()
     memset(_transform_feedback, 0, sizeof(_transform_feedback));
 }
 
-gl_app::ParticleSystem & gl_app::ParticleSystem::Init(const glm::vec3 & pos)
+breene::ParticleSystem & breene::ParticleSystem::Init(const glm::vec3 & pos)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -243,7 +243,7 @@ gl_app::ParticleSystem & gl_app::ParticleSystem::Init(const glm::vec3 & pos)
     return *this;
 }
 
-gl_app::ParticleSystem & gl_app::ParticleSystem::Render(GLint delta_millis, const glm::mat4 & vp, const glm::vec3 & cam_pos)
+breene::ParticleSystem & breene::ParticleSystem::Render(GLint delta_millis, const glm::mat4 & vp, const glm::vec3 & cam_pos)
 {
     _time += delta_millis;
 
@@ -256,7 +256,7 @@ gl_app::ParticleSystem & gl_app::ParticleSystem::Render(GLint delta_millis, cons
     return *this;
 }
 
-gl_app::ParticleSystem::~ParticleSystem()
+breene::ParticleSystem::~ParticleSystem()
 {
     if (_particle_program != nullptr)
     {

@@ -1,7 +1,8 @@
 #include "shader_program.h"
+#include <glm\glm.hpp>
 #include <iostream>
 
-namespace gl_app
+namespace breene
 {
     class Light
     {
@@ -10,9 +11,9 @@ namespace gl_app
         Light(const glm::vec3& color, GLfloat ambient_intensity);
         Light(const glm::vec3& color, GLfloat ambient_intensity, GLfloat diffuse_intensity);
 
-        gl_app::Light& SetColor(const glm::vec3& color);
-        gl_app::Light& SetAmbientIntensity(GLfloat ambient_intensity);
-        gl_app::Light& SetDiffuseIntensity(GLfloat diffuse_intensity);
+        breene::Light& SetColor(const glm::vec3& color);
+        breene::Light& SetAmbientIntensity(GLfloat ambient_intensity);
+        breene::Light& SetDiffuseIntensity(GLfloat diffuse_intensity);
         const glm::vec3& GetColor() const { return _color; }
         GLfloat GetAmbientIntensity() const { return _ambient_intensity; }
         GLfloat GetDiffuseIntensity() const { return _diffuse_intensity; }
@@ -30,7 +31,7 @@ namespace gl_app
         DirectionalLight(const glm::vec3& color, GLfloat ambient_intensity, const glm::vec3& direction);
         DirectionalLight(const glm::vec3& color, GLfloat ambient_intensity, GLfloat diffuse_intensity, const glm::vec3& direction);
 
-        gl_app::DirectionalLight& SetDirection(const glm::vec3&);
+        breene::DirectionalLight& SetDirection(const glm::vec3&);
         const glm::vec3& GetDirection() const { return _direction; }
     private:
         glm::vec3 _direction;
@@ -111,8 +112,8 @@ namespace gl_app
         
         const glm::vec3& GetPosition() const { return _position; }
         const LightAttenuation& GetAttenuation() const { return _attenuation; }
-        gl_app::PointLight& SetPosition(const glm::vec3& position);
-        gl_app::PointLight& SetAttenuation(GLfloat constant, GLfloat linear, GLfloat exponential);
+        breene::PointLight& SetPosition(const glm::vec3& position);
+        breene::PointLight& SetAttenuation(GLfloat constant, GLfloat linear, GLfloat exponential);
     private:
         glm::vec3 _position;
         LightAttenuation _attenuation;
@@ -129,8 +130,8 @@ namespace gl_app
 
         const glm::vec3& GetDirection() const { return _direction; }
         GLfloat GetConeAngle() const { return _cone_angle; }
-        gl_app::SpotLight& SetDirection(const glm::vec3& direction);
-        gl_app::SpotLight& SetConeAngle(GLfloat cone_angle);
+        breene::SpotLight& SetDirection(const glm::vec3& direction);
+        breene::SpotLight& SetConeAngle(GLfloat cone_angle);
     private:
         glm::vec3 _direction;
         GLfloat _cone_angle;
@@ -148,36 +149,36 @@ namespace gl_app
 
         LightingProgram();
 
-        virtual gl_app::LightingProgram& Init() override;
+        virtual breene::LightingProgram& Init() override;
 
         GLfloat GetSpecularIntensity() const { return _specular_intensity; }
         GLfloat GetSpecularPower() const { return _specular_power; }
         //gl_app::LightingProgram& SetWVP(const glm::mat4& wvp);
-        gl_app::LightingProgram& SetVP(const glm::mat4& vp);
-        gl_app::LightingProgram& SetLightWVP(const glm::mat4& wvp);
-        gl_app::LightingProgram& SetEWP(const glm::vec3& eye);
+        breene::LightingProgram& SetVP(const glm::mat4& vp);
+        breene::LightingProgram& SetLightWVP(const glm::mat4& wvp);
+        breene::LightingProgram& SetEWP(const glm::vec3& eye);
         //gl_app::LightingProgram& SetWM(const glm::mat4& matrix);
-        gl_app::LightingProgram& SetColorTextureUnit(GLuint texture_unit);
-        gl_app::LightingProgram& SetShadowMapTextureUnit(GLuint texture_unit);
-        gl_app::LightingProgram& SetNormalMapTextureUnit(GLuint texture_unit);
-        gl_app::LightingProgram& SetDisplacementMapTextureUnit(GLuint texture_unit);
-        gl_app::LightingProgram& SetDirectionalLight(const DirectionalLight& light);
-        gl_app::LightingProgram& SetPointLights(const std::vector<PointLight>& lights);
-        gl_app::LightingProgram& ResetPointLights();
-        gl_app::LightingProgram& SetPointLightsCount(GLuint count);
-        gl_app::LightingProgram& AddPointLights(const std::vector<PointLight>& lights);
-        gl_app::LightingProgram& AddPointLight(const PointLight& light);
-        gl_app::LightingProgram& SetSpotLights(const std::vector<SpotLight>& lights);
-        gl_app::LightingProgram& ResetSpotLights();
-        gl_app::LightingProgram& SetSpotLightsCount(GLuint count);
-        gl_app::LightingProgram& AddSpotLights(const std::vector<SpotLight>& lights);
-        gl_app::LightingProgram& AddSpotLight(const SpotLight& light);
-        gl_app::LightingProgram& SetSpecularIntensity(GLfloat specular_intensity);
-        gl_app::LightingProgram& SetSpecularPower(GLfloat specular_power);
-        gl_app::LightingProgram& SetDisplacementFactor(GLfloat disp_factor);
-        gl_app::LightingProgram& SetTesselationLevel(GLfloat level);
-        gl_app::LightingProgram& SetTesselationAlpha(GLfloat alpha);
-        gl_app::LightingProgram& SetColor(GLuint index, const glm::vec4& color);
+        breene::LightingProgram& SetColorTextureUnit(GLuint texture_unit);
+        breene::LightingProgram& SetShadowMapTextureUnit(GLuint texture_unit);
+        breene::LightingProgram& SetNormalMapTextureUnit(GLuint texture_unit);
+        breene::LightingProgram& SetDisplacementMapTextureUnit(GLuint texture_unit);
+        breene::LightingProgram& SetDirectionalLight(const DirectionalLight& light);
+        breene::LightingProgram& SetPointLights(const std::vector<PointLight>& lights);
+        breene::LightingProgram& ResetPointLights();
+        breene::LightingProgram& SetPointLightsCount(GLuint count);
+        breene::LightingProgram& AddPointLights(const std::vector<PointLight>& lights);
+        breene::LightingProgram& AddPointLight(const PointLight& light);
+        breene::LightingProgram& SetSpotLights(const std::vector<SpotLight>& lights);
+        breene::LightingProgram& ResetSpotLights();
+        breene::LightingProgram& SetSpotLightsCount(GLuint count);
+        breene::LightingProgram& AddSpotLights(const std::vector<SpotLight>& lights);
+        breene::LightingProgram& AddSpotLight(const SpotLight& light);
+        breene::LightingProgram& SetSpecularIntensity(GLfloat specular_intensity);
+        breene::LightingProgram& SetSpecularPower(GLfloat specular_power);
+        breene::LightingProgram& SetDisplacementFactor(GLfloat disp_factor);
+        breene::LightingProgram& SetTesselationLevel(GLfloat level);
+        breene::LightingProgram& SetTesselationAlpha(GLfloat alpha);
+        breene::LightingProgram& SetColor(GLuint index, const glm::vec4& color);
     private:
         GLfloat _specular_intensity;
         GLfloat _specular_power;

@@ -2,7 +2,7 @@
 
 #include <GL\glew.h>
 
-namespace gl_app
+namespace breene
 {
 
     class FramebufferObject
@@ -11,10 +11,10 @@ namespace gl_app
         FramebufferObject();
         ~FramebufferObject();
 
-        virtual gl_app::FramebufferObject& Init(GLuint wnd_width, GLuint wnd_height) = 0;
-        virtual gl_app::FramebufferObject& BindWrite();
-        virtual gl_app::FramebufferObject& DisableWrite();
-        virtual gl_app::FramebufferObject& BindTextureRead(GLenum texture_unit);
+        virtual breene::FramebufferObject& Init(GLuint wnd_width, GLuint wnd_height) = 0;
+        virtual breene::FramebufferObject& BindWrite();
+        virtual breene::FramebufferObject& DisableWrite();
+        virtual breene::FramebufferObject& BindTextureRead(GLenum texture_unit);
     protected:
         GLuint _fbo;
     };

@@ -2,10 +2,11 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include <glm\glm.hpp>
 #include "shader_program.h"
 #include "texture.h"
 
-namespace gl_app
+namespace breene
 {
     namespace text_rendering
     {
@@ -14,10 +15,10 @@ namespace gl_app
         public:
             TextProgram();
 
-            virtual gl_app::text_rendering::TextProgram& Init() override;
-            gl_app::text_rendering::TextProgram& SetOrthographicProjection(const glm::mat4& op);
-            gl_app::text_rendering::TextProgram& SetTextColor(const glm::vec4& color);
-            gl_app::text_rendering::TextProgram& SetTextTextureUnit(GLuint texture_unit);
+            virtual breene::text_rendering::TextProgram& Init() override;
+            breene::text_rendering::TextProgram& SetOrthographicProjection(const glm::mat4& op);
+            breene::text_rendering::TextProgram& SetTextColor(const glm::vec4& color);
+            breene::text_rendering::TextProgram& SetTextTextureUnit(GLuint texture_unit);
         };
 
         class TextureAtlas : public TextureBase
@@ -40,7 +41,7 @@ namespace gl_app
 
             TextureAtlas(const FT_Face& face, GLuint size);
 
-            gl_app::text_rendering::TextureAtlas& Load() override;
+            breene::text_rendering::TextureAtlas& Load() override;
 
             GLuint GetWidth() const { return _width; }
             GLuint GetHeight() const { return _height; }
@@ -76,9 +77,9 @@ namespace gl_app
             void DeallocateResources();
         public:
             TextRenderer();
-            gl_app::text_rendering::TextRenderer& Init(GLuint width, GLuint height);
-            gl_app::text_rendering::TextRenderer& SetTextureUnit(GLuint texture_unit);
-            gl_app::text_rendering::TextRenderer& Render(const std::string& text, TextureAtlas* atlas, const glm::ivec2& pos_2d, GLfloat scale, const glm::vec4& color);
+            breene::text_rendering::TextRenderer& Init(GLuint width, GLuint height);
+            breene::text_rendering::TextRenderer& SetTextureUnit(GLuint texture_unit);
+            breene::text_rendering::TextRenderer& Render(const std::string& text, TextureAtlas* atlas, const glm::ivec2& pos_2d, GLfloat scale, const glm::vec4& color);
 
             TextureAtlas* GetAtlas(const GLchar* font, GLuint size);
             ~TextRenderer();

@@ -7,11 +7,11 @@
 #include "my_constants.h"
 #include "utils.h"
 
-gl_app::text_rendering::TextProgram::TextProgram()
+breene::text_rendering::TextProgram::TextProgram()
 : ShaderProgram()
 {}
 
-gl_app::text_rendering::TextProgram & gl_app::text_rendering::TextProgram::Init()
+breene::text_rendering::TextProgram & breene::text_rendering::TextProgram::Init()
 {
     ShaderProgram::Init();
 
@@ -22,7 +22,7 @@ gl_app::text_rendering::TextProgram & gl_app::text_rendering::TextProgram::Init(
     return *this;
 }
 
-gl_app::text_rendering::TextProgram & gl_app::text_rendering::TextProgram::SetOrthographicProjection(const glm::mat4 & op)
+breene::text_rendering::TextProgram & breene::text_rendering::TextProgram::SetOrthographicProjection(const glm::mat4 & op)
 {
     GLuint ortho_loc = GetUniformLocation(OP_UNIFORM);
 
@@ -31,7 +31,7 @@ gl_app::text_rendering::TextProgram & gl_app::text_rendering::TextProgram::SetOr
     return *this;
 }
 
-gl_app::text_rendering::TextProgram & gl_app::text_rendering::TextProgram::SetTextColor(const glm::vec4 & color)
+breene::text_rendering::TextProgram & breene::text_rendering::TextProgram::SetTextColor(const glm::vec4 & color)
 {
     GLuint color_loc = GetUniformLocation(COLOR_UNIFORM);
 
@@ -40,7 +40,7 @@ gl_app::text_rendering::TextProgram & gl_app::text_rendering::TextProgram::SetTe
     return *this;
 }
 
-gl_app::text_rendering::TextProgram & gl_app::text_rendering::TextProgram::SetTextTextureUnit(GLuint texture_unit)
+breene::text_rendering::TextProgram & breene::text_rendering::TextProgram::SetTextTextureUnit(GLuint texture_unit)
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
 
@@ -51,7 +51,7 @@ gl_app::text_rendering::TextProgram & gl_app::text_rendering::TextProgram::SetTe
     return *this;
 }
 
-gl_app::text_rendering::TextureAtlas * gl_app::text_rendering::TextRenderer::GetAtlas(const GLchar * font, GLuint size)
+breene::text_rendering::TextureAtlas * breene::text_rendering::TextRenderer::GetAtlas(const GLchar * font, GLuint size)
 {
     TextureAtlas* atlas = nullptr;
     FaceMap::iterator it = _faces.find(font);
@@ -101,7 +101,7 @@ gl_app::text_rendering::TextureAtlas * gl_app::text_rendering::TextRenderer::Get
     return atlas;
 }
 
-void gl_app::text_rendering::TextRenderer::DeallocateResources()
+void breene::text_rendering::TextRenderer::DeallocateResources()
 {
     std::for_each(_atlases.begin(), _atlases.end(), [](std::pair<FT_Face, std::vector<AtlasSizePair>> entry)
     {
@@ -123,13 +123,13 @@ void gl_app::text_rendering::TextRenderer::DeallocateResources()
     }
 }
 
-gl_app::text_rendering::TextRenderer::TextRenderer()
+breene::text_rendering::TextRenderer::TextRenderer()
 : _program(nullptr)
 , _vao(INVALID_VAL)
 , _vbo(INVALID_VAL)
 {}
 
-gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::Init(GLuint width, GLuint height)
+breene::text_rendering::TextRenderer & breene::text_rendering::TextRenderer::Init(GLuint width, GLuint height)
 {
     if (FT_Init_FreeType(&_freetype_lib) != NULL) throw std::runtime_error("Error initializing text renderer. Error caused by FT_Init_FreeType()");
     
@@ -145,7 +145,7 @@ gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::Ini
     return *this;
 }
 
-gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::SetTextureUnit(GLuint texture_unit)
+breene::text_rendering::TextRenderer & breene::text_rendering::TextRenderer::SetTextureUnit(GLuint texture_unit)
 {
     _program->Use();
     _program->SetTextTextureUnit(texture_unit);
@@ -153,7 +153,7 @@ gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::Set
     return *this;
 }
 
-gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::Render(const std::string & text, TextureAtlas* atlas, const glm::ivec2 & pos_2d, GLfloat scale, const glm::vec4 & color)
+breene::text_rendering::TextRenderer & breene::text_rendering::TextRenderer::Render(const std::string & text, TextureAtlas* atlas, const glm::ivec2 & pos_2d, GLfloat scale, const glm::vec4 & color)
 {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -406,12 +406,12 @@ gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::Ren
 //    return *this;
 //}
 
-gl_app::text_rendering::TextRenderer::~TextRenderer()
+breene::text_rendering::TextRenderer::~TextRenderer()
 {
     DeallocateResources();
 }
 
-gl_app::text_rendering::TextureAtlas::TextureAtlas(const FT_Face & face, GLuint size)
+breene::text_rendering::TextureAtlas::TextureAtlas(const FT_Face & face, GLuint size)
 : TextureBase(GL_TEXTURE_2D)
 {
     _width = 0;
@@ -423,7 +423,7 @@ gl_app::text_rendering::TextureAtlas::TextureAtlas(const FT_Face & face, GLuint 
     memset(_chars, NULL, CHARSET_SIZE * sizeof(Character));
 }
 
-gl_app::text_rendering::TextureAtlas & gl_app::text_rendering::TextureAtlas::Load()
+breene::text_rendering::TextureAtlas & breene::text_rendering::TextureAtlas::Load()
 {
     FT_GlyphSlot glyph = _face->glyph;
 
