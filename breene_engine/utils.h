@@ -1,10 +1,5 @@
 #pragma once
 
-#include <GL\glew.h>
-#include <glm\glm.hpp>
-#include <utility>
-#include <string>
-#include <vector>
 #include "mesh.h"
 #include "camera.h"
 

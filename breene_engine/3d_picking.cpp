@@ -1,6 +1,7 @@
 #include "3d_picking.h"
 #include <glm\gtc\type_ptr.hpp>
-#include <iostream>
+#include <string>
+#include "my_constants.h"
 
 breene::PickingProgram::PickingProgram()
 : ShaderProgram()

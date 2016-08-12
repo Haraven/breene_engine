@@ -72,9 +72,6 @@
     <ClCompile Include="my_constants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="opengl_app.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="particle_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -100,6 +97,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="deferred_shading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -274,9 +274,6 @@
     <None Include="shaders\partsysupdate_vertex_shader.vert">
       <Filter>Resource Files\shaders\vertex</Filter>
     </None>
-    <None Include="shaders\light_shader.vert">
-      <Filter>Resource Files\shaders\vertex</Filter>
-    </None>
     <None Include="shaders\instanced_rendering_shader.vert">
       <Filter>Resource Files\shaders\vertex</Filter>
     </None>
@@ -294,6 +291,21 @@
     </None>
     <None Include="shaders\geom_pass_fragment_shader.frag">
       <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="light_pass_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\dirlight_pass_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\ptlight_pass_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\spotlight_pass_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\light_pass_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

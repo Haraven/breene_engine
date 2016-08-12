@@ -1,6 +1,5 @@
 #include "fbo.h"
 #include <stdexcept>
-#include <iostream>
 #include "my_constants.h"
 
 breene::FramebufferObject::FramebufferObject()

@@ -1,5 +1,4 @@
 #include "particle_system.h"
-#include <iostream>
 #include "my_constants.h"
 
 const GLuint MAX_PARTICLES = 1000;

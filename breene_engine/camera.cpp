@@ -1,7 +1,5 @@
 #include "camera.h"
-#include <GLFW\glfw3.h>
 #include <glm\gtx\rotate_vector.hpp>
-#include <iostream>
 
 const GLfloat CAMERA_MAX_STEP  = 1.0f;
 const GLfloat CAMERA_MIN_STEP  = 0.0f;

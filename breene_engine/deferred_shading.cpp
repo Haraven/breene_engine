@@ -1,8 +1,7 @@
 #include "deferred_shading.h"
 #include <glm\gtc\type_ptr.hpp>
-#include <stdexcept>
-#include <string>
 #include <iostream>
+#include <string>
 #include "my_constants.h"
 
 breene::GeometryBuffer::GeometryBuffer()
@@ -14,46 +13,56 @@ breene::GeometryBuffer::GeometryBuffer()
 
 breene::GeometryBuffer & breene::GeometryBuffer::Init(GLuint width, GLuint height)
 {
-    glGenFramebuffers(1, &_fbo);
-    glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+	// Create the FBO
+	glGenFramebuffers(1, &_fbo);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
+	GLuint tex_count = sizeof(_textures) / sizeof(GLuint);
+	// Create the gbuffer textures
+	glGenTextures(tex_count, _textures);
+	glGenTextures(1, &_depth_tex);
 
-    glGenTextures(GBUFFER_NUM_TEXTURES, _textures);
-    glGenTextures(1, &_depth_tex);
+	for (unsigned int i = 0; i < tex_count; ++i)
+	{
+		glBindTexture(GL_TEXTURE_2D, _textures[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, _textures[i], 0);
+	}
 
-    GLenum draw_buffers[GBUFFER_NUM_TEXTURES];
-    for (GLuint i = 0; i < GBUFFER_NUM_TEXTURES; ++i)
-    {
-        draw_buffers[i] = GL_COLOR_ATTACHMENT0 + i;
-        glBindTexture(GL_TEXTURE_2D, _textures[i]);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGB, GL_FLOAT, nullptr);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, draw_buffers[i], GL_TEXTURE_2D, _textures[i], 0);
-    }
+	// depth
+	glBindTexture(GL_TEXTURE_2D, _depth_tex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, _depth_tex, 0);
 
-    glBindTexture(GL_TEXTURE_2D, _depth_tex);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, _depth_tex, 0);
+	GLenum draw_buffers[] = 
+	{ 
+		GL_COLOR_ATTACHMENT0,
+		GL_COLOR_ATTACHMENT1,
+		GL_COLOR_ATTACHMENT2 
+	};
 
-    glDrawBuffers(GBUFFER_NUM_TEXTURES, draw_buffers);
+	glDrawBuffers(GBUFFER_NUM_TEXTURES, draw_buffers);
 
-    auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-    if (status != GL_FRAMEBUFFER_COMPLETE) throw std::runtime_error("Error initializing G buffer. Framebuffer status: " + std::to_string(status));
-    
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (status != GL_FRAMEBUFFER_COMPLETE) throw std::runtime_error("Error initializing G buffer. Framebuffer status: " + std::to_string(status));
+
+	// restore default FBO
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
     return *this;
 }
 
 breene::GeometryBuffer & breene::GeometryBuffer::BindRead()
 {
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
-    return *this;
-}
-
-breene::GeometryBuffer & breene::GeometryBuffer::SetReadBuffer(GBufferTexType type)
-{
-    if (type == GBUFFER_NUM_TEXTURES) throw std::runtime_error("Invalid buffer texture type");
-    glReadBuffer(GL_COLOR_ATTACHMENT0 + type);
+	for (GLuint i = 0; i < sizeof(_textures) / sizeof(GLuint); ++i)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, _textures[GBUFFER_TEX_TYPE_POSITION + i]);
+	}
 
     return *this;
 }
@@ -90,6 +99,8 @@ breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::Init()
 
 breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetWVP(const glm::mat4 & wvp)
 {
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
     GLuint wvp_loc = GetUniformLocation(WVP_UNIFORM);
 
     glUniformMatrix4fv(wvp_loc, 1, GL_TRUE, glm::value_ptr(wvp));
@@ -99,6 +110,8 @@ breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetWVP(const glm:
 
 breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetWorldMatrix(const glm::mat4 & world)
 {
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
     GLuint world_loc = GetUniformLocation(W_UNIFORM);
     glUniformMatrix4fv(world_loc, 1, GL_TRUE, glm::value_ptr(world));
 
@@ -107,9 +120,244 @@ breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetWorldMatrix(co
 
 breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetColorTextureUnit(GLuint texture_unit)
 {
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
     GLuint color_sampler_loc = GetUniformLocation(COLORMAP_UNIFORM);
 
     glUniform1i(color_sampler_loc, texture_unit);
 
     return *this;
 }
+
+breene::DefShadingLight::DefShadingLight()
+: ShaderProgram()
+{}
+
+breene::DefShadingLight & breene::DefShadingLight::Init()
+{
+    ShaderProgram::Init();
+
+    return *this;
+}
+
+breene::DefShadingLight & breene::DefShadingLight::SetWVP(const glm::mat4 & wvp)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    GLuint wvp_loc = GetUniformLocation(WVP_UNIFORM);
+    glUniformMatrix4fv(wvp_loc, 1, GL_TRUE, glm::value_ptr(wvp));
+
+    return *this;
+}
+
+breene::DefShadingLight & breene::DefShadingLight::SetPositionTextureUnit(GLuint texture_unit)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    GLuint pos_loc = GetUniformLocation(POSITION_UNIFORM);
+
+    glUniform1i(pos_loc, texture_unit);
+
+    return *this;
+}
+
+breene::DefShadingLight & breene::DefShadingLight::SetColorTextureUnit(GLuint texture_unit)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    GLuint color_map_loc = GetUniformLocation(COLORMAP_UNIFORM);
+
+    glUniform1i(color_map_loc, texture_unit);
+
+    return *this;
+}
+
+breene::DefShadingLight & breene::DefShadingLight::SetNormalTextureUnit(GLuint texture_unit)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    GLuint color_map_loc = GetUniformLocation(NORMALMAP_UNIFORM);
+
+    glUniform1i(color_map_loc, texture_unit);
+
+    return *this;
+}
+
+breene::DefShadingLight & breene::DefShadingLight::SetEWP(const glm::vec3 & ewp)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    GLuint ewp_loc = GetUniformLocation(DIRLIGHT_EYE_WORLD_POS_UNIFORM);
+
+    glUniform3f(ewp_loc, ewp.x, ewp.y, ewp.z);
+
+    return *this;
+}
+
+breene::DefShadingLight & breene::DefShadingLight::SetSpecularIntensity(GLfloat intensity)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    GLuint intensity_loc = GetUniformLocation(DIRLIGHT_SPECULAR_INTENSITY_UNIFORM);
+
+    glUniform1f(intensity_loc, intensity);
+
+    return *this;
+}
+
+breene::DefShadingLight & breene::DefShadingLight::SetSpecularPower(GLfloat power)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    GLuint power_loc = GetUniformLocation(DIRLIGHT_SPECULAR_POWER_UNIFORM);
+
+    glUniform1f(power_loc, power);
+
+    return *this;
+}
+
+breene::DefShadingLight & breene::DefShadingLight::SetScreenSize(GLuint width, GLuint height)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    GLuint screensize_loc = GetUniformLocation(SCREENSIZE_UNIFORM);
+
+    glUniform2f(screensize_loc, static_cast<GLfloat>(width), static_cast<GLfloat>(height));
+
+	return *this;
+}
+
+breene::DefShadingDirLight::DefShadingDirLight()
+: DefShadingLight()
+{}
+
+breene::DefShadingDirLight & breene::DefShadingDirLight::Init()
+{
+    DefShadingLight::Init();
+
+    AddShader(Shader(DEFSHADING_LIGHT_PASS_VERTEX_SHADER, GL_VERTEX_SHADER));
+    AddShader(Shader(DEFSHADING_DIRLIGHT_PASS_FRAGMENT_SHADER, GL_FRAGMENT_SHADER));
+    Finalize();
+
+    return *this;
+}
+
+breene::DefShadingDirLight & breene::DefShadingDirLight::SetDirectionalLight(const DirectionalLight & light)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    const glm::vec3& color = light.GetColor();
+    GLuint light_color_loc = GetUniformLocation(DIRLIGHT_COLOR_UNIFORM);
+    glUniform3f(light_color_loc, color.r, color.g, color.b);
+
+    GLuint light_ambient_intensity_loc = GetUniformLocation(DIRLIGHT_AMBIENT_INTENSITY_UNIFORM);
+    glUniform1f(light_ambient_intensity_loc, light.GetAmbientIntensity());
+
+    GLuint light_diffuse_intensity_loc = GetUniformLocation(DIRLIGHT_DIFFUSE_INTENSITY_UNIFORM);
+    glUniform1f(light_diffuse_intensity_loc, light.GetDiffuseIntensity());
+
+    glm::vec3 direction = glm::normalize(light.GetDirection());
+    GLuint light_direction_loc = GetUniformLocation(DIRLIGHT_DIRECTION_UNIFORM);
+    glUniform3f(light_direction_loc, direction.x, direction.y, direction.z);
+
+    return *this;
+}
+
+breene::DefShadingPointLight::DefShadingPointLight()
+: DefShadingLight()
+{}
+
+breene::DefShadingPointLight & breene::DefShadingPointLight::Init()
+{
+    DefShadingLight::Init();
+
+    AddShader(Shader(DEFSHADING_LIGHT_PASS_VERTEX_SHADER, GL_VERTEX_SHADER));
+    AddShader(Shader(DEFSHADING_PTLIGHT_PASS_FRAGMENT_SHADER, GL_FRAGMENT_SHADER));
+    Finalize();
+
+    return *this;
+}
+
+breene::DefShadingPointLight & breene::DefShadingPointLight::SetPointLight(const PointLight & light)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    const glm::vec3& color = light.GetColor();
+    GLuint light_color_loc = GetUniformLocation(PTLIGHT_COLOR_UNIFORM);
+    glUniform3f(light_color_loc, color.r, color.g, color.b);
+
+    GLuint light_ambient_intensity_loc = GetUniformLocation(PTLIGHT_AMBIENT_INTENSITY_UNIFORM);
+    glUniform1f(light_ambient_intensity_loc, light.GetAmbientIntensity());
+
+    GLuint light_diffuse_intensity_loc = GetUniformLocation(PTLIGHT_DIFFUSE_INTENSITY_UNIFORM);
+    glUniform1f(light_diffuse_intensity_loc, light.GetDiffuseIntensity());
+
+    glm::vec3 position = light.GetPosition();
+    GLuint light_direction_loc = GetUniformLocation(PTLIGHT_POSITION_UNIFORM);
+    glUniform3f(light_direction_loc, position.x, position.y, position.z);
+
+    GLuint atten_const_loc = GetUniformLocation(PTLIGHT_ATTEN_CONST_UNIFORM);
+    glUniform1f(atten_const_loc, light.GetAttenuation().constant);
+
+    GLuint atten_linear_loc = GetUniformLocation(PTLIGHT_ATTEN_LINEAR_UNIFORM);
+    glUniform1f(atten_linear_loc, light.GetAttenuation().linear);
+
+    GLuint atten_exp_loc = GetUniformLocation(PTLIGHT_ATTEN_EXP_UNIFORM);
+    glUniform1f(atten_exp_loc, light.GetAttenuation().exponential);
+
+    return *this;
+}
+
+breene::DefShadingSpotLight::DefShadingSpotLight()
+: DefShadingLight()
+{}
+
+breene::DefShadingSpotLight & breene::DefShadingSpotLight::Init()
+{
+    DefShadingLight::Init();
+
+    AddShader(Shader(DEFSHADING_LIGHT_PASS_VERTEX_SHADER, GL_VERTEX_SHADER));
+    AddShader(Shader(DEFSHADING_SPOTLIGHT_PASS_VERTEX_SHADER, GL_FRAGMENT_SHADER));
+    Finalize();
+
+    return *this;
+}
+
+breene::DefShadingSpotLight & breene::DefShadingSpotLight::SetSpotLight(const SpotLight & light)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    const glm::vec3& color = light.GetColor();
+    GLuint light_color_loc = GetUniformLocation(SPOTLIGHT_COLOR_UNIFORM);
+    glUniform3f(light_color_loc, color.r, color.g, color.b);
+
+    GLuint light_ambient_intensity_loc = GetUniformLocation(SPOTLIGHT_AMBIENT_INTENSITY_UNIFORM);
+    glUniform1f(light_ambient_intensity_loc, light.GetAmbientIntensity());
+
+    GLuint light_diffuse_intensity_loc = GetUniformLocation(SPOTLIGHT_DIFFUSE_INTENSITY_UNIFORM);
+    glUniform1f(light_diffuse_intensity_loc, light.GetDiffuseIntensity());
+
+    glm::vec3 position = light.GetPosition();
+    GLuint light_direction_loc = GetUniformLocation(SPOTLIGHT_POSITION_UNIFORM);
+    glUniform3f(light_direction_loc, position.x, position.y, position.z);
+
+    GLuint atten_const_loc = GetUniformLocation(SPOTLIGHT_ATTEN_CONST_UNIFORM);
+    glUniform1f(atten_const_loc, light.GetAttenuation().constant);
+
+    GLuint atten_linear_loc = GetUniformLocation(SPOTLIGHT_ATTEN_LINEAR_UNIFORM);
+    glUniform1f(atten_linear_loc, light.GetAttenuation().linear);
+
+    GLuint atten_exp_loc = GetUniformLocation(SPOTLIGHT_ATTEN_EXP_UNIFORM);
+    glUniform1f(atten_exp_loc, light.GetAttenuation().exponential);
+
+    glm::vec3 direction = light.GetDirection();
+    GLuint direction_loc = GetUniformLocation(SPOTLIGHT_DIRECTION_UNIFORM);
+    glUniform3f(direction_loc, direction.x, direction.y, direction.z);
+
+    GLuint cone_loc = GetUniformLocation(SPOTLIGHT_CONE_UNIFORM);
+    glUniform1f(cone_loc, light.GetConeAngle());
+
+    return *this;
+}
+
+

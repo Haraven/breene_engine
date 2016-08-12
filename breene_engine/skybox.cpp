@@ -1,6 +1,6 @@
 #include "skybox.h"
 #include <glm\gtc\type_ptr.hpp>
-#include <iostream>
+#include "my_constants.h"
 
 breene::SkyBoxProgram::SkyBoxProgram()
 : ShaderProgram()

@@ -1,10 +1,5 @@
 #include <iostream>
 #include "app.h"
-#include "camera.h"
-#include "texture.h"
-#include "utils.h"
-#include "my_constants.h"
-#include <glm\glm.hpp>
 
 using namespace breene;
 

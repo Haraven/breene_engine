@@ -1,7 +1,7 @@
 #include "utils.h"
 #include <wtypes.h>
 #include <fstream>
-#include <algorithm>
+#include "camera.h"
 
 void GetDesktopResolution(unsigned long& width, unsigned long& height)
 {

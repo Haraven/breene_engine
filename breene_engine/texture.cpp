@@ -1,12 +1,7 @@
 #include "texture.h"
 #include <GLFW\glfw3.h>
-#include <string>
-#include <iostream>
-#include <algorithm>
-
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb\stb_image.h>
-
 #include "my_constants.h"
 #include "utils.h"
 

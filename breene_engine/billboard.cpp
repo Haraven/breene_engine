@@ -2,7 +2,6 @@
 
 #include <GLFW\glfw3.h>
 #include <glm\gtc\type_ptr.hpp>
-#include <iostream>
 #include "my_constants.h"
 
 const GLuint ROWCOUNT = 10, COLCOUNT = 10;

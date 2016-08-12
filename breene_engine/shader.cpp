@@ -1,5 +1,4 @@
 #include "shader.h"
-#include <algorithm>
 #include "utils.h"
 
 breene::Shader::Shader(const std::string& file_path, GLenum shader_type)
@@ -27,7 +26,7 @@ breene::Shader& breene::Shader::Compile()
 	{
 		GLchar info_log[log_size];
 		glGetShaderInfoLog(_shader_obj, log_size, NULL, info_log);
-		throw std::runtime_error("Error compiling shader of type: " + std::to_string(_shader_type) + ". Info log: " + info_log);
+		throw std::runtime_error("Error compiling shader \"" + _shader_path + "\", of type: " + std::to_string(_shader_type) + ". Info log:\n" + info_log);
 	}
 
 	return *this;

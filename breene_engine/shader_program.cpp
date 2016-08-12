@@ -1,6 +1,5 @@
 #include "shader_program.h"
 #include <algorithm>
-#include <iostream>
 #include "my_constants.h"
 
 GLuint breene::ShaderProgram::GetUniformLocation(const GLchar* uniform)

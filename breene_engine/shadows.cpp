@@ -1,7 +1,6 @@
 #include "shadows.h"
-#include <stdexcept>
+#include <glm\gtc\type_ptr.hpp>
 #include <string>
-#include <iostream>
 #include "my_constants.h"
 
 breene::ShadowMapFBO::ShadowMapFBO()

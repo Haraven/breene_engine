@@ -2,21 +2,14 @@
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
-#include <glm\gtc\type_ptr.hpp>
-#include <vector>
+#include <glm\glm.hpp>
 #include <functional>
-#include "utils.h"
+#include "lighting.h"
 #include "camera.h"
 #include "mesh.h"
-#include "lighting.h"
-#include "shadows.h"
-#include "skybox.h"
-#include "billboard.h"
-#include "particle_system.h"
-#include "basic_coloring.h"
-#include "3d_picking.h"
-#include "text_rendering.h"
 #include "deferred_shading.h"
+#include "text_rendering.h"
+#include "utils.h"
 #include "my_constants.h"
 
 namespace breene
@@ -32,12 +25,21 @@ namespace breene
         GLfloat CalcUptime();
         void DeallocateResources();
         void Init();
+		void InitLights();
+		void InitPositions();
 
         void ShadowMapPass();
         void PickingPass();
         void RenderPass();
+
+		GLfloat CalcPointLightSphere(const PointLight& light);
+		GLfloat CalcSpotLightSphere(const SpotLight& light);
         void DeferredShadingGeometryPass();
-        void DeferredShadingLightPass();
+		void DeferredShadingSetupLights();
+		void DeferredShadingSpotLightsPass();
+        void DeferredShadingPointLightsPass();
+		void DeferredShadingDirLightPass();
+		void DeferredShadingLightPass();
     public:
         typedef GLFWkeyfun KeyCallbackFn;
         typedef GLFWcursorposfun MouseCallbackFn;
@@ -100,12 +102,17 @@ namespace breene
         GLulong _wnd_height;
         Camera* _camera;
         Mesh* _mesh;
+		Mesh* _quad;
+		Mesh* _sphere;
         /*Mesh* _ground;
         Texture2D* _ground_tex;
         Texture2D* _ground_tex_normal_map;*/
         //Texture2D* _mesh_tex;
         //ShadowProgram* _shadowmap_program;
         DefShadingGeomProgram* _deferred_shading_program;
+		DefShadingDirLight* _dir_light_program;
+		DefShadingPointLight* _pt_light_program;
+		DefShadingSpotLight* _spot_light_program;
         GeometryBuffer* _geometry_buffer;
         LightingProgram* _lighting_program;
         text_rendering::TextRenderer* _text_renderer;
@@ -125,10 +132,11 @@ namespace breene
         //ShadowMapFBO* _shadow_fbo;  
         //SpotLight _spot_light;
         //ParticleSystem* _particle_system;
+		PointLight _point_lights[5];
+		SpotLight _spot_light;
         transform::PerspectiveProjectionInfo _perspective_info;
-        //glm::vec3 _world_pos[2];
-        glm::vec3 _positions[INSTANCE_COUNT];
-        GLfloat _velocities[INSTANCE_COUNT];
+        glm::vec3 _positions[5];
+        //GLfloat _velocities[INSTANCE_COUNT];
         glm::vec4 _clear_color;
         GLfloat _scale;
         bool _display_stats;

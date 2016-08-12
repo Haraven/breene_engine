@@ -20,6 +20,7 @@ extern const unsigned int NORMAL_TEXTURE_UNIT;
 extern const unsigned int RANDOM_TEXTURE_UNIT;
 extern const unsigned int DISPLACEMENT_TEXTURE_UNIT;
 extern const unsigned int TEXT_TEXTURE_UNIT;
+extern const unsigned int POSITION_TEXTURE_UNIT;
 
 extern const float Z_NEAR;
 extern const float Z_FAR;
@@ -48,6 +49,10 @@ extern const char FONT_VERT_SHADER[];
 extern const char FONT_FRAG_SHADER[];
 extern const char DEFSHADING_GEOM_PASS_VERTEX_SHADER[];
 extern const char DEFSHADING_GEOM_PASS_FRAGMENT_SHADER[];
+extern const char DEFSHADING_LIGHT_PASS_VERTEX_SHADER[];
+extern const char DEFSHADING_DIRLIGHT_PASS_FRAGMENT_SHADER[];
+extern const char DEFSHADING_PTLIGHT_PASS_FRAGMENT_SHADER[];
+extern const char DEFSHADING_SPOTLIGHT_PASS_VERTEX_SHADER[];
 
 extern const int INVALID_UNIFORM_LOCATION;
 
@@ -67,18 +72,39 @@ extern const char RANDTEX_UNIFORM[];
 extern const char DISPLACEMENTMAP_UNIFORM[];
 extern const char TESSLEVEL_UNIFORM[];
 extern const char TESSALPHA_UNIFORM[];
+extern const char POSITION_UNIFORM[];
 
 extern const float LIGHT_INTENSITY_MIN;
 extern const float LIGHT_INTENSITY_MAX;
 extern const float SPECULAR_POWER_MIN;
 extern const float SPECULAR_POWER_MAX;
-extern const char DIRLIGHT_EYE_WORLD_POS_UNIFORM[];
+
 extern const char DIRLIGHT_COLOR_UNIFORM[];
 extern const char DIRLIGHT_AMBIENT_INTENSITY_UNIFORM[];
 extern const char DIRLIGHT_DIRECTION_UNIFORM[];
 extern const char DIRLIGHT_DIFFUSE_INTENSITY_UNIFORM[];
 extern const char DIRLIGHT_SPECULAR_INTENSITY_UNIFORM[];
 extern const char DIRLIGHT_SPECULAR_POWER_UNIFORM[];
+
+extern const char PTLIGHT_COLOR_UNIFORM[];
+extern const char PTLIGHT_POSITION_UNIFORM[];
+extern const char PTLIGHT_AMBIENT_INTENSITY_UNIFORM[];
+extern const char PTLIGHT_DIFFUSE_INTENSITY_UNIFORM[];
+extern const char PTLIGHT_ATTEN_CONST_UNIFORM[];
+extern const char PTLIGHT_ATTEN_LINEAR_UNIFORM[];
+extern const char PTLIGHT_ATTEN_EXP_UNIFORM[];
+
+extern const char SPOTLIGHT_COLOR_UNIFORM[];
+extern const char SPOTLIGHT_AMBIENT_INTENSITY_UNIFORM[];
+extern const char SPOTLIGHT_POSITION_UNIFORM[];
+extern const char SPOTLIGHT_DIFFUSE_INTENSITY_UNIFORM[];
+extern const char SPOTLIGHT_ATTEN_CONST_UNIFORM[];
+extern const char SPOTLIGHT_ATTEN_LINEAR_UNIFORM[];
+extern const char SPOTLIGHT_ATTEN_EXP_UNIFORM[];
+extern const char SPOTLIGHT_DIRECTION_UNIFORM[];
+extern const char SPOTLIGHT_CONE_UNIFORM[];
+
+extern const char DIRLIGHT_EYE_WORLD_POS_UNIFORM[];
 extern const char PTLIGHTS_UNIFORM[];
 extern const char PTLIGHTS_COUNT_UNIFORM[];
 extern const char SPOTLIGHTS_UNIFORM[];
@@ -94,10 +120,12 @@ extern const char PICKING_OBJECT_INDEX_UNIFORM[];
 extern const char DISPLACEMENT_FACTOR_UNIFORM[];
 extern const char COLOR_UNIFORM[];
 extern const char DISCARD_COLOR_UNIFORM[];
+extern const char SCREENSIZE_UNIFORM[];
 
 extern const int INVALID_VAL;
 
 extern const glm::vec3 ORIGIN;
+
 extern const glm::vec3 COLOR_WHITE;
 extern const glm::vec3 COLOR_BLACK;
 extern const glm::vec3 COLOR_RED;

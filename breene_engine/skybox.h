@@ -1,10 +1,8 @@
 #pragma once
 
+#include "camera.h"
 #include "shader_program.h"
-#include "texture.h"
-#include "mesh.h"
 #include "utils.h"
-#include "my_constants.h"
 
 namespace breene
 {

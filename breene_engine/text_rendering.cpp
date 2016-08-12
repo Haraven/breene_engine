@@ -1,8 +1,6 @@
 #include "text_rendering.h"
-
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
-#include <algorithm>
 #include <iostream>
 #include "my_constants.h"
 #include "utils.h"
@@ -157,7 +155,6 @@ breene::text_rendering::TextRenderer & breene::text_rendering::TextRenderer::Ren
 {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     _program->Use();
     _program->SetTextColor(color);
     atlas->Bind(TEXT_TEXTURE_UNIT);
@@ -252,159 +249,12 @@ breene::text_rendering::TextRenderer & breene::text_rendering::TextRenderer::Ren
     glDrawArrays(GL_TRIANGLES, 0, size);
 
     glDisableVertexAttribArray(0);
-    glBindBuffer(GL_VERTEX_ARRAY, 0);
     glBindVertexArray(0);
 
     glDisable(GL_BLEND);
 
     return *this;
 }
-
-//gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::Init(GLuint width, GLuint height)
-//{
-//    if (_program == nullptr)
-//        _program = new TextProgram();
-//    _program->Init().Use();
-//    _program->SetOrthographicProjection(glm::ortho(0.0f, static_cast<GLfloat>(_width), 0.0f, static_cast<GLfloat>(_height)));
-//    if (FT_Init_FreeType(&_freetype_lib) != NULL) throw std::runtime_error("Error initializing FreeType library");
-//    SetFontFace("verdana.ttf");
-//    
-//    _width = width;
-//    _height = height;
-//    return *this;
-//}
-//
-//gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::SetFontFace(const std::string & font, const GLuint size)
-//{
-//    //FT_Done_Face(_face);
-//    FT_New_Face(_freetype_lib, font.c_str(), 0, &_face);
-//
-//    FT_Set_Pixel_Sizes(_face, 0, size);
-//
-//    _font = "verdana.ttf";
-//    _is_loaded = false;
-//
-//    return *this;
-//}
-//
-//gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::SetFontSize(const GLuint size)
-//{
-//    //SetFontFace(_font, size);
-//
-//    //_is_loaded = false;
-//
-//    return *this;
-//}
-//
-//gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::SetTextureUnit(GLuint texture_unit)
-//{
-//    _program->SetTextTextureUnit(texture_unit);
-//
-//    return *this;
-//}
-//
-//gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::Render(const std::string& text, const glm::vec2& pos_2d, GLfloat scale, const glm::vec4& color)
-//{
-//    glEnable(GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//
-//    if (!_is_loaded)
-//        Load();
-//    _program->Use();
-//    _program->SetTextColor(color);
-//
-//    glBindVertexArray(_vao);
-//    GLfloat x = pos_2d.x;
-//    GLfloat y = pos_2d.y;
-//    for (std::string::const_iterator ch = text.cbegin(); ch != text.cend(); ++ch)
-//    {
-//        TextureCharacter* ch_tex = _char_mappings.at(*ch);
-//        GLfloat x_pos = x + ch_tex->GetBearingLeft() * scale;
-//        GLfloat y_pos = -y - ch_tex->GetBearingTop() * scale;
-//        GLfloat width = ch_tex->GetSizeX() * scale;
-//        GLfloat height = ch_tex->GetSizeY() * scale;
-//
-//        TextVertex vertices[] =
-//        {
-//            TextVertex(glm::vec2(x_pos, -y_pos), glm::vec2(0.0f, 0.0f)), 
-//            TextVertex(glm::vec2(x_pos + width, -y_pos), glm::vec2(1.0f, 0.0f)), 
-//            TextVertex(glm::vec2(x_pos, -y_pos - height), glm::vec2(0.0f, 1.0f)),
-//            TextVertex(glm::vec2(x_pos + width, -y_pos - height), glm::vec2(1.0f, 1.0f))
-//        };
-//
-//        ch_tex->Bind(TEXT_TEXTURE_UNIT);
-//        glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-//        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-//        glBindBuffer(GL_ARRAY_BUFFER, 0);
-//
-//        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-//
-//        x += (ch_tex->GetAdvance() >> 6) * scale;
-//    }
-//
-//    glBindVertexArray(0);
-//    glDisable(GL_BLEND);
-//
-//    return *this;
-//}
-//
-//gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::GenerateChars()
-//{
-//    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-//
-//    for (GLubyte ch = 0; ch < 128; ++ch)
-//    {
-//        if (FT_Load_Char(_face, ch, FT_LOAD_RENDER) != NULL)
-//        {
-//            std::cerr << "Error loading character \"" << ch << "\"" << std::endl;
-//            continue;
-//        }
-//        TextureCharacter* my_char = new TextureCharacter(_face);
-//        my_char->Load();
-//        _char_mappings.insert(std::pair<GLchar, TextureCharacter*>(ch, my_char));
-//    }
-//
-//    FT_Done_Face(_face);
-//    FT_Done_FreeType(_freetype_lib);
-//
-//    return *this;
-//}
-//
-//gl_app::text_rendering::TextRenderer & gl_app::text_rendering::TextRenderer::Load()
-//{
-//    if (_char_mappings.size() > 0)
-//    {
-//        std::for_each(_char_mappings.begin(), _char_mappings.end(), [](std::pair<GLchar, TextureCharacter*> pair)
-//        {
-//            if (pair.second != nullptr)
-//            {
-//                delete pair.second;
-//                pair.second = nullptr;
-//            }
-//        });
-//        _char_mappings.clear();
-//    }
-//
-//    GenerateChars();
-//
-//    glGenVertexArrays(1, &_vao);
-//    glGenBuffers(1, &_vbo);
-//
-//    glBindVertexArray(_vao);
-//    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 4 * 4, NULL, GL_DYNAMIC_DRAW);
-//    
-//    glEnableVertexAttribArray(0);
-//    
-//    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
-//    glBindBuffer(GL_ARRAY_BUFFER, 0);
-//    
-//    glBindVertexArray(0);
-//
-//    _is_loaded = true;
-//
-//    return *this;
-//}
 
 breene::text_rendering::TextRenderer::~TextRenderer()
 {

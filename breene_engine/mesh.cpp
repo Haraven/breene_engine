@@ -4,7 +4,6 @@
 #include <assimp\postprocess.h>
 #include <iostream>
 #include "my_constants.h"
-#include "utils.h"
 
 breene::Mesh & breene::Mesh::InitFromScene(const aiScene * scene, const std::string & filename)
 {
@@ -219,14 +218,13 @@ breene::Mesh& breene::Mesh::Load(const std::string & filename)
         Clear();
     
     glGenVertexArrays(1, &_vao);
-
-
     glBindVertexArray(_vao);
-    glGenBuffers(BUFFER_COUNT, _buffers);
+    
+	glGenBuffers(BUFFER_COUNT, _buffers);
 
     Assimp::Importer importer;
 
-    unsigned int importer_flags = aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace;
+    unsigned int importer_flags = aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_FindDegenerates;
     const aiScene* scene = importer.ReadFile(filename.c_str(), importer_flags);
     if (scene != nullptr)
         InitFromScene(scene, filename);
@@ -239,36 +237,51 @@ breene::Mesh& breene::Mesh::Load(const std::string & filename)
 
 breene::Mesh & breene::Mesh::Render(RenderCallback* render_callback, bool draw_patches)
 {
+	//glBindVertexArray(_vao);
+
+	//for (unsigned int i = 0; i < _meshes.size(); i++) {
+	//	const unsigned int MaterialIndex = _meshes[i].GetMaterialIndex();
+
+	//	assert(MaterialIndex < _textures.size());
+
+	//	if (_textures[MaterialIndex]) {
+	//		_textures[MaterialIndex]->Bind(COLOR_TEXTURE_UNIT);
+	//	}
+
+	//	glDrawElementsBaseVertex(GL_TRIANGLES,
+	//		_meshes[i].GetIndexCount(),
+	//		GL_UNSIGNED_INT,
+	//		(void*)(sizeof(unsigned int) * _meshes[i].GetBaseIndex()),
+	//		_meshes[i].GetBaseVertex());
+	//}
+
+	//// Make sure the VAO is not changed from the outside    
+	//glBindVertexArray(0);
+
     GLuint index = 0;
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL Context has not been initialized");
-
-    const short POS_INDEX = 0,
-        TEX_INDEX = 1,
-        NORMAL_INDEX = 2,
-        TAN_INDEX = 3;
-
 
     glBindVertexArray(_vao);
 
     std::for_each(_meshes.begin(), _meshes.end(), [&index, &draw_patches, &render_callback, this](MeshEntry& entry)
     {
         const GLuint mat_index = entry.GetMaterialIndex();
-        if (mat_index > _textures.size()) throw std::out_of_range("Material index was out of range");
-        if (_textures[mat_index] != nullptr)
+        if (mat_index >= _textures.size()) throw std::out_of_range("Material index was out of range");
+		if (_textures[mat_index] != nullptr)
+		{
+			if (!_textures[mat_index]->IsLoaded())
+				_textures[mat_index]->Load();
+			_textures[mat_index]->Bind(COLOR_TEXTURE_UNIT);
+		}
+
+        if (render_callback != nullptr)
         {
-            if (!_textures[mat_index]->IsLoaded())
-                _textures[mat_index]->Load();
-            _textures[mat_index]->Bind(COLOR_TEXTURE_UNIT);
-
-            if (render_callback != nullptr)
-            {
-                render_callback->DrawStart(index);
-                ++index;
-            }
-
-            const GLvoid* offset = (GLvoid*)(sizeof(GLuint) * entry.GetBaseIndex());
-            glDrawElementsBaseVertex(draw_patches ? GL_PATCHES : GL_TRIANGLES, entry.GetIndexCount(), GL_UNSIGNED_INT, offset, entry.GetBaseVertex());
+            render_callback->DrawStart(index);
+            ++index;
         }
+
+        const GLvoid* offset = (GLvoid*)(sizeof(GLuint) * entry.GetBaseIndex());
+        glDrawElementsBaseVertex(draw_patches ? GL_PATCHES : GL_TRIANGLES, entry.GetIndexCount(), GL_UNSIGNED_INT, offset, entry.GetBaseVertex());
     });
 
     glBindVertexArray(0);

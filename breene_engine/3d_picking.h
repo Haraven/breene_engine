@@ -1,9 +1,9 @@
 #pragma once
 
+#include <glm\glm.hpp>
 #include "shader_program.h"
 #include "callbacks.h"
 #include "fbo.h"
-#include "my_constants.h"
 
 namespace breene
 {

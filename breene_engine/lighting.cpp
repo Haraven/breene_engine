@@ -1,6 +1,5 @@
 #include "lighting.h"
 #include <glm\gtc\type_ptr.hpp>
-#include <iostream>
 #include <sstream>
 #include <algorithm>
 #include "my_constants.h"

@@ -1,6 +1,7 @@
+#pragma once
+
 #include "shader_program.h"
 #include <glm\glm.hpp>
-#include <iostream>
 
 namespace breene
 {

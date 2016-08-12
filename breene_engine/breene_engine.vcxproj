@@ -168,7 +168,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="my_constants.cpp" />
-    <ClCompile Include="opengl_app.cpp" />
+    <ClCompile Include="app.cpp" />
     <ClCompile Include="particle_system.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shader_program.cpp" />
@@ -201,9 +201,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="light_pass_vertex_shader.vert" />
     <None Include="shaders\billboard_fragment_shader.frag" />
     <None Include="shaders\billboard_geometry_shader.geom" />
     <None Include="shaders\billboard_vertex_shader.vert" />
+    <None Include="shaders\dirlight_pass_fragment_shader.frag" />
     <None Include="shaders\font_fragment_shader.frag" />
     <None Include="shaders\font_vertex_shader.vert" />
     <None Include="shaders\fragment_all_lights_shader.frag" />
@@ -217,8 +219,8 @@
     <None Include="shaders\geom_pass_vertex_shader.vert" />
     <None Include="shaders\instanced_rendering_shader.frag" />
     <None Include="shaders\instanced_rendering_shader.vert" />
+    <None Include="shaders\light_pass_vertex_shader.vert" />
     <None Include="shaders\light_shader.frag" />
-    <None Include="shaders\light_shader.vert" />
     <None Include="shaders\partsysupdate_fragment_shader.frag" />
     <None Include="shaders\partsysupdate_geometry_shader.geom" />
     <None Include="shaders\partsysupdate_vertex_shader.vert" />
@@ -226,10 +228,12 @@
     <None Include="shaders\picking_vertex_shader.vert" />
     <None Include="shaders\plain_fragment_shader.frag" />
     <None Include="shaders\plain_vertex_shader.vert" />
+    <None Include="shaders\ptlight_pass_fragment_shader.frag" />
     <None Include="shaders\shadow_shader.frag" />
     <None Include="shaders\shadow_shader.vert" />
     <None Include="shaders\skybox_shader.frag" />
     <None Include="shaders\skybox_shader.vert" />
+    <None Include="shaders\spotlight_pass_fragment_shader.frag" />
     <None Include="shaders\tesselation_shader.frag" />
     <None Include="shaders\tesselation_shader.vert" />
     <None Include="shaders\tess_alt_shader.frag" />
