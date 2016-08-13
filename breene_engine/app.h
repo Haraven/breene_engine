@@ -61,7 +61,9 @@ namespace breene
         BreeneApplication();
         BreeneApplication(GLulong window_width, GLulong window_height);
         BreeneApplication(GLulong window_width, GLulong window_height, Camera* camera);
-                
+        
+		static ApplicationBuilder GetBuilder();
+
         breene::BreeneApplication& Run();
         
         /*GLfloat GetDisplacementFactor() const { return _displacement_factor; }
