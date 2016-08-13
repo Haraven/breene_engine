@@ -8,16 +8,20 @@ const glm::vec3 UP(0.0f, 1.0f, 0.0f);
 
 void breene::BreeneApplication::Init()
 {
+	if (_blank_program == nullptr)
+		_blank_program = new BlankProgram();
+	_blank_program->Init();
+
 	if (_geometry_buffer == nullptr)
 		_geometry_buffer = new GeometryBuffer();
 	_geometry_buffer->Init(_wnd_width, _wnd_height);
 
 	_camera = new Camera(_wnd_width, _wnd_height);
 
-	if (_deferred_shading_program == nullptr)
-		_deferred_shading_program = new DefShadingGeomProgram();
-	_deferred_shading_program->Init().Use();
-	_deferred_shading_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX);
+	if (_deferred_shading_geometry_program == nullptr)
+		_deferred_shading_geometry_program = new DefShadingGeomProgram();
+	_deferred_shading_geometry_program->Init().Use();
+	_deferred_shading_geometry_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX);
 
 	if (_dir_light_program == nullptr)
 		_dir_light_program = new DefShadingDirLight();
@@ -28,7 +32,8 @@ void breene::BreeneApplication::Init()
 		//.SetSpecularIntensity(0.1f)
 		//.SetSpecularPower(0.5f)
 		.SetScreenSize(_wnd_width, _wnd_height);
-	_dir_light_program->SetDirectionalLight(_dir_light);
+	_dir_light_program->SetDirectionalLight(_dir_light)
+		.SetWVP(glm::mat4(1.0f));
 
 	if (_pt_light_program == nullptr)
 		_pt_light_program = new DefShadingPointLight();
@@ -45,7 +50,6 @@ void breene::BreeneApplication::Init()
 		.SetColorTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE)
 		.SetNormalTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL)
 		.SetScreenSize(_wnd_width, _wnd_height);
-	_spot_light_program->SetSpotLight(_spot_light);
 
     if (_text_renderer == nullptr)
         _text_renderer = new text_rendering::TextRenderer();
@@ -154,14 +158,14 @@ void breene::BreeneApplication::InitLights()
 {
 	_spot_light.SetAmbientIntensity(1.0f);
 	_spot_light.SetDiffuseIntensity(0.9f);
-	_spot_light.SetColor(COLOR_WHITE);
-	_spot_light.SetAttenuation(0.0f, 0.01f, 0.0f);
-	_spot_light.SetPosition(glm::vec3(0.0f, 1.5f, 5.0f));
-	_spot_light.SetDirection(glm::vec3(1.0f, 0.0f, 0.0f));
-	_spot_light.SetConeAngle(20.0f);
+	_spot_light.SetColor(COLOR_GREEN);
+	_spot_light.SetAttenuation(0.1f, 0.1f, 0.1f);
+	_spot_light.SetPosition(glm::vec3(-20.0f, 20.0f, 5.0f));
+	_spot_light.SetDirection(glm::vec3(1.0f, -1.0f, 0.0f));
+	_spot_light.SetConeAngle(80.0f);
 
 	_dir_light.SetAmbientIntensity(0.2f);
-	_dir_light.SetColor(COLOR_RED);
+	_dir_light.SetColor(COLOR_WHITE);
 	_dir_light.SetDiffuseIntensity(0.8f);
 	_dir_light.SetDirection(glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -328,107 +332,105 @@ GLfloat breene::BreeneApplication::CalcSpotLightSphere(const SpotLight & light)
 
 void breene::BreeneApplication::DeferredShadingGeometryPass()
 {
-	_deferred_shading_program->Use();
+	_deferred_shading_geometry_program->Use();
 
-	_geometry_buffer->BindWrite();
+	_geometry_buffer->BindGeomPass();
 
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
 
 	transform::Transformation trans;
 	trans.Cam(*_camera)
 		.PerspectiveProjection(_perspective_info)
+		//.Scaling(10.0f, 0.1f, 10.0f)
 		.Rotation(0.0f, _scale, 0.0f);
 
-	for (GLuint i = 0; i < sizeof(_point_lights) / sizeof(PointLight); ++i)
+	for (GLuint i = 0; i < sizeof(_positions) / sizeof(glm::vec3); ++i)
 	{
 		trans.Translation(_positions[i]);
-		_deferred_shading_program->SetWVP(trans.WVPTransform())
+		_deferred_shading_geometry_program->SetWVP(trans.WVPTransform())
 			.SetWorldMatrix(trans.WorldTransform());
 		_mesh->Render();
 	}
 
 	glDepthMask(GL_FALSE);
-	glDisable(GL_DEPTH_TEST);
-
 }
 
-void breene::BreeneApplication::DeferredShadingSetupLights()
+void breene::BreeneApplication::DefShadingStencilPass(GLuint index)
 {
-	glEnable(GL_BLEND);
-	glBlendEquation(GL_FUNC_ADD);
-	glBlendFunc(GL_ONE, GL_ONE);
+	_blank_program->Use();
 
-	_geometry_buffer->BindRead();
-	glClear(GL_COLOR_BUFFER_BIT);
-}
+	_geometry_buffer->BindStencilPass();
+	
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glClear(GL_STENCIL_BUFFER_BIT);
+	glStencilFunc(GL_ALWAYS, 0, 0);
+	glStencilOpSeparate(GL_BACK, GL_KEEP, GL_INCR_WRAP, GL_KEEP);
+	glStencilOpSeparate(GL_FRONT, GL_KEEP, GL_DECR_WRAP, GL_KEEP);
 
-void breene::BreeneApplication::DeferredShadingSpotLightsPass()
-{
-	_spot_light_program->Use();
-	_spot_light_program->SetEWP(_camera->GetEye());
-
-	//GLfloat sphere_scale = CalcSpotLightSphere(_spot_light);
+	GLfloat box_Scale = CalcPointLightSphere(_point_lights[index]);
 	transform::Transformation trans;
-	trans.Cam(*_camera)
-		.PerspectiveProjection(_perspective_info)
-		.Translation(_spot_light.GetPosition());
-		//.Scaling(sphere_scale);
-	_spot_light_program->SetWVP(trans.WVPTransform());
+	trans.Translation(_point_lights[index].GetPosition())
+		.Scaling(box_Scale)
+		.Cam(*_camera)
+		.PerspectiveProjection(_perspective_info);
 
+	_blank_program->SetWVP(trans.WVPTransform());
 	_sphere->Render();
 }
 
-void breene::BreeneApplication::DeferredShadingPointLightsPass()
+void breene::BreeneApplication::DefShadingPointLightPass(GLuint index)
 {
+	_geometry_buffer->BindLightPass();
+
 	_pt_light_program->Use();
 	_pt_light_program->SetEWP(_camera->GetEye());
 
-	transform::Transformation trans;
-	trans.Cam(*_camera)
-		.PerspectiveProjection(_perspective_info);
+	glStencilFunc(GL_NOTEQUAL, 0, 0xFF);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendEquation(GL_FUNC_ADD);
+	glBlendFunc(GL_ONE, GL_ONE);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
 
-	for (GLuint i = 0; i < sizeof(_point_lights) / sizeof(PointLight); ++i)
-	{
-		_pt_light_program->SetPointLight(_point_lights[i]);
-		trans.Translation(_point_lights[i].GetPosition());
-		GLfloat sphere_scale = CalcPointLightSphere(_point_lights[i]);
-		trans.Scaling(sphere_scale);
-		_pt_light_program->SetWVP(trans.WVPTransform());
-		_sphere->Render();
-	}
+	GLfloat box_scale = CalcPointLightSphere(_point_lights[index]);
+	transform::Transformation trans;
+	trans.Translation(_point_lights[index].GetPosition())
+		.Scaling(box_scale)
+		.Cam(*_camera)
+		.PerspectiveProjection(_perspective_info);
+	_pt_light_program->SetWVP(trans.WVPTransform());
+	_pt_light_program->SetPointLight(_point_lights[index]);
+	_sphere->Render();
+
+	glCullFace(GL_BACK);
+	glDisable(GL_BLEND);
+}
+
+void breene::BreeneApplication::DefShadingFinalPass()
+{
+	_geometry_buffer->BindFinalPass();
+	glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 }
 
 void breene::BreeneApplication::DeferredShadingDirLightPass()
 {
+	_geometry_buffer->BindLightPass();
+
 	_dir_light_program->Use();
 	_dir_light_program->SetEWP(_camera->GetEye());
-	glm::mat4 wvp(1.0f);
-	_dir_light_program->SetWVP(wvp);
+
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendEquation(GL_FUNC_ADD);
+	glBlendFunc(GL_ONE, GL_ONE);
+
 	_quad->Render();
-}
 
-void breene::BreeneApplication::DeferredShadingLightPass()
-{
- //   _geometry_buffer->DisableWrite();
-
- //   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
- //   _geometry_buffer->BindRead();
-
- //   GLint half_width = (GLint)(_wnd_width / 2.0f);
- //   GLint half_height = (GLint)(_wnd_height / 2.0f);
-
-	//glReadBuffer(GL_COLOR_ATTACHMENT0 + GeometryBuffer::GBUFFER_TEX_TYPE_POSITION);
- //   glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, half_width, half_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-
-	//glReadBuffer(GL_COLOR_ATTACHMENT0 + GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE);
- //   glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, half_height, half_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-
-	//glReadBuffer(GL_COLOR_ATTACHMENT0 + GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL);
- //   glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, half_width, 0, _wnd_width, half_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+	glDisable(GL_BLEND);
 }
 
 void breene::BreeneApplication::CalcPositions()
@@ -462,6 +464,18 @@ void breene::BreeneApplication::CalcFPS()
     }
 }
 
+void breene::BreeneApplication::RenderFPS()
+{
+	if (_display_stats)
+		if (_stats_to_display & DISPLAY_FPS)
+		{
+			CalcFPS();
+			_text_renderer->Render("FPS: " + std::to_string(_fps), _arial, glm::vec2(10.0f, _wnd_height - 30), 1.0f, glm::vec4(COLOR_WHITE, 0.4f));
+		}
+		if (_stats_to_display & DISPLAY_UPTIME)
+			_text_renderer->Render("Uptime: " + std::to_string(CalcUptime()) + " seconds", _arial, glm::vec2(10.0f, _wnd_height - 55), 1.0f, glm::vec4(COLOR_WHITE, 0.4f));
+}
+
 GLfloat breene::BreeneApplication::CalcUptime()
 {
     GLfloat running_time = static_cast<GLfloat>(GetTickCount() - _start_time) / 1000.0f;
@@ -486,6 +500,11 @@ void breene::BreeneApplication::DeallocateResources()
     //    delete _shadowmap_program;
     //    _shadowmap_program = nullptr;
     //}
+	if (_blank_program != nullptr)
+	{
+		delete _blank_program;
+		_blank_program = nullptr;
+	}
     if (_lighting_program != nullptr)
     {
         delete _lighting_program;
@@ -501,10 +520,10 @@ void breene::BreeneApplication::DeallocateResources()
         delete _geometry_buffer;
         _geometry_buffer = nullptr;
     }
-    if (_deferred_shading_program != nullptr)
+    if (_deferred_shading_geometry_program != nullptr)
     {
-        delete _deferred_shading_program;
-        _deferred_shading_program = nullptr;
+        delete _deferred_shading_geometry_program;
+        _deferred_shading_geometry_program = nullptr;
     }
 	if (_dir_light_program != nullptr)
 	{
@@ -596,7 +615,8 @@ breene::BreeneApplication::BreeneApplication(GLulong _wnd_width, GLulong _wnd_he
 //, _displacement_map(nullptr)
 //, _normal_map(nullptr)
 //, _picking_program(nullptr)
-, _deferred_shading_program(nullptr)
+, _blank_program(nullptr)
+, _deferred_shading_geometry_program(nullptr)
 , _lighting_program(nullptr)
 , _dir_light_program(nullptr)
 , _pt_light_program(nullptr)
@@ -704,6 +724,7 @@ RetCodes breene::BreeneApplication::MakeWindow(GLchar* title, GLenum is_fullscre
 
     glfwSetCursorPos(_wnd, _wnd_width / 2, _wnd_height / 2);
     //glfwSwapInterval(0);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     Init();
     
     return SUCCESS;
@@ -745,25 +766,26 @@ breene::BreeneApplication & breene::BreeneApplication::Run()
         glClearColor(_clear_color.r, _clear_color.g, _clear_color.b, _clear_color.a);
 
         _camera->OnRender();
-        _scale += 0.005f;
+        _scale += 0.05f;
         
-        //ShadowMapPass();
-        //PickingPass();
-        //RenderPass();
-        
+		_geometry_buffer->StartFrame();
         DeferredShadingGeometryPass();
-		DeferredShadingSetupLights();
-		DeferredShadingPointLightsPass();
-		DeferredShadingSpotLightsPass();
+		
+		glEnable(GL_STENCIL_TEST);
+		GLuint ptlights_count = sizeof(_point_lights) / sizeof(PointLight);
+		for (GLuint i = 0; i < ptlights_count; ++i)
+		{
+			DefShadingStencilPass(i);
+			DefShadingPointLightPass(i);
+		}
+		glDisable(GL_STENCIL_TEST);
+
+		//DeferredShadingSpotLightsPass();
 		DeferredShadingDirLightPass();
-        //DeferredShadingLightPass();
-		//std::cout << glGetError() << std::endl;
-        if (_display_stats)
-        {
-            CalcFPS();
-            _text_renderer->Render("FPS: " + std::to_string(_fps), _arial, glm::vec2(10.0f, _wnd_height - 30), 1.0f, glm::vec4(COLOR_WHITE, 0.4f));
-            _text_renderer->Render("Uptime: " + std::to_string(CalcUptime()) + " seconds", _arial, glm::vec2(10.0f, _wnd_height - 55), 1.0f, glm::vec4(COLOR_WHITE, 0.4f));
-        }
+
+		DefShadingFinalPass();
+
+		RenderFPS();
 
         glfwSwapBuffers(_wnd);
         glfwPollEvents();
@@ -784,13 +806,6 @@ breene::BreeneApplication & breene::BreeneApplication::SetCamera(Camera* camera)
 //
 //    return *this;
 //}
-
-breene::BreeneApplication & breene::BreeneApplication::SetPerspectiveZNear(GLfloat z_near)
-{
-    _perspective_info.z_near = z_near;
-
-    return *this;
-}
 
 breene::BreeneApplication & breene::BreeneApplication::SetPerspectiveZFAR(GLfloat z_far)
 {
@@ -858,6 +873,25 @@ breene::BreeneApplication & breene::BreeneApplication::ToggleStatsDisplay()
     return *this;
 }
 
+breene::BreeneApplication & breene::BreeneApplication::SetStatsToDisplay(uint8_t stats)
+{
+	_stats_to_display = stats;
+
+	return *this;
+}
+
+breene::BreeneApplication & breene::BreeneApplication::SetVsync(GLenum on_off)
+{
+	if (_wnd == nullptr) throw std::runtime_error("Application has not yet been started");
+
+	if (on_off == GL_TRUE)
+		glfwSwapInterval(1);
+	else
+		glfwSwapInterval(0);
+
+	return *this;
+}
+
 //gl_app::OpenGLApplication & gl_app::OpenGLApplication::SetTesselationLevel(const GLfloat level)
 //{
 //    _tess_level = glm::clamp(level, 0.0f, 1000.0f);
@@ -884,3 +918,175 @@ breene::BreeneApplication::~BreeneApplication()
 {
     DeallocateResources();
 }
+
+breene::ApplicationBuilder::ApplicationBuilder()
+: _width(DEFAULT_WND_WIDTH)
+, _height(DEFAULT_WND_HEIGHT)
+, _camera(nullptr)
+, _draw_dist(Z_FAR)
+, _fov(DEFAULT_FOV)
+, _gl_ver_major(3)
+, _gl_ver_minor(3)
+, _title(nullptr)
+, _display_stats(DISPLAY_NONE)
+, _startup_params(VSYNC | FULLSCREEN)
+, _bg_color(glm::vec4(COLOR_BLACK, 1.0f))
+{}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::WindowWidth(GLulong width)
+{
+	_width = glm::clamp(width, 0UL, ULONG_MAX);
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::WindowHeight(GLulong height)
+{
+	_height = glm::clamp(height, 0UL, ULONG_MAX);
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::BGColor(glm::vec4 & color)
+{
+	_bg_color = color;
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::BGColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+	return BGColor(glm::vec4(r, g, b, a));
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::Cam(Camera * camera)
+{
+	_camera = camera;
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::DrawDistance(GLfloat units)
+{
+	_draw_dist = glm::clamp(units, 0.0f, FLT_MAX);
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::FOV(GLfloat fov)
+{
+	_fov = glm::clamp(fov, 0.0f, FLT_MAX);
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::GLVersion(GLint major, GLint minor)
+{
+	_gl_ver_major = glm::clamp(major, 0, INT_MAX);
+	_gl_ver_minor = glm::clamp(minor, 0, INT_MAX);
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::Title(GLchar* title)
+{
+	_title = title;
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::StatsToDisplay(uint8_t stats)
+{
+	_display_stats = stats;
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::Vsync(bool on_off)
+{
+	if (on_off)
+		_startup_params |= VSYNC;
+	else
+		_startup_params &= ~VSYNC;
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::Fullscreen(bool on_off)
+{
+	if (on_off)
+		_startup_params |= FULLSCREEN;
+	else
+		_startup_params &= ~FULLSCREEN;
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::CaptureInput(bool on_off)
+{
+	if (on_off)
+		_startup_params |= CAPTURE_INPUT;
+	else
+		_startup_params &= ~CAPTURE_INPUT;
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::HideCursor(bool on_off)
+{
+	if (on_off)
+		_startup_params |= HIDE_CURSOR;
+	else
+		_startup_params &= ~HIDE_CURSOR;
+
+	return *this;
+}
+
+breene::ApplicationBuilder & breene::ApplicationBuilder::DepthTest(bool on_off)
+{
+	if (on_off)
+		_startup_params |= DEPTH_TEST;
+	else
+		_startup_params &= ~DEPTH_TEST;
+
+	return *this;
+}
+
+breene::BreeneApplication * breene::ApplicationBuilder::Build()
+{
+	BreeneApplication* app = new BreeneApplication(_width, _height, _camera);
+
+	app->SetPerspectiveZFAR(_fov)
+		.SetPerspectiveFOV(_fov)
+		.SetStatsToDisplay(_display_stats);
+
+	auto res = app->MakeWindow
+	(
+		_title,
+		_startup_params & FULLSCREEN ? GL_TRUE : GL_FALSE,
+		0,
+		_gl_ver_major,
+		_gl_ver_minor,
+		GLFW_OPENGL_CORE_PROFILE,
+		_startup_params & CAPTURE_INPUT ? GL_TRUE : GL_FALSE,
+		_startup_params & HIDE_CURSOR ? GL_TRUE : GL_FALSE,
+		_startup_params & DEPTH_TEST ? GL_TRUE : GL_FALSE
+	);
+
+	if (res != SUCCESS)
+	{
+		delete app;
+		app = nullptr;
+		throw std::runtime_error("Error initializing Breene application window. Error code: " + std::to_string(res));
+	}
+
+	if (_display_stats != DISPLAY_NONE)
+		app->ToggleStatsDisplay()
+		.SetStatsToDisplay(_display_stats);
+	app->SetBackgroundColor(_bg_color);
+	app->SetVsync(_startup_params & VSYNC ? GL_TRUE : GL_FALSE);
+
+	return app;
+}
+
+

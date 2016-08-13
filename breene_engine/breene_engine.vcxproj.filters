@@ -48,9 +48,6 @@
     <ClCompile Include="3d_picking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="basic_coloring.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="billboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -102,12 +99,12 @@
     <ClCompile Include="app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="basic_shader_programs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d_picking.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="basic_coloring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="billboard.h">
@@ -159,6 +156,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="app.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_shader_programs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -305,6 +305,12 @@
       <Filter>Resource Files\shaders\fragment</Filter>
     </None>
     <None Include="shaders\light_pass_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\blank_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\blank_vertex_shader.vert">
       <Filter>Resource Files\shaders\vertex</Filter>
     </None>
   </ItemGroup>

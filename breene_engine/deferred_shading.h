@@ -21,12 +21,18 @@ namespace breene
         GeometryBuffer();
 
         virtual breene::GeometryBuffer& Init(GLuint width, GLuint height) override;
-        breene::GeometryBuffer& BindRead();
+        //breene::GeometryBuffer& BindRead();
+		breene::GeometryBuffer& StartFrame();
+		breene::GeometryBuffer& BindGeomPass();
+		breene::GeometryBuffer& BindStencilPass();
+		breene::GeometryBuffer& BindLightPass();
+		breene::GeometryBuffer& BindFinalPass();
 
         ~GeometryBuffer();
     private:
         GLuint _textures[GBUFFER_NUM_TEXTURES];
         GLuint _depth_tex;
+		GLuint _final_tex;
     };
 
     class DefShadingGeomProgram : public ShaderProgram 

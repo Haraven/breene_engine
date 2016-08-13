@@ -159,7 +159,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="3d_picking.cpp" />
-    <ClCompile Include="basic_coloring.cpp" />
+    <ClCompile Include="basic_shader_programs.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="fbo.cpp" />
@@ -180,7 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d_picking.h" />
-    <ClInclude Include="basic_coloring.h" />
+    <ClInclude Include="basic_shader_programs.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="callbacks.h" />
     <ClInclude Include="camera.h" />
@@ -205,6 +205,8 @@
     <None Include="shaders\billboard_fragment_shader.frag" />
     <None Include="shaders\billboard_geometry_shader.geom" />
     <None Include="shaders\billboard_vertex_shader.vert" />
+    <None Include="shaders\blank_fragment_shader.frag" />
+    <None Include="shaders\blank_vertex_shader.vert" />
     <None Include="shaders\dirlight_pass_fragment_shader.frag" />
     <None Include="shaders\font_fragment_shader.frag" />
     <None Include="shaders\font_vertex_shader.vert" />

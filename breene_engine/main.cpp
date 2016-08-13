@@ -3,7 +3,7 @@
 
 using namespace breene;
 
-BreeneApplication* app = new BreeneApplication(DEFAULT_WND_WIDTH, DEFAULT_WND_HEIGHT);
+BreeneApplication* app;
 
 void ErrCallback(const int, const char*);
 void KeyCallback(GLFWwindow*, GLint, GLint, GLint, GLint);
@@ -19,21 +19,26 @@ int main()
 
     try
     {
-        auto res = app->MakeWindow("OpenGL app", GL_TRUE, 0, 3, 3, GLFW_OPENGL_CORE_PROFILE, GL_TRUE, GL_TRUE, GL_TRUE);
-        if (res != SUCCESS)
-        {
-            std::cerr << "Error initializing OpenGL application window. Error code: " << res << std::endl;
-            delete app;
-            return res;
-        }
+		ApplicationBuilder builder;
+		app = builder.Title("Breene")
+			.WindowWidth(wnd_width)
+			.WindowHeight(wnd_height)
+			.BGColor(0.1f, 0.1f, 0.1f, 1.0f)
+			.DrawDistance(static_cast<GLfloat>(wnd_width))
+			.GLVersion(3, 3)
+			.StatsToDisplay(DISPLAY_FPS | DISPLAY_UPTIME)
+			.Vsync(true)
+			.Fullscreen(true)
+			.CaptureInput(true)
+			.HideCursor(true)
+			.DepthTest(true)
+			.Build();
 
-        app->ToggleStatsDisplay()
-            .SetErrorCallback(ErrCallback)
+        app->SetErrorCallback(ErrCallback)
             .SetKeyCallback(KeyCallback)
             .SetCursorCallback(MouseMoveCallback)
             .SetMouseButtonCallback(MouseButtonCallback)
             .SetMouseScrollCallback(MouseScrollCallback)
-            .SetBackgroundColor(0.1f, 0.1f, 0.1f, 0.1f)
             .Run();
     }
     catch (std::runtime_error& e)
@@ -93,13 +98,11 @@ void KeyCallback(GLFWwindow * wnd, GLint key, GLint scan_code, GLint action, GLi
             {
                 //app->SetTesselationAlpha(app->GetTesselationAlpha() + 0.01f);
                 //app->SetDisplacementFactor(app->GetDisplacementFactor() + 0.01f);
-                app->_dir_light.SetAmbientIntensity(app->_dir_light.GetAmbientIntensity() + 0.1f);
             }
             break;
         case GLFW_KEY_KP_SUBTRACT:
             if (action == GLFW_PRESS || action == GLFW_REPEAT)
             {
-                app->_dir_light.SetAmbientIntensity(app->_dir_light.GetAmbientIntensity() - 0.1f);
                 //app->SetTesselationAlpha(app->GetTesselationAlpha() - 0.01f);
                 //app->SetDisplacementFactor(app->GetDisplacementFactor() - 0.01f);
             }

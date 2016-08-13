@@ -43,6 +43,8 @@ extern const char PICKING_VERTEX_SHADER[];
 extern const char PICKING_FRAGMENT_SHADER[];
 extern const char PLAIN_VERTEX_SHADER[];
 extern const char PLAIN_FRAGMENT_SHADER[];
+extern const char BLANK_VERTEX_SHADER[];
+extern const char BLANK_FRAGMENT_SHADER[];
 extern const char TES_SHADER[];
 extern const char TCS_SHADER[];
 extern const char FONT_VERT_SHADER[];
@@ -52,7 +54,7 @@ extern const char DEFSHADING_GEOM_PASS_FRAGMENT_SHADER[];
 extern const char DEFSHADING_LIGHT_PASS_VERTEX_SHADER[];
 extern const char DEFSHADING_DIRLIGHT_PASS_FRAGMENT_SHADER[];
 extern const char DEFSHADING_PTLIGHT_PASS_FRAGMENT_SHADER[];
-extern const char DEFSHADING_SPOTLIGHT_PASS_VERTEX_SHADER[];
+extern const char DEFSHADING_SPOTLIGHT_PASS_FRAGMENT_SHADER[];
 
 extern const int INVALID_UNIFORM_LOCATION;
 

@@ -50,15 +50,15 @@ namespace transform
 {
     enum
     {
-        TRANSLATION_FIRST = 0x01,
-        ROTATION_FIRST = 0x02,
-        SCALE_FIRST = 0x04,
+        TRANSLATION_FIRST  = 0x01,
+        ROTATION_FIRST     = 0x02,
+        SCALE_FIRST        = 0x04,
         TRANSLATION_SECOND = 0x08,
-        ROTATION_SECOND = 0x10,
-        SCALE_SECOND = 0x20,
-        TRANSLATION_THIRD = 0x40,
-        ROTATION_THIRD = 0x80,
-        SCALE_THIRD = 0x100
+        ROTATION_SECOND    = 0x10,
+        SCALE_SECOND       = 0x20,
+        TRANSLATION_THIRD  = 0x40,
+        ROTATION_THIRD     = 0x80,
+        SCALE_THIRD        = 0x100
     };
 
     struct PerspectiveProjectionInfo

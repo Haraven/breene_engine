@@ -10,10 +10,18 @@
 #include "deferred_shading.h"
 #include "text_rendering.h"
 #include "utils.h"
+#include "basic_shader_programs.h"
 #include "my_constants.h"
 
 namespace breene
 {
+	enum Stats
+	{
+		DISPLAY_NONE   = 0x00,
+		DISPLAY_FPS    = 0x01,
+		DISPLAY_UPTIME = 0x02
+	};
+
     class BreeneApplication
     {
     private:
@@ -21,12 +29,14 @@ namespace breene
         const static size_t INSTANCE_COUNT = ROWCOUNT * COLCOUNT;
 
         void CalcPositions();
-        void CalcFPS();
         GLfloat CalcUptime();
-        void DeallocateResources();
-        void Init();
+        void CalcFPS();
+		void RenderFPS();
+
+		void Init();
 		void InitLights();
 		void InitPositions();
+		void DeallocateResources();
 
         void ShadowMapPass();
         void PickingPass();
@@ -35,9 +45,9 @@ namespace breene
 		GLfloat CalcPointLightSphere(const PointLight& light);
 		GLfloat CalcSpotLightSphere(const SpotLight& light);
         void DeferredShadingGeometryPass();
-		void DeferredShadingSetupLights();
-		void DeferredShadingSpotLightsPass();
-        void DeferredShadingPointLightsPass();
+		void DefShadingStencilPass(GLuint index);
+		void DefShadingPointLightPass(GLuint index);
+		void DefShadingFinalPass();
 		void DeferredShadingDirLightPass();
 		void DeferredShadingLightPass();
     public:
@@ -59,13 +69,12 @@ namespace breene
         GLfloat GetTesselationAlpha() const { return _tess_alpha; }*/
 
         RetCodes MakeWindow(GLchar* title, GLenum is_fullscreen, GLint sampling, GLint openGL_version_major, GLint openGL_version_minor, GLint openGL_profile, GLenum capture_input, GLenum hide_cursor = GL_FALSE, GLenum depth_test = GL_FALSE);
+
         breene::BreeneApplication& SetWindowWidth(GLulong width);
         breene::BreeneApplication& SetWindowHeight(GLulong height);
         breene::BreeneApplication& SetBackgroundColor(const glm::vec4& rgba);
         breene::BreeneApplication& SetBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
         breene::BreeneApplication& SetCamera(Camera* camera);
-        //gl_app::OpenGLApplication& SetDisplacementFactor(GLfloat displacement_factor);
-        breene::BreeneApplication& SetPerspectiveZNear(GLfloat z_near);
         breene::BreeneApplication& SetPerspectiveZFAR(GLfloat z_far);
         breene::BreeneApplication& SetPerspectiveFOV(GLfloat fov);
         breene::BreeneApplication& SetErrorCallback(const ErrorCallbackFn& callback);
@@ -74,11 +83,14 @@ namespace breene
         breene::BreeneApplication& SetMouseButtonCallback(const GLFWmousebuttonfun& callback);
         breene::BreeneApplication& SetMouseScrollCallback(const MouseCallbackFn& callback);
         breene::BreeneApplication& ToggleStatsDisplay();
+		breene::BreeneApplication& SetStatsToDisplay(uint8_t stats);
+		breene::BreeneApplication& SetVsync(GLenum on_off);
+        //gl_app::OpenGLApplication& SetDisplacementFactor(GLfloat displacement_factor);
         //gl_app::OpenGLApplication& SetTesselationLevel(const GLfloat level);
         //gl_app::OpenGLApplication& SetTesselationAlpha(const GLfloat alpha);
         std::pair<GLint, GLint> GetMousePos();
         Camera* GetCamera() const { return _camera; }
-        DirectionalLight _dir_light;
+
         //struct MouseButton
         //{
         //    MouseButton() {}
@@ -109,7 +121,8 @@ namespace breene
         Texture2D* _ground_tex_normal_map;*/
         //Texture2D* _mesh_tex;
         //ShadowProgram* _shadowmap_program;
-        DefShadingGeomProgram* _deferred_shading_program;
+		BlankProgram* _blank_program;
+        DefShadingGeomProgram* _deferred_shading_geometry_program;
 		DefShadingDirLight* _dir_light_program;
 		DefShadingPointLight* _pt_light_program;
 		DefShadingSpotLight* _spot_light_program;
@@ -132,6 +145,7 @@ namespace breene
         //ShadowMapFBO* _shadow_fbo;  
         //SpotLight _spot_light;
         //ParticleSystem* _particle_system;
+        DirectionalLight _dir_light;
 		PointLight _point_lights[5];
 		SpotLight _spot_light;
         transform::PerspectiveProjectionInfo _perspective_info;
@@ -139,10 +153,56 @@ namespace breene
         //GLfloat _velocities[INSTANCE_COUNT];
         glm::vec4 _clear_color;
         GLfloat _scale;
+		uint8_t _stats_to_display;
         bool _display_stats;
         GLfloat _fps;
         long long _frametime;
         long long _start_time;
         //long long _crt_time_ms;
     };
+
+	class ApplicationBuilder
+	{
+	public:
+		enum StartupParams
+		{
+			VSYNC         = 0x01,
+			FULLSCREEN    = 0x02,
+			CAPTURE_INPUT = 0x04,
+			HIDE_CURSOR   = 0x08,
+			DEPTH_TEST    = 0x10
+		};
+
+		ApplicationBuilder();
+
+		breene::ApplicationBuilder& Title(GLchar* title);
+		breene::ApplicationBuilder& WindowWidth(GLulong width);
+		breene::ApplicationBuilder& WindowHeight(GLulong height);
+		breene::ApplicationBuilder& BGColor(glm::vec4& color);
+		breene::ApplicationBuilder& BGColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+		breene::ApplicationBuilder& Cam(Camera* camera);
+		breene::ApplicationBuilder& DrawDistance(GLfloat units);
+		breene::ApplicationBuilder& FOV(GLfloat fov);
+		breene::ApplicationBuilder& GLVersion(GLint major, GLint minor);
+		breene::ApplicationBuilder& StatsToDisplay(uint8_t stats);
+		breene::ApplicationBuilder& Vsync(bool on_off);
+		breene::ApplicationBuilder& Fullscreen(bool on_off);
+		breene::ApplicationBuilder& CaptureInput(bool on_off);
+		breene::ApplicationBuilder& HideCursor(bool on_off);
+		breene::ApplicationBuilder& DepthTest(bool on_off);
+		BreeneApplication* Build();
+
+	private:
+		glm::vec4 _bg_color;
+		GLulong _width;
+		GLulong _height;
+		Camera* _camera;
+		GLfloat _draw_dist;
+		GLfloat _fov;
+		GLint _gl_ver_major;
+		GLint _gl_ver_minor;
+		GLchar* _title;
+		uint8_t _display_stats;
+		uint8_t _startup_params;
+	};
 }

@@ -9,6 +9,7 @@ breene::GeometryBuffer::GeometryBuffer()
 {
     memset(_textures, NULL, sizeof(GLuint) * GBUFFER_NUM_TEXTURES);
     _depth_tex = NULL;
+	_final_tex = NULL;
 }
 
 breene::GeometryBuffer & breene::GeometryBuffer::Init(GLuint width, GLuint height)
@@ -16,12 +17,13 @@ breene::GeometryBuffer & breene::GeometryBuffer::Init(GLuint width, GLuint heigh
 	// Create the FBO
 	glGenFramebuffers(1, &_fbo);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
+
 	GLuint tex_count = sizeof(_textures) / sizeof(GLuint);
-	// Create the gbuffer textures
 	glGenTextures(tex_count, _textures);
 	glGenTextures(1, &_depth_tex);
+	glGenTextures(1, &_final_tex);
 
-	for (unsigned int i = 0; i < tex_count; ++i)
+	for (GLuint i = 0; i < tex_count; ++i)
 	{
 		glBindTexture(GL_TEXTURE_2D, _textures[i]);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
@@ -30,42 +32,86 @@ breene::GeometryBuffer & breene::GeometryBuffer::Init(GLuint width, GLuint heigh
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, _textures[i], 0);
 	}
 
-	// depth
 	glBindTexture(GL_TEXTURE_2D, _depth_tex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, _depth_tex, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH32F_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_FLOAT_32_UNSIGNED_INT_24_8_REV, NULL);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, _depth_tex, 0);
 
-	GLenum draw_buffers[] = 
-	{ 
-		GL_COLOR_ATTACHMENT0,
-		GL_COLOR_ATTACHMENT1,
-		GL_COLOR_ATTACHMENT2 
-	};
-
-	glDrawBuffers(GBUFFER_NUM_TEXTURES, draw_buffers);
-
+	glBindTexture(GL_TEXTURE_2D, _final_tex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + GBUFFER_NUM_TEXTURES, GL_TEXTURE_2D, _final_tex, 0);
+	
 	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-
 	if (status != GL_FRAMEBUFFER_COMPLETE) throw std::runtime_error("Error initializing G buffer. Framebuffer status: " + std::to_string(status));
 
-	// restore default FBO
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
     return *this;
 }
 
-breene::GeometryBuffer & breene::GeometryBuffer::BindRead()
+breene::GeometryBuffer & breene::GeometryBuffer::StartFrame()
 {
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
+	glDrawBuffer(GL_COLOR_ATTACHMENT0 + GBUFFER_NUM_TEXTURES);
+	glClear(GL_COLOR_BUFFER_BIT);
 
-	for (GLuint i = 0; i < sizeof(_textures) / sizeof(GLuint); ++i)
+	return *this;
+}
+
+breene::GeometryBuffer & breene::GeometryBuffer::BindGeomPass()
+{
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
+
+	GLenum draw_buffers[GBUFFER_NUM_TEXTURES];
+	for (GLuint i = 0; i < GBUFFER_NUM_TEXTURES; ++i)
+		draw_buffers[i] = GL_COLOR_ATTACHMENT0 + i;
+
+	glDrawBuffers(GBUFFER_NUM_TEXTURES, draw_buffers);
+
+	return *this;
+}
+
+breene::GeometryBuffer & breene::GeometryBuffer::BindStencilPass()
+{
+	glDrawBuffer(GL_NONE);
+
+	return *this;
+}
+
+breene::GeometryBuffer & breene::GeometryBuffer::BindLightPass()
+{
+	glDrawBuffer(GL_COLOR_ATTACHMENT0 + GBUFFER_NUM_TEXTURES);
+
+	GLuint tex_count = sizeof(_textures) / sizeof(GLuint);
+	for (unsigned int i = 0; i < tex_count; ++i)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, _textures[GBUFFER_TEX_TYPE_POSITION + i]);
 	}
 
-    return *this;
+	return *this;
 }
+
+breene::GeometryBuffer & breene::GeometryBuffer::BindFinalPass()
+{
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
+	glReadBuffer(GL_COLOR_ATTACHMENT0 + GBUFFER_NUM_TEXTURES);
+
+	return *this;
+}
+
+//breene::GeometryBuffer & breene::GeometryBuffer::BindRead()
+//{
+//	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+//
+//	for (GLuint i = 0; i < sizeof(_textures) / sizeof(GLuint); ++i)
+//	{
+//		glActiveTexture(GL_TEXTURE0 + i);
+//		glBindTexture(GL_TEXTURE_2D, _textures[GBUFFER_TEX_TYPE_POSITION + i]);
+//	}
+//
+//    return *this;
+//}
 
 breene::GeometryBuffer::~GeometryBuffer()
 {
@@ -80,6 +126,11 @@ breene::GeometryBuffer::~GeometryBuffer()
         glDeleteTextures(1, &_depth_tex);
         _depth_tex = NULL;
     }
+	if (_final_tex != NULL)
+	{
+		glDeleteTextures(1, &_final_tex);
+		_final_tex = NULL;
+	}
 }
 
 breene::DefShadingGeomProgram::DefShadingGeomProgram()
@@ -317,7 +368,7 @@ breene::DefShadingSpotLight & breene::DefShadingSpotLight::Init()
     DefShadingLight::Init();
 
     AddShader(Shader(DEFSHADING_LIGHT_PASS_VERTEX_SHADER, GL_VERTEX_SHADER));
-    AddShader(Shader(DEFSHADING_SPOTLIGHT_PASS_VERTEX_SHADER, GL_FRAGMENT_SHADER));
+    AddShader(Shader(DEFSHADING_SPOTLIGHT_PASS_FRAGMENT_SHADER, GL_FRAGMENT_SHADER));
     Finalize();
 
     return *this;
