@@ -676,11 +676,6 @@ breene::BreeneApplication::BreeneApplication(GLulong _wnd_width, GLulong _wnd_he
     _camera = camera;
 }
 
-breene::ApplicationBuilder breene::BreeneApplication::GetBuilder()
-{
-	return ApplicationBuilder();
-}
-
 GLFWwindow* SetupMainWindow(GLchar* title, GLenum is_fullscreen, GLint sample_count, GLint openGL_version_major, GLint openGL_version_minor, GLint is_forward_compatible, GLint openGL_profile, GLulong width, GLulong height)
 {
     glfwWindowHint(GLFW_SAMPLES, sample_count);

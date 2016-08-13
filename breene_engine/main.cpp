@@ -19,7 +19,7 @@ int main()
 
     try
     {
-		ApplicationBuilder builder = BreeneApplication::GetBuilder();
+		ApplicationBuilder builder;
 		app = builder.Title("Breene")
 			.Width(desktop_width)
 			.Height(desktop_height)
