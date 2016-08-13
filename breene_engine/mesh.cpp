@@ -237,27 +237,6 @@ breene::Mesh& breene::Mesh::Load(const std::string & filename)
 
 breene::Mesh & breene::Mesh::Render(RenderCallback* render_callback, bool draw_patches)
 {
-	//glBindVertexArray(_vao);
-
-	//for (unsigned int i = 0; i < _meshes.size(); i++) {
-	//	const unsigned int MaterialIndex = _meshes[i].GetMaterialIndex();
-
-	//	assert(MaterialIndex < _textures.size());
-
-	//	if (_textures[MaterialIndex]) {
-	//		_textures[MaterialIndex]->Bind(COLOR_TEXTURE_UNIT);
-	//	}
-
-	//	glDrawElementsBaseVertex(GL_TRIANGLES,
-	//		_meshes[i].GetIndexCount(),
-	//		GL_UNSIGNED_INT,
-	//		(void*)(sizeof(unsigned int) * _meshes[i].GetBaseIndex()),
-	//		_meshes[i].GetBaseVertex());
-	//}
-
-	//// Make sure the VAO is not changed from the outside    
-	//glBindVertexArray(0);
-
     GLuint index = 0;
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL Context has not been initialized");
 

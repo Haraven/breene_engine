@@ -313,6 +313,12 @@
     <None Include="shaders\blank_vertex_shader.vert">
       <Filter>Resource Files\shaders\vertex</Filter>
     </None>
+    <None Include="shaders\geom_pass_tess_shader.tesc">
+      <Filter>Resource Files\shaders\tesselation\control</Filter>
+    </None>
+    <None Include="shaders\geom_pass_tess_shader.tese">
+      <Filter>Resource Files\shaders\tesselation\evaluation</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\arial.ttf">

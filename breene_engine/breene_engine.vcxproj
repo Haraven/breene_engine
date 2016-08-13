@@ -218,6 +218,8 @@
     <None Include="shaders\fragment_specular_lighting_shader.frag" />
     <None Include="shaders\fragment_texture_shader.frag" />
     <None Include="shaders\geom_pass_fragment_shader.frag" />
+    <None Include="shaders\geom_pass_tess_shader.tesc" />
+    <None Include="shaders\geom_pass_tess_shader.tese" />
     <None Include="shaders\geom_pass_vertex_shader.vert" />
     <None Include="shaders\instanced_rendering_shader.frag" />
     <None Include="shaders\instanced_rendering_shader.vert" />

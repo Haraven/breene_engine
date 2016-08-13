@@ -45,6 +45,8 @@ namespace breene
         breene::DefShadingGeomProgram& SetWVP(const glm::mat4& wvp);
         breene::DefShadingGeomProgram& SetWorldMatrix(const glm::mat4& world);
         breene::DefShadingGeomProgram& SetColorTextureUnit(GLuint texture_unit);
+		breene::DefShadingGeomProgram& SetTessLevel(GLfloat level);
+		breene::DefShadingGeomProgram& SetTessAlpha(GLfloat alpha);
     };
 
     class DefShadingLight : public ShaderProgram

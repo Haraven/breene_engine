@@ -21,7 +21,9 @@ void breene::BreeneApplication::Init()
 	if (_deferred_shading_geometry_program == nullptr)
 		_deferred_shading_geometry_program = new DefShadingGeomProgram();
 	_deferred_shading_geometry_program->Init().Use();
-	_deferred_shading_geometry_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX);
+	_deferred_shading_geometry_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX)
+		.SetTessAlpha(1.0f)
+		.SetTessLevel(1.0f);
 
 	if (_dir_light_program == nullptr)
 		_dir_light_program = new DefShadingDirLight();
@@ -104,7 +106,7 @@ void breene::BreeneApplication::Init()
     {
         if (_mesh == nullptr)
             _mesh = new Mesh();
-        _mesh->Load("resources/models/box.obj");
+        _mesh->Load("resources/models/monkey.obj");
 		if (_quad == nullptr)
 			_quad = new Mesh();
 		_quad->Load("resources/models/quad.obj");
@@ -351,8 +353,10 @@ void breene::BreeneApplication::DeferredShadingGeometryPass()
 		trans.Translation(_positions[i]);
 		_deferred_shading_geometry_program->SetWVP(trans.WVPTransform())
 			.SetWorldMatrix(trans.WorldTransform());
-		_mesh->Render();
+		_mesh->Render(nullptr, true);
 	}
+
+	std::cout << glGetError() << std::endl;
 
 	glDepthMask(GL_FALSE);
 }
@@ -365,7 +369,7 @@ void breene::BreeneApplication::DefShadingStencilPass(GLuint index)
 	
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-	glClear(GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilFunc(GL_ALWAYS, 0, 0);
 	glStencilOpSeparate(GL_BACK, GL_KEEP, GL_INCR_WRAP, GL_KEEP);
 	glStencilOpSeparate(GL_FRONT, GL_KEEP, GL_DECR_WRAP, GL_KEEP);
@@ -649,24 +653,6 @@ breene::BreeneApplication::BreeneApplication(GLulong _wnd_width, GLulong _wnd_he
 	InitLights();
 	InitPositions();
 
-    //_spot_light.SetColor(COLOR_WHITE)
-    //    .SetAmbientIntensity(LIGHT_INTENSITY_MAX / 100.0f)
-    //    .SetDiffuseIntensity(LIGHT_INTENSITY_MAX - 0.7f);
-    //_spot_light.SetDirection(glm::vec3(1.0f, -1.0f, 0.0f))
-    //    .SetDirection(glm::vec3(1.0f, -1.0f, 0.0f))
-    //    .SetConeAngle(20.0f)
-    //    .SetPosition(glm::vec3(-20.0, 20.0, 1.0f))
-    //    .SetAttenuation(0.0f, 0.01f, 0.0f);
-
-    //_dir_light.SetColor(COLOR_WHITE)
-    //    .SetAmbientIntensity(0.55f)
-    //    .SetDiffuseIntensity(0.9f);
-    //_dir_light.SetDirection(glm::vec3(1.0f, 0.0f, 0.0f));
-    //_left_mb.is_pressed = false;
-    //_world_pos[0] = glm::vec3(-10.0f, 0.0f, 5.0f);
-    //_world_pos[1] = glm::vec3(10.0f, 0.0f, 5.0f);
-    //_crt_time_ms = GetTickCount();
-
     _frametime = _start_time = GetTickCount();
 }
 
@@ -723,7 +709,6 @@ RetCodes breene::BreeneApplication::MakeWindow(GLchar* title, GLenum is_fullscre
         glEnable(GL_DEPTH_TEST);
 
     glfwSetCursorPos(_wnd, _wnd_width / 2, _wnd_height / 2);
-    //glfwSwapInterval(0);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     Init();
     
@@ -761,10 +746,9 @@ breene::BreeneApplication & breene::BreeneApplication::SetBackgroundColor(GLfloa
 breene::BreeneApplication & breene::BreeneApplication::Run()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     do
     {
-        glClearColor(_clear_color.r, _clear_color.g, _clear_color.b, _clear_color.a);
-
         _camera->OnRender();
         _scale += 0.05f;
         

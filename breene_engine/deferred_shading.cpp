@@ -142,6 +142,8 @@ breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::Init()
     ShaderProgram::Init();
 
     AddShader(Shader(DEFSHADING_GEOM_PASS_VERTEX_SHADER, GL_VERTEX_SHADER));
+	AddShader(Shader(DEFSHADING_GEOM_PASS_TESC_SHADER, GL_TESS_CONTROL_SHADER));
+	AddShader(Shader(DEFSHADING_GEOM_PASS_TESE_SHADER, GL_TESS_EVALUATION_SHADER));
     AddShader(Shader(DEFSHADING_GEOM_PASS_FRAGMENT_SHADER, GL_FRAGMENT_SHADER));
     Finalize();
 
@@ -178,6 +180,28 @@ breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetColorTextureUn
     glUniform1i(color_sampler_loc, texture_unit);
 
     return *this;
+}
+
+breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetTessLevel(GLfloat level)
+{
+	if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+	GLuint level_loc = GetUniformLocation(TESSLEVEL_UNIFORM);
+
+	glUniform1f(level_loc, level);
+
+	return *this;
+}
+
+breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetTessAlpha(GLfloat alpha)
+{
+	if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+	GLuint alpha_loc = GetUniformLocation(TESSALPHA_UNIFORM);
+
+	glUniform1f(alpha_loc, alpha);
+
+	return *this;
 }
 
 breene::DefShadingLight::DefShadingLight()
