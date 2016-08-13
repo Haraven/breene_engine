@@ -22,6 +22,8 @@ namespace breene
 		DISPLAY_UPTIME = 0x02
 	};
 
+	class ApplicationBuilder;
+
     class BreeneApplication
     {
     private:
@@ -63,7 +65,8 @@ namespace breene
         BreeneApplication(GLulong window_width, GLulong window_height, Camera* camera);
                 
         breene::BreeneApplication& Run();
-        
+		static breene::ApplicationBuilder& GetBuilder();
+
         /*GLfloat GetDisplacementFactor() const { return _displacement_factor; }
         GLfloat GetTesselationLevel() const { return _tess_level; }
         GLfloat GetTesselationAlpha() const { return _tess_alpha; }*/

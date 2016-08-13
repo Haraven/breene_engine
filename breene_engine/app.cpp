@@ -793,6 +793,13 @@ breene::BreeneApplication & breene::BreeneApplication::Run()
     return *this;
 }
 
+breene::ApplicationBuilder & breene::BreeneApplication::GetBuilder()
+{
+	static ApplicationBuilder builder = ApplicationBuilder();
+
+	return builder;
+}
+
 breene::BreeneApplication & breene::BreeneApplication::SetCamera(Camera* camera)
 {
     _camera = camera;
@@ -1054,9 +1061,12 @@ breene::ApplicationBuilder & breene::ApplicationBuilder::DepthTest(bool on_off)
 
 breene::BreeneApplication * breene::ApplicationBuilder::Build()
 {
-	BreeneApplication* app = new BreeneApplication(_width, _height, _camera);
+	static BreeneApplication* app = new BreeneApplication();
 
-	app->SetPerspectiveZFAR(_fov)
+	app->SetWindowWidth(_width)
+		.SetWindowHeight(_height)
+		.SetCamera(_camera)
+		.SetPerspectiveZFAR(_fov)
 		.SetPerspectiveFOV(_fov)
 		.SetStatsToDisplay(_display_stats);
 

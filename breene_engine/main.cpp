@@ -19,7 +19,7 @@ int main()
 
     try
     {
-		ApplicationBuilder builder;
+		auto builder = BreeneApplication::GetBuilder();
 		app = builder.Title("Breene")
 			.Width(desktop_width)
 			.Height(desktop_height)
@@ -49,7 +49,6 @@ int main()
     }
 
     delete app;
-
     return SUCCESS;
 }
 
