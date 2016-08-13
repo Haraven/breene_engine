@@ -13,18 +13,18 @@ void MouseButtonCallback(GLFWwindow*, GLint, GLint, GLint);
 
 int main()
 {
-    unsigned long wnd_width;
-    unsigned long wnd_height;
-    GetDesktopResolution(wnd_width, wnd_height);
+    unsigned long desktop_width;
+    unsigned long desktop_height;
+    GetDesktopResolution(desktop_width, desktop_height);
 
     try
     {
 		ApplicationBuilder builder;
 		app = builder.Title("Breene")
-			.WindowWidth(wnd_width)
-			.WindowHeight(wnd_height)
+			.Width(desktop_width)
+			.Height(desktop_height)
 			.BGColor(0.1f, 0.1f, 0.1f, 1.0f)
-			.DrawDistance(static_cast<GLfloat>(wnd_width))
+			.DrawDistance(static_cast<GLfloat>(desktop_width))
 			.GLVersion(3, 3)
 			.StatsToDisplay(DISPLAY_FPS | DISPLAY_UPTIME)
 			.Vsync(true)

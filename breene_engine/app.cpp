@@ -933,14 +933,14 @@ breene::ApplicationBuilder::ApplicationBuilder()
 , _bg_color(glm::vec4(COLOR_BLACK, 1.0f))
 {}
 
-breene::ApplicationBuilder & breene::ApplicationBuilder::WindowWidth(GLulong width)
+breene::ApplicationBuilder & breene::ApplicationBuilder::Width(GLulong width)
 {
 	_width = glm::clamp(width, 0UL, ULONG_MAX);
 
 	return *this;
 }
 
-breene::ApplicationBuilder & breene::ApplicationBuilder::WindowHeight(GLulong height)
+breene::ApplicationBuilder & breene::ApplicationBuilder::Height(GLulong height)
 {
 	_height = glm::clamp(height, 0UL, ULONG_MAX);
 

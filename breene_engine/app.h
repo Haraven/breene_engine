@@ -176,8 +176,8 @@ namespace breene
 		ApplicationBuilder();
 
 		breene::ApplicationBuilder& Title(GLchar* title);
-		breene::ApplicationBuilder& WindowWidth(GLulong width);
-		breene::ApplicationBuilder& WindowHeight(GLulong height);
+		breene::ApplicationBuilder& Width(GLulong width);
+		breene::ApplicationBuilder& Height(GLulong height);
 		breene::ApplicationBuilder& BGColor(glm::vec4& color);
 		breene::ApplicationBuilder& BGColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 		breene::ApplicationBuilder& Cam(Camera* camera);
