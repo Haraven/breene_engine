@@ -319,6 +319,18 @@
     <None Include="shaders\geom_pass_tess_shader.tese">
       <Filter>Resource Files\shaders\tesselation\evaluation</Filter>
     </None>
+    <None Include="shaders\instanced_rendering_tess_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
+    </None>
+    <None Include="shaders\tess_instanced_shader.tesc">
+      <Filter>Resource Files\shaders\tesselation\control</Filter>
+    </None>
+    <None Include="shaders\tess_instanced_shader.tese">
+      <Filter>Resource Files\shaders\tesselation\evaluation</Filter>
+    </None>
+    <None Include="shaders\instanced_rendering_tess_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\arial.ttf">

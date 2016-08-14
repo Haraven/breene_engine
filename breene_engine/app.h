@@ -27,7 +27,7 @@ namespace breene
     class BreeneApplication
     {
     private:
-        const static size_t ROWCOUNT = 50, COLCOUNT = 20;
+        const static size_t ROWCOUNT = 50, COLCOUNT = 2;
         const static size_t INSTANCE_COUNT = ROWCOUNT * COLCOUNT;
 
         void CalcPositions();
@@ -51,7 +51,6 @@ namespace breene
 		void DefShadingPointLightPass(GLuint index);
 		void DefShadingFinalPass();
 		void DeferredShadingDirLightPass();
-		void DeferredShadingLightPass();
     public:
         typedef GLFWkeyfun KeyCallbackFn;
         typedef GLFWcursorposfun MouseCallbackFn;
@@ -146,14 +145,13 @@ namespace breene
         //PickingFBO* _picking_fbo;
         //SkyBox* _skybox;
         //ShadowMapFBO* _shadow_fbo;  
-        //SpotLight _spot_light;
         //ParticleSystem* _particle_system;
         DirectionalLight _dir_light;
 		PointLight _point_lights[5];
 		SpotLight _spot_light;
         transform::PerspectiveProjectionInfo _perspective_info;
-        glm::vec3 _positions[5];
-        //GLfloat _velocities[INSTANCE_COUNT];
+        glm::vec3 _positions[INSTANCE_COUNT];
+        GLfloat _velocities[INSTANCE_COUNT];
         glm::vec4 _clear_color;
         GLfloat _scale;
 		uint8_t _stats_to_display;
@@ -185,6 +183,7 @@ namespace breene
 		breene::ApplicationBuilder& BGColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 		breene::ApplicationBuilder& Cam(Camera* camera);
 		breene::ApplicationBuilder& DrawDistance(GLfloat units);
+		breene::ApplicationBuilder& MSAA(GLuint samples);
 		breene::ApplicationBuilder& FOV(GLfloat fov);
 		breene::ApplicationBuilder& GLVersion(GLint major, GLint minor);
 		breene::ApplicationBuilder& StatsToDisplay(uint8_t stats);
@@ -202,6 +201,7 @@ namespace breene
 		Camera* _camera;
 		GLfloat _draw_dist;
 		GLfloat _fov;
+		GLuint _samples;
 		GLint _gl_ver_major;
 		GLint _gl_ver_minor;
 		GLchar* _title;

@@ -1,4 +1,4 @@
-#version 330
+#version 410 core
 
 const int MAX_POINT_LIGHTS = 3;
 const int MAX_SPOT_LIGHTS  = 3;
@@ -7,9 +7,9 @@ const float SHADOWMAP_BIAS = 0.00001f;
 const vec2 POISSON_DISK[16] = vec2[]
 (
    vec2(-0.9328896, -0.03145855), // left check offset
-   vec2(0.8162807, -0.05964844), // right check offset
-   vec2(-0.184551, 0.9722522), // top check offset
-   vec2(0.04031969, -0.8589798), // bottom check offset
+   vec2(0.8162807, -0.05964844),  // right check offset
+   vec2(-0.184551, 0.9722522),    // top check offset
+   vec2(0.04031969, -0.8589798),  // bottom check offset
    vec2(-0.91588581, 0.45771432),
    vec2(-0.81544232, -0.87912464),
    vec2(-0.38277543, 0.27676845),
@@ -25,11 +25,10 @@ const vec2 POISSON_DISK[16] = vec2[]
 );
 vec3 light_dir = vec3(0.0f);
 
-in vec2 tex_coord_0;
-in vec3 normal_0;
-in vec3 tangent_0;
-in vec3 world_pos_0;
-flat in int instance_id;
+in vec2 tex_coord_frag;
+in vec3 normal_frag;
+in vec3 world_pos_frag;
+flat in int instance_id_frag;
 
 out vec4 frag_color;
 
@@ -93,19 +92,19 @@ float Random(vec3 seed, int freq)
     return fract(sin(dot_prod) * 43758.5453f);
 }
 
-vec3 CalcBumpedNormal()
-{
-    vec3 normal = normalize(normal_0);
-    vec3 normalized_tangent = normalize(tangent_0);
-    vec3 tangent = normalize(normalized_tangent - dot(normalized_tangent, normal) * normal);
-    vec3 bitangent = cross(tangent, normal);
+//vec3 CalcBumpedNormal()
+//{
+//    vec3 normal = normalize(normal_frag);
+//    vec3 normalized_tangent = normalize(tangent_frag);
+//    vec3 tangent = normalize(normalized_tangent - dot(normalized_tangent, normal) * normal);
+//    vec3 bitangent = cross(tangent, normal);
     
-    vec3 bump_map_normal = 2.0f * texture(g_normal_map, tex_coord_0).xyz - vec3(1.0f);
-    mat3 tbn = mat3(tangent, bitangent, normal);
-    vec3 res = normalize(tbn * bump_map_normal);
+//    vec3 bump_map_normal = 2.0f * texture(g_normal_map, tex_coord_frag).xyz - vec3(1.0f);
+//    mat3 tbn = mat3(tangent, bitangent, normal);
+//    vec3 res = normalize(tbn * bump_map_normal);
 
-    return res;
-}
+//    return res;
+//}
 
 float CalcShadowFactor(vec4 light_pos, vec3 normal)
 {
@@ -133,7 +132,7 @@ float CalcShadowFactor(vec4 light_pos, vec3 normal)
 
     for (int i = 0; i < SHADOWMAP_SAMPLES; ++i)
     {
-        int index = int(16.0f * Random(floor(world_pos_0 * 1000.0f), i)) % 16;
+        int index = int(16.0f * Random(floor(world_pos_frag * 1000.0f), i)) % 16;
 
         float depth = texture(g_shadow_map, POISSON_DISK[index] / 700.0f + uv_coord.xy).x;
     
@@ -156,13 +155,13 @@ vec4 CalcLightInternal(BaseLight light, vec3 light_direction, vec3 normal, float
     {
         diffuse_color = vec4(light.color * light.diffuse_intensity * diffuse_factor, 1.0f);
 
-        vec3 vertex_to_eye    = normalize(g_eye_world_pos - world_pos_0);
+        vec3 vertex_to_eye    = normalize(g_eye_world_pos - world_pos_frag);
         vec3 light_reflection = normalize(reflect(light_direction, normal));
         float specular_factor = dot(vertex_to_eye, light_reflection);
         if (specular_factor > 0.0f)
         {
             specular_factor = pow(specular_factor, g_specular_power);
-            specular_color  = vec4(light.color, 1.0f) * g_specular_intensity * specular_factor;
+            specular_color  = vec4(light.color * g_specular_intensity * specular_factor, 1.0f);
         }
     }
 
@@ -176,7 +175,7 @@ vec4 CalcDirectionalLight(vec3 normal)
 
 vec4 CalcPointLight(PointLight light, vec3 normal)//, vec4 light_pos)
 {
-    vec3 light_direction = world_pos_0 - light.position;
+    vec3 light_direction = world_pos_frag - light.position;
     float distance = length(light_direction);
     light_direction = normalize(light_direction);
     //float shadow_factor = CalcShadowFactor(light_pos, normal);
@@ -192,7 +191,7 @@ vec4 CalcPointLight(PointLight light, vec3 normal)//, vec4 light_pos)
 
 vec4 CalcSpotLight(SpotLight light, vec3 normal)//, vec4 light_pos)
 {
-    vec3 light_to_pixel = normalize(world_pos_0 - light.base.position);
+    vec3 light_to_pixel = normalize(world_pos_frag - light.base.position);
     float spotlight_factor = dot(light_to_pixel, light.direction);
 
     vec4 spotlight_color = vec4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -208,15 +207,15 @@ vec4 CalcSpotLight(SpotLight light, vec3 normal)//, vec4 light_pos)
 
 void main()
 {
-    vec3 normal = normalize(normal_0); //CalcBumpedNormal();
+    vec3 normal = normalize(normal_frag); //CalcBumpedNormal();
     vec4 total_light = CalcDirectionalLight(normal);
 
     for (int i = 0 ; i < g_point_lights_count; ++i)
-        total_light += CalcPointLight(g_point_lights[i], normal);//, light_space_pos);
+        total_light += CalcPointLight(g_point_lights[i], normal);//, light_space_pos_frag);
 
     for (int i = 0; i < g_spot_lights_count; ++i)
-        total_light += CalcSpotLight(g_spot_lights[i], normal);//, light_space_pos);
+        total_light += CalcSpotLight(g_spot_lights[i], normal);//, light_space_pos_frag);
 
-    vec4 sampled_color = texture(g_color_map, tex_coord_0);
-    frag_color = sampled_color * total_light * g_color[instance_id % 4];
+    vec4 sampled_color = texture(g_color_map, tex_coord_frag);
+    frag_color = sampled_color * total_light * g_color[instance_id_frag % 4];
 }

@@ -4,9 +4,9 @@
 const unsigned long DEFAULT_WND_WIDTH  = 1920L;
 const unsigned long DEFAULT_WND_HEIGHT = 1080L;
 
-const float Z_NEAR        = 1.0f;
+const float Z_NEAR        = 0.5f;
 const float Z_FAR         = 1080.0f;
-const float DEFAULT_FOV   = 60.0f;
+const float DEFAULT_FOV   = 70.0f;
 const float DEFAULT_SCALE = 0.0f;
 
 const unsigned int COLOR_TEXTURE_UNIT        = GL_TEXTURE0;
@@ -17,8 +17,8 @@ const unsigned int DISPLACEMENT_TEXTURE_UNIT = GL_TEXTURE4;
 const unsigned int TEXT_TEXTURE_UNIT         = GL_TEXTURE5;
 const unsigned int POSITION_TEXTURE_UNIT     = GL_TEXTURE6;
 
-const char LIGHTING_VERTEX_SHADER[]                     = "shaders/instanced_rendering_shader.vert";
-const char LIGHTING_FRAGMENT_SHADER[]                   = "shaders/instanced_rendering_shader.frag";
+const char LIGHTING_VERTEX_SHADER[]                     = "shaders/instanced_rendering_tess_shader.vert";
+const char LIGHTING_FRAGMENT_SHADER[]                   = "shaders/instanced_rendering_tess_shader.frag";
 const char SHADOW_VERTEX_SHADER[]                       = "shaders/shadow_shader.vert";
 const char SHADOW_FRAGMENT_SHADER[]                     = "shaders/shadow_shader.frag";
 const char SKYBOX_VERTEX_SHADER[]                       = "shaders/skybox_shader.vert";
@@ -35,8 +35,8 @@ const char PLAIN_VERTEX_SHADER[]                        = "shaders/plain_vertex_
 const char PLAIN_FRAGMENT_SHADER[]                      = "shaders/plain_fragment_shader.frag";
 const char BLANK_VERTEX_SHADER[]                        = "shaders/blank_vertex_shader.vert";
 const char BLANK_FRAGMENT_SHADER[]                      = "shaders/blank_fragment_shader.frag";
-const char TES_SHADER[]                                 = "shaders/tess_alt_shader.tese";
-const char TCS_SHADER[]                                 = "shaders/tess_alt_shader.tesc";
+const char TES_SHADER[]                                 = "shaders/tess_instanced_shader.tese";
+const char TCS_SHADER[]                                 = "shaders/tess_instanced_shader.tesc";
 const char FONT_VERT_SHADER[]                           = "shaders/font_vertex_shader.vert";
 const char FONT_FRAG_SHADER[]                           = "shaders/font_fragment_shader.frag";
 const char DEFSHADING_GEOM_PASS_VERTEX_SHADER[]         = "shaders/geom_pass_vertex_shader.vert";

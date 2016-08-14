@@ -62,8 +62,8 @@ breene::LightingProgram & breene::LightingProgram::Init()
     ShaderProgram::Init();
 
     AddShader(Shader(LIGHTING_VERTEX_SHADER, GL_VERTEX_SHADER));
-    //AddShader(Shader(TCS_SHADER, GL_TESS_CONTROL_SHADER));
-    //AddShader(Shader(TES_SHADER, GL_TESS_EVALUATION_SHADER));
+    AddShader(Shader(TCS_SHADER, GL_TESS_CONTROL_SHADER));
+    AddShader(Shader(TES_SHADER, GL_TESS_EVALUATION_SHADER));
     AddShader(Shader(LIGHTING_FRAGMENT_SHADER, GL_FRAGMENT_SHADER));
     Finalize();
 
