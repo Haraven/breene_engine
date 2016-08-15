@@ -49,7 +49,9 @@ namespace breene
 		GLfloat CalcSpotLightSphere(const SpotLight& light);
         void DeferredShadingGeometryPass();
 		void DefShadingStencilPass(GLuint index);
+		void DefShadingPointLightStencilPass();
 		void DefShadingPointLightPass(GLuint index);
+		void DefShadingSpotLightPass();
 		void DefShadingFinalPass();
 		void DeferredShadingDirLightPass();
     public:
@@ -75,8 +77,8 @@ namespace breene
 
         breene::BreeneApplication& SetWindowWidth(GLulong width);
         breene::BreeneApplication& SetWindowHeight(GLulong height);
-        breene::BreeneApplication& SetBackgroundColor(const glm::vec4& rgba);
-        breene::BreeneApplication& SetBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+        //breene::BreeneApplication& SetBackgroundColor(const glm::vec4& rgba);
+        //breene::BreeneApplication& SetBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
         breene::BreeneApplication& SetCamera(Camera* camera);
         breene::BreeneApplication& SetPerspectiveZFAR(GLfloat z_far);
         breene::BreeneApplication& SetPerspectiveFOV(GLfloat fov);
@@ -180,8 +182,6 @@ namespace breene
 		breene::ApplicationBuilder& Title(GLchar* title);
 		breene::ApplicationBuilder& Width(GLulong width);
 		breene::ApplicationBuilder& Height(GLulong height);
-		breene::ApplicationBuilder& BGColor(glm::vec4& color);
-		breene::ApplicationBuilder& BGColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 		breene::ApplicationBuilder& Cam(Camera* camera);
 		breene::ApplicationBuilder& DrawDistance(GLfloat units);
 		breene::ApplicationBuilder& MSAA(GLuint samples);
@@ -196,7 +196,7 @@ namespace breene
 		BreeneApplication* Build();
 
 	private:
-		glm::vec4 _bg_color;
+		//glm::vec4 _bg_color;
 		GLulong _width;
 		GLulong _height;
 		Camera* _camera;

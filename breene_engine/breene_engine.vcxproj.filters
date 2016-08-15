@@ -43,6 +43,15 @@
     <Filter Include="Resource Files\models">
       <UniqueIdentifier>{8fcd6351-937a-4818-9b83-d2c7e4e7f7ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\images\skybox1">
+      <UniqueIdentifier>{4fb832bf-7e82-4edc-93b9-0db75a9007f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\images\skybox2">
+      <UniqueIdentifier>{e015471d-4f70-48db-8fbd-b1301b77de75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\images\skybox3">
+      <UniqueIdentifier>{4b8a00e2-83c1-400a-b920-8ada6fce0bfb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3d_picking.cpp">
@@ -377,21 +386,6 @@
     <Image Include="resources\images\bricks.jpg">
       <Filter>Resource Files\images</Filter>
     </Image>
-    <Image Include="resources\images\desert_bk.tga">
-      <Filter>Resource Files\images</Filter>
-    </Image>
-    <Image Include="resources\images\desert_dn.tga">
-      <Filter>Resource Files\images</Filter>
-    </Image>
-    <Image Include="resources\images\desert_ft.tga">
-      <Filter>Resource Files\images</Filter>
-    </Image>
-    <Image Include="resources\images\desert_lf.tga">
-      <Filter>Resource Files\images</Filter>
-    </Image>
-    <Image Include="resources\images\desert_rt.tga">
-      <Filter>Resource Files\images</Filter>
-    </Image>
     <Image Include="resources\images\desert_up.tga">
       <Filter>Resource Files\images</Filter>
     </Image>
@@ -428,23 +422,85 @@
     <Image Include="resources\images\prototype.png">
       <Filter>Resource Files\images</Filter>
     </Image>
-    <Image Include="resources\images\sp3back.jpg">
-      <Filter>Resource Files\images</Filter>
+    <Image Include="resources\images\skybox1\back.tga">
+      <Filter>Resource Files\images\skybox1</Filter>
     </Image>
-    <Image Include="resources\images\sp3bot.jpg">
-      <Filter>Resource Files\images</Filter>
+    <Image Include="resources\images\skybox1\bot.tga">
+      <Filter>Resource Files\images\skybox1</Filter>
     </Image>
-    <Image Include="resources\images\sp3front.jpg">
-      <Filter>Resource Files\images</Filter>
+    <Image Include="resources\images\skybox1\front.tga">
+      <Filter>Resource Files\images\skybox1</Filter>
     </Image>
-    <Image Include="resources\images\sp3left.jpg">
-      <Filter>Resource Files\images</Filter>
+    <Image Include="resources\images\skybox1\left.tga">
+      <Filter>Resource Files\images\skybox1</Filter>
     </Image>
-    <Image Include="resources\images\sp3right.jpg">
-      <Filter>Resource Files\images</Filter>
+    <Image Include="resources\images\skybox1\right.tga">
+      <Filter>Resource Files\images\skybox1</Filter>
     </Image>
-    <Image Include="resources\images\sp3top.jpg">
-      <Filter>Resource Files\images</Filter>
+    <Image Include="resources\images\skybox1\top.tga">
+      <Filter>Resource Files\images\skybox1</Filter>
     </Image>
+    <Image Include="resources\images\skybox2\back.png">
+      <Filter>Resource Files\images\skybox2</Filter>
+    </Image>
+    <Image Include="resources\images\skybox2\down.png">
+      <Filter>Resource Files\images\skybox2</Filter>
+    </Image>
+    <Image Include="resources\images\skybox2\front.png">
+      <Filter>Resource Files\images\skybox2</Filter>
+    </Image>
+    <Image Include="resources\images\skybox2\left.png">
+      <Filter>Resource Files\images\skybox2</Filter>
+    </Image>
+    <Image Include="resources\images\skybox2\right.png">
+      <Filter>Resource Files\images\skybox2</Filter>
+    </Image>
+    <Image Include="resources\images\skybox2\up.png">
+      <Filter>Resource Files\images\skybox2</Filter>
+    </Image>
+    <Image Include="resources\images\skybox3\sp3back.jpg">
+      <Filter>Resource Files\images\skybox3</Filter>
+    </Image>
+    <Image Include="resources\images\skybox3\sp3bot.jpg">
+      <Filter>Resource Files\images\skybox3</Filter>
+    </Image>
+    <Image Include="resources\images\skybox3\sp3front.jpg">
+      <Filter>Resource Files\images\skybox3</Filter>
+    </Image>
+    <Image Include="resources\images\skybox3\sp3left.jpg">
+      <Filter>Resource Files\images\skybox3</Filter>
+    </Image>
+    <Image Include="resources\images\skybox3\sp3right.jpg">
+      <Filter>Resource Files\images\skybox3</Filter>
+    </Image>
+    <Image Include="resources\images\skybox3\sp3top.jpg">
+      <Filter>Resource Files\images\skybox3</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="resources\models\monkey2.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\spider.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\sphere.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\quad.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\cube.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\dragon.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\hheli.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resources\models\box.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
   </ItemGroup>
 </Project>

@@ -15,15 +15,15 @@ void breene::BreeneApplication::Init()
 	if (_geometry_buffer == nullptr)
 		_geometry_buffer = new GeometryBuffer();
 	_geometry_buffer->Init(_wnd_width, _wnd_height);
-	//glm::vec3 pos(7.0f, 3.0f, 0.0f);
-	//glm::vec3 look_at(0.0f, -0.2f, 1.0f);
-	_camera = new Camera(_wnd_width, _wnd_height);
+	
+	glm::vec3 pos = ORIGIN + glm::vec3(0.0f, 1.5f, 3.0f);
+	glm::vec3 look_at(0.09f, -0.45f, 0.88f);
+	_camera = new Camera(_wnd_width, _wnd_height, look_at, pos, UP);
 
 	if (_deferred_shading_geometry_program == nullptr)
 		_deferred_shading_geometry_program = new DefShadingGeomProgram();
 	_deferred_shading_geometry_program->Init().Use();
 	_deferred_shading_geometry_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX);
-		//.SetSkyBoxTextureUnit(SKYBOX_TEXTURE_UNIT_INDEX);
 	//	.SetTessAlpha(1.0f)
 	//	.SetTessLevel(1.0f);
 
@@ -54,6 +54,7 @@ void breene::BreeneApplication::Init()
 		.SetColorTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE)
 		.SetNormalTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL)
 		.SetScreenSize(_wnd_width, _wnd_height);
+	_spot_light_program->SetSpotLight(_spot_light);
 
     if (_text_renderer == nullptr)
         _text_renderer = new text_rendering::TextRenderer();
@@ -166,13 +167,13 @@ void breene::BreeneApplication::Init()
 
 void breene::BreeneApplication::InitLights()
 {
-	_spot_light.SetAmbientIntensity(0.0f);
-	_spot_light.SetDiffuseIntensity(0.6f);
+	_spot_light.SetAmbientIntensity(0.9f);
+	_spot_light.SetDiffuseIntensity(0.9f);
 	_spot_light.SetColor(COLOR_MAGENTA);
 	_spot_light.SetAttenuation(0.0f, 0.01f, 0.0f);
-	_spot_light.SetPosition(glm::vec3(-20.0f, 20.0f, 5.0f));
+	_spot_light.SetPosition(_positions[0] + glm::vec3(0.0f, 1.0f, 0.0f));
 	_spot_light.SetDirection(glm::vec3(1.0f, -1.0f, 0.0f));
-	_spot_light.SetConeAngle(20.0f);
+	_spot_light.SetConeAngle(80.0f);
 
 	_dir_light.SetAmbientIntensity(0.05f);
 	_dir_light.SetColor(glm::vec3(1.0f, 1.0f, 0.67f));
@@ -389,6 +390,30 @@ void breene::BreeneApplication::DefShadingStencilPass(GLuint index)
 	_sphere->Render();
 }
 
+void breene::BreeneApplication::DefShadingPointLightStencilPass()
+{
+	_blank_program->Use();
+
+	_geometry_buffer->BindStencilPass();
+
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glStencilFunc(GL_ALWAYS, 0, 0);
+	glStencilOpSeparate(GL_BACK, GL_KEEP, GL_INCR_WRAP, GL_KEEP);
+	glStencilOpSeparate(GL_FRONT, GL_KEEP, GL_DECR_WRAP, GL_KEEP);
+
+	//GLfloat box_Scale = CalcPointLightSphere(_spot_light);
+	transform::Transformation trans;
+	trans.Translation(_spot_light.GetPosition())
+		.Scaling(10.0f)
+		.Cam(*_camera)
+		.PerspectiveProjection(_perspective_info);
+
+	_blank_program->SetWVP(trans.WVPTransform());
+	_sphere->Render();
+}
+
 void breene::BreeneApplication::DefShadingPointLightPass(GLuint index)
 {
 	_geometry_buffer->BindLightPass();
@@ -418,11 +443,38 @@ void breene::BreeneApplication::DefShadingPointLightPass(GLuint index)
 	glDisable(GL_BLEND);
 }
 
+void breene::BreeneApplication::DefShadingSpotLightPass()
+{
+	_geometry_buffer->BindLightPass();
+
+	_spot_light_program->Use();
+	_spot_light_program->SetEWP(_camera->GetEye());
+
+	glStencilFunc(GL_NOTEQUAL, 0, 0xFF);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendEquation(GL_FUNC_ADD);
+	glBlendFunc(GL_ONE, GL_ONE);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+
+	//GLfloat box_scale = CalcPointLightSphere(_spot_light);
+	transform::Transformation trans;
+	trans.Translation(_spot_light.GetPosition())
+		.Scaling(10.0f)
+		.Cam(*_camera)
+		.PerspectiveProjection(_perspective_info);
+	_spot_light_program->SetWVP(trans.WVPTransform());
+	_sphere->Render();
+
+	glCullFace(GL_BACK);
+	glDisable(GL_BLEND);
+}
+
 void breene::BreeneApplication::DefShadingFinalPass()
 {
 	_geometry_buffer->BindFinalPass();
 	glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-	//std::cout << glGetError() << std::endl;
 }
 
 void breene::BreeneApplication::DeferredShadingDirLightPass()
@@ -734,29 +786,28 @@ breene::BreeneApplication & breene::BreeneApplication::SetWindowHeight(GLulong h
     return *this;
 }
 
-breene::BreeneApplication & breene::BreeneApplication::SetBackgroundColor(const glm::vec4& rgba)
-{
-    _clear_color = rgba;
-
-    return *this;
-}
-
-breene::BreeneApplication & breene::BreeneApplication::SetBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
-    SetBackgroundColor(glm::vec4(r, g, b, a));
-
-    return *this;
-}
+//breene::BreeneApplication & breene::BreeneApplication::SetBackgroundColor(const glm::vec4& rgba)
+//{
+//    _clear_color = rgba;
+//
+//    return *this;
+//}
+//
+//breene::BreeneApplication & breene::BreeneApplication::SetBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+//{
+//    SetBackgroundColor(glm::vec4(r, g, b, a));
+//
+//    return *this;
+//}
 
 breene::BreeneApplication & breene::BreeneApplication::Run()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
-	//glClearColor(_clear_color.r, _clear_color.g, _clear_color.b, _clear_color.a);
 	do
     {
         _camera->OnRender();
         _scale += 0.05f;
-        
+
 		_geometry_buffer->StartFrame();
         DeferredShadingGeometryPass();
 		
@@ -767,15 +818,15 @@ breene::BreeneApplication & breene::BreeneApplication::Run()
 			DefShadingStencilPass(i);
 			DefShadingPointLightPass(i);
 		}
+		//DefShadingPointLightStencilPass();
+		//DefShadingSpotLightPass();
 		glDisable(GL_STENCIL_TEST);
 
-		//DeferredShadingSpotLightsPass();
 		DeferredShadingDirLightPass();
 
 		_skybox->Render();
-		DefShadingFinalPass();
-		
 		RenderFPS();
+		DefShadingFinalPass();
 
         glfwSwapBuffers(_wnd);
         glfwPollEvents();
@@ -928,7 +979,7 @@ breene::ApplicationBuilder::ApplicationBuilder()
 , _title(nullptr)
 , _display_stats(DISPLAY_NONE)
 , _startup_params(VSYNC | FULLSCREEN)
-, _bg_color(glm::vec4(COLOR_BLACK, 1.0f))
+//, _bg_color(glm::vec4(COLOR_BLACK, 1.0f))
 {}
 
 breene::ApplicationBuilder & breene::ApplicationBuilder::Width(GLulong width)
@@ -943,18 +994,6 @@ breene::ApplicationBuilder & breene::ApplicationBuilder::Height(GLulong height)
 	_height = glm::clamp(height, 0UL, ULONG_MAX);
 
 	return *this;
-}
-
-breene::ApplicationBuilder & breene::ApplicationBuilder::BGColor(glm::vec4 & color)
-{
-	_bg_color = color;
-
-	return *this;
-}
-
-breene::ApplicationBuilder & breene::ApplicationBuilder::BGColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
-	return BGColor(glm::vec4(r, g, b, a));
 }
 
 breene::ApplicationBuilder & breene::ApplicationBuilder::Cam(Camera * camera)
@@ -1091,7 +1130,7 @@ breene::BreeneApplication * breene::ApplicationBuilder::Build()
 	if (_display_stats != DISPLAY_NONE)
 		app->ToggleStatsDisplay()
 		.SetStatsToDisplay(_display_stats);
-	app->SetBackgroundColor(_bg_color);
+	//app->SetBackgroundColor(_bg_color);
 	app->SetVsync(_startup_params & VSYNC ? GL_TRUE : GL_FALSE);
 
 	return app;
