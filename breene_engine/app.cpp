@@ -8,51 +8,52 @@ const glm::vec3 UP(0.0f, 1.0f, 0.0f);
 
 void breene::BreeneApplication::Init()
 {
-	//if (_blank_program == nullptr)
-	//	_blank_program = new BlankProgram();
-	//_blank_program->Init();
+	if (_blank_program == nullptr)
+		_blank_program = new BlankProgram();
+	_blank_program->Init();
 
-	//if (_geometry_buffer == nullptr)
-	//	_geometry_buffer = new GeometryBuffer();
-	//_geometry_buffer->Init(_wnd_width, _wnd_height);
-	glm::vec3 pos(7.0f, 3.0f, 0.0f);
-	glm::vec3 look_at(0.0f, -0.2f, 1.0f);
-	_camera = new Camera(_wnd_width, _wnd_height, look_at, pos, UP);
+	if (_geometry_buffer == nullptr)
+		_geometry_buffer = new GeometryBuffer();
+	_geometry_buffer->Init(_wnd_width, _wnd_height);
+	//glm::vec3 pos(7.0f, 3.0f, 0.0f);
+	//glm::vec3 look_at(0.0f, -0.2f, 1.0f);
+	_camera = new Camera(_wnd_width, _wnd_height);
 
-	//if (_deferred_shading_geometry_program == nullptr)
-	//	_deferred_shading_geometry_program = new DefShadingGeomProgram();
-	//_deferred_shading_geometry_program->Init().Use();
-	//_deferred_shading_geometry_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX)
+	if (_deferred_shading_geometry_program == nullptr)
+		_deferred_shading_geometry_program = new DefShadingGeomProgram();
+	_deferred_shading_geometry_program->Init().Use();
+	_deferred_shading_geometry_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX);
+		//.SetSkyBoxTextureUnit(SKYBOX_TEXTURE_UNIT_INDEX);
 	//	.SetTessAlpha(1.0f)
 	//	.SetTessLevel(1.0f);
 
-	//if (_dir_light_program == nullptr)
-	//	_dir_light_program = new DefShadingDirLight();
-	//_dir_light_program->Init().Use();
-	//_dir_light_program->SetPositionTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION)
-	//	.SetColorTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE)
-	//	.SetNormalTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL)
-	//	//.SetSpecularIntensity(0.1f)
-	//	//.SetSpecularPower(0.5f)
-	//	.SetScreenSize(_wnd_width, _wnd_height);
-	//_dir_light_program->SetDirectionalLight(_dir_light)
-	//	.SetWVP(glm::mat4(1.0f));
+	if (_dir_light_program == nullptr)
+		_dir_light_program = new DefShadingDirLight();
+	_dir_light_program->Init().Use();
+	_dir_light_program->SetPositionTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION)
+		.SetColorTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE)
+		.SetNormalTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL)
+		//.SetSpecularIntensity(0.1f)
+		//.SetSpecularPower(0.5f)
+		.SetScreenSize(_wnd_width, _wnd_height);
+	_dir_light_program->SetDirectionalLight(_dir_light)
+		.SetWVP(glm::mat4(1.0f));
 
-	//if (_pt_light_program == nullptr)
-	//	_pt_light_program = new DefShadingPointLight();
-	//_pt_light_program->Init().Use();
-	//_pt_light_program->SetPositionTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION)
-	//	.SetColorTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE)
-	//	.SetNormalTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL)
-	//	.SetScreenSize(_wnd_width, _wnd_height);
+	if (_pt_light_program == nullptr)
+		_pt_light_program = new DefShadingPointLight();
+	_pt_light_program->Init().Use();
+	_pt_light_program->SetPositionTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION)
+		.SetColorTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE)
+		.SetNormalTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL)
+		.SetScreenSize(_wnd_width, _wnd_height);
 
-	//if (_spot_light_program == nullptr)
-	//	_spot_light_program = new DefShadingSpotLight();
-	//_spot_light_program->Init().Use();
-	//_spot_light_program->SetPositionTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION)
-	//	.SetColorTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE)
-	//	.SetNormalTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL)
-	//	.SetScreenSize(_wnd_width, _wnd_height);
+	if (_spot_light_program == nullptr)
+		_spot_light_program = new DefShadingSpotLight();
+	_spot_light_program->Init().Use();
+	_spot_light_program->SetPositionTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_POSITION)
+		.SetColorTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_DIFFUSE)
+		.SetNormalTextureUnit(GeometryBuffer::GBUFFER_TEX_TYPE_NORMAL)
+		.SetScreenSize(_wnd_width, _wnd_height);
 
     if (_text_renderer == nullptr)
         _text_renderer = new text_rendering::TextRenderer();
@@ -85,24 +86,24 @@ void breene::BreeneApplication::Init()
     //    _normal_map = new Texture2D("diffuse_normal.png", GL_TEXTURE_2D);
     //_normal_map->Load();
 
-	if (_lighting_program == nullptr)
-		_lighting_program = new LightingProgram();
-	_lighting_program->Init().Use();
-	_lighting_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX)
-		//.AddPointLight(_point_lights[0])
-		//.SetPointLightsCount(1)
-		//.SetSpotLightsCount(1)
-		.AddSpotLight(_spot_light)
-		.SetSpotLightsCount(1)
-		.SetDirectionalLight(_dir_light)
-		.SetTesselationAlpha(1.0f)
-		.SetTesselationLevel(1.0f)
-		//.SetSpecularIntensity(0.5f)
-		//.SetSpecularPower(0.6f);
-		.SetColor(0, glm::vec4(1.0f, 0.5f, 0.5f, 0.0f))
-		.SetColor(1, glm::vec4(0.5f, 1.0f, 1.0f, 0.0f))
-		.SetColor(2, glm::vec4(1.0f, 0.5f, 1.0f, 0.0f))
-		.SetColor(3, glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
+	//if (_lighting_program == nullptr)
+	//	_lighting_program = new LightingProgram();
+	//_lighting_program->Init().Use();
+	//_lighting_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX)
+	//	//.AddPointLight(_point_lights[0])
+	//	//.SetPointLightsCount(1)
+	//	//.SetSpotLightsCount(1)
+	//	.AddSpotLight(_spot_light)
+	//	.SetSpotLightsCount(1)
+	//	.SetDirectionalLight(_dir_light)
+	//	.SetTesselationAlpha(1.0f)
+	//	.SetTesselationLevel(1.0f)
+	//	//.SetSpecularIntensity(0.5f)
+	//	//.SetSpecularPower(0.6f);
+	//	.SetColor(0, glm::vec4(1.0f, 0.5f, 0.5f, 0.0f))
+	//	.SetColor(1, glm::vec4(0.5f, 1.0f, 1.0f, 0.0f))
+	//	.SetColor(2, glm::vec4(1.0f, 0.5f, 1.0f, 0.0f))
+	//	.SetColor(3, glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
         //.SetDisplacementMapTextureUnit(DISPLACEMENT_TEXTURE_UNIT_INDEX)
         //.SetDisplacementFactor(_displacement_factor);
         //.SetNormalMapTextureUnit(NORMAL_TEXTURE_UNIT_INDEX)
@@ -112,15 +113,15 @@ void breene::BreeneApplication::Init()
     //_shadowmap_program->Init();
     try
     {
-        if (_mesh == nullptr)
-            _mesh = new Mesh();
-        _mesh->Load("resources/models/box.obj");
-		//if (_quad == nullptr)
-		//	_quad = new Mesh();
-		//_quad->Load("resources/models/quad.obj");
-		//if (_sphere == nullptr)
-		//	_sphere = new Mesh();
-		//_sphere->Load("resources/models/sphere.obj");
+        if (_box == nullptr)
+            _box = new Mesh();
+        _box->Load("resources/models/box.obj");
+		if (_quad == nullptr)
+			_quad = new Mesh();
+		_quad->Load("resources/models/quad.obj");
+		if (_sphere == nullptr)
+			_sphere = new Mesh();
+		_sphere->Load("resources/models/sphere.obj");
         //if (_ground == nullptr)
         //    _ground = new Mesh();
         //_ground->Load("quad.obj");
@@ -138,18 +139,18 @@ void breene::BreeneApplication::Init()
             _mesh_tex = new Texture2D("bricks.jpg", GL_TEXTURE_2D);*/
         //_mesh_tex->Load().Bind(COLOR_TEXTURE_UNIT);
 
-        //if (_skybox == nullptr)
-        //    _skybox = new SkyBox(_camera, _perspective_info);
-        //_skybox->Init
-        //(
-        //    "cube.obj",
-        //    "sp3right.jpg",
-        //    "sp3left.jpg",
-        //    "sp3top.jpg",
-        //    "sp3bot.jpg",
-        //    "sp3front.jpg",
-        //    "sp3back.jpg"
-        //);
+        if (_skybox == nullptr)
+            _skybox = new SkyBox(_camera, _perspective_info);
+        _skybox->Init
+        (
+            "resources/models/cube.obj",
+            "resources/images/skybox2/right.png",
+            "resources/images/skybox2/left.png",
+            "resources/images/skybox2/up.png",
+            "resources/images/skybox2/down.png",
+            "resources/images/skybox2/front.png",
+            "resources/images/skybox2/back.png"
+        );
 
         //if (_particle_system == nullptr)
         //    _particle_system = new ParticleSystem();
@@ -173,15 +174,15 @@ void breene::BreeneApplication::InitLights()
 	_spot_light.SetDirection(glm::vec3(1.0f, -1.0f, 0.0f));
 	_spot_light.SetConeAngle(20.0f);
 
-	_dir_light.SetAmbientIntensity(0.1f);
-	_dir_light.SetColor(COLOR_WHITE);
-	_dir_light.SetDiffuseIntensity(0.8f);
-	_dir_light.SetDirection(glm::vec3(1.0f, 0.0f, 0.0f));
+	_dir_light.SetAmbientIntensity(0.05f);
+	_dir_light.SetColor(glm::vec3(1.0f, 1.0f, 0.67f));
+	_dir_light.SetDiffuseIntensity(0.9f);
+	_dir_light.SetDirection(glm::vec3(-50.0f, -10.0f, 0.0f));
 
 	_point_lights[0].SetDiffuseIntensity(0.2f);
 	_point_lights[0].SetColor(COLOR_GREEN);
-	_point_lights[0].SetPosition(_positions[0]);
-	_point_lights[0].SetAttenuation(0.0f, 0.1f, 0.0f);
+	_point_lights[0].SetPosition(glm::vec3(0.0f, 1.5f, 5.0f));
+	_point_lights[0].SetAttenuation(0.0f, 0.0f, 0.3f);
 
 	_point_lights[1].SetDiffuseIntensity(0.2f);
 	_point_lights[1].SetColor(COLOR_RED);
@@ -280,7 +281,7 @@ void breene::BreeneApplication::RenderPass()
         w_matrices[i] = glm::transpose(trans.WorldTransform());
     }
 
-    _mesh->Render(INSTANCE_COUNT, wvp_matrices, w_matrices, nullptr, true);
+    _box->Render(INSTANCE_COUNT, wvp_matrices, w_matrices, nullptr, true);
 
     /*if (_left_mb.is_pressed)
     {
@@ -353,16 +354,13 @@ void breene::BreeneApplication::DeferredShadingGeometryPass()
 		.PerspectiveProjection(_perspective_info)
 		//.Scaling(10.0f, 0.1f, 10.0f)
 		.Rotation(0.0f, _scale, 0.0f);
-
 	for (GLuint i = 0; i < sizeof(_positions) / sizeof(glm::vec3); ++i)
 	{
 		trans.Translation(_positions[i]);
 		_deferred_shading_geometry_program->SetWVP(trans.WVPTransform())
 			.SetWorldMatrix(trans.WorldTransform());
-		_mesh->Render(nullptr, true);
+		_box->Render();
 	}
-
-	std::cout << glGetError() << std::endl;
 
 	glDepthMask(GL_FALSE);
 }
@@ -423,7 +421,8 @@ void breene::BreeneApplication::DefShadingPointLightPass(GLuint index)
 void breene::BreeneApplication::DefShadingFinalPass()
 {
 	_geometry_buffer->BindFinalPass();
-	glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+	glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	//std::cout << glGetError() << std::endl;
 }
 
 void breene::BreeneApplication::DeferredShadingDirLightPass()
@@ -500,10 +499,10 @@ void breene::BreeneApplication::DeallocateResources()
         delete _camera;
         _camera = nullptr;
     }
-    if (_mesh != nullptr)
+    if (_box != nullptr)
     {
-        delete _mesh;
-        _mesh = nullptr;
+        delete _box;
+        _box = nullptr;
     }
     //if (_shadowmap_program != nullptr)
     //{
@@ -565,11 +564,11 @@ void breene::BreeneApplication::DeallocateResources()
     //    delete _picking_fbo;
     //    _picking_fbo = nullptr;
     //}
-    //if (_skybox != nullptr)
-    //{
-    //    delete _skybox;
-    //    _skybox = nullptr;
-    //}
+    if (_skybox != nullptr)
+    {
+        delete _skybox;
+        _skybox = nullptr;
+    }
     //if (_displacement_map != nullptr)
     //{
     //    delete _displacement_map;
@@ -618,7 +617,7 @@ breene::BreeneApplication::BreeneApplication(GLulong _wnd_width, GLulong _wnd_he
 , _wnd_height(_wnd_height)
 , _wnd(nullptr)
 , _camera(nullptr)
-, _mesh(nullptr)
+, _box(nullptr)
 , _quad(nullptr)
 , _sphere(nullptr)
 //, _color_map(nullptr)
@@ -656,9 +655,9 @@ breene::BreeneApplication::BreeneApplication(GLulong _wnd_width, GLulong _wnd_he
     _perspective_info.z_far  = Z_FAR;
     _perspective_info.z_near = Z_NEAR;
 	
-	CalcPositions();
+	InitPositions();
+	//CalcPositions();
 	InitLights();
-
     _frametime = _start_time = GetTickCount();
 }
 
@@ -752,30 +751,30 @@ breene::BreeneApplication & breene::BreeneApplication::SetBackgroundColor(GLfloa
 breene::BreeneApplication & breene::BreeneApplication::Run()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
-    do
+	//glClearColor(_clear_color.r, _clear_color.g, _clear_color.b, _clear_color.a);
+	do
     {
-		glClearColor(_clear_color.r, _clear_color.g, _clear_color.b, _clear_color.a);
         _camera->OnRender();
-        _scale += 0.005f;
+        _scale += 0.05f;
         
-		RenderPass();
-		//_geometry_buffer->StartFrame();
-  //      DeferredShadingGeometryPass();
-		//
-		//glEnable(GL_STENCIL_TEST);
-		//GLuint ptlights_count = sizeof(_point_lights) / sizeof(PointLight);
-		//for (GLuint i = 0; i < ptlights_count; ++i)
-		//{
-		//	DefShadingStencilPass(i);
-		//	DefShadingPointLightPass(i);
-		//}
-		//glDisable(GL_STENCIL_TEST);
+		_geometry_buffer->StartFrame();
+        DeferredShadingGeometryPass();
+		
+		glEnable(GL_STENCIL_TEST);
+		GLuint ptlights_count = sizeof(_point_lights) / sizeof(PointLight);
+		for (GLuint i = 0; i < ptlights_count; ++i)
+		{
+			DefShadingStencilPass(i);
+			DefShadingPointLightPass(i);
+		}
+		glDisable(GL_STENCIL_TEST);
 
-		////DeferredShadingSpotLightsPass();
-		//DeferredShadingDirLightPass();
+		//DeferredShadingSpotLightsPass();
+		DeferredShadingDirLightPass();
 
-		//DefShadingFinalPass();
-
+		_skybox->Render();
+		DefShadingFinalPass();
+		
 		RenderFPS();
 
         glfwSwapBuffers(_wnd);

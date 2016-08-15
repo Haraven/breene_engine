@@ -10,6 +10,7 @@
 #include "deferred_shading.h"
 #include "text_rendering.h"
 #include "utils.h"
+#include "skybox.h"
 #include "basic_shader_programs.h"
 #include "my_constants.h"
 
@@ -115,7 +116,7 @@ namespace breene
         GLulong _wnd_width;
         GLulong _wnd_height;
         Camera* _camera;
-        Mesh* _mesh;
+        Mesh* _box;
 		Mesh* _quad;
 		Mesh* _sphere;
         /*Mesh* _ground;
@@ -143,14 +144,14 @@ namespace breene
         //PickingProgram* _picking_program;
         //PlainColorProgram* _plain_program;
         //PickingFBO* _picking_fbo;
-        //SkyBox* _skybox;
+        SkyBox* _skybox;
         //ShadowMapFBO* _shadow_fbo;  
         //ParticleSystem* _particle_system;
         DirectionalLight _dir_light;
 		PointLight _point_lights[5];
 		SpotLight _spot_light;
         transform::PerspectiveProjectionInfo _perspective_info;
-        glm::vec3 _positions[INSTANCE_COUNT];
+        glm::vec3 _positions[5];
         GLfloat _velocities[INSTANCE_COUNT];
         glm::vec4 _clear_color;
         GLfloat _scale;

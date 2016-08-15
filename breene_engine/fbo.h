@@ -15,6 +15,7 @@ namespace breene
         virtual breene::FramebufferObject& BindWrite();
         virtual breene::FramebufferObject& DisableWrite();
         virtual breene::FramebufferObject& BindTextureRead(GLenum texture_unit);
+		GLuint GetHandle() const { return _fbo; }
     protected:
         GLuint _fbo;
     };

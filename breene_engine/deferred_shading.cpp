@@ -8,8 +8,8 @@ breene::GeometryBuffer::GeometryBuffer()
 : FramebufferObject()
 {
     memset(_textures, NULL, sizeof(GLuint) * GBUFFER_NUM_TEXTURES);
-    _depth_tex = NULL;
-	_final_tex = NULL;
+	_depth_tex = _final_tex = NULL;
+	_width = _height = 0;
 }
 
 breene::GeometryBuffer & breene::GeometryBuffer::Init(GLuint width, GLuint height)
@@ -43,9 +43,12 @@ breene::GeometryBuffer & breene::GeometryBuffer::Init(GLuint width, GLuint heigh
 	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (status != GL_FRAMEBUFFER_COMPLETE) throw std::runtime_error("Error initializing G buffer. Framebuffer status: " + std::to_string(status));
 
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	_width = width;
+	_height = height;
 
-    return *this;
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    
+	return *this;
 }
 
 breene::GeometryBuffer & breene::GeometryBuffer::StartFrame()
@@ -93,8 +96,9 @@ breene::GeometryBuffer & breene::GeometryBuffer::BindLightPass()
 
 breene::GeometryBuffer & breene::GeometryBuffer::BindFinalPass()
 {
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
 	glReadBuffer(GL_COLOR_ATTACHMENT0 + GBUFFER_NUM_TEXTURES);
 
 	return *this;
@@ -142,8 +146,8 @@ breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::Init()
     ShaderProgram::Init();
 
     AddShader(Shader(DEFSHADING_GEOM_PASS_VERTEX_SHADER, GL_VERTEX_SHADER));
-	AddShader(Shader(DEFSHADING_GEOM_PASS_TESC_SHADER, GL_TESS_CONTROL_SHADER));
-	AddShader(Shader(DEFSHADING_GEOM_PASS_TESE_SHADER, GL_TESS_EVALUATION_SHADER));
+	//AddShader(Shader(DEFSHADING_GEOM_PASS_TESC_SHADER, GL_TESS_CONTROL_SHADER));
+	//AddShader(Shader(DEFSHADING_GEOM_PASS_TESE_SHADER, GL_TESS_EVALUATION_SHADER));
     AddShader(Shader(DEFSHADING_GEOM_PASS_FRAGMENT_SHADER, GL_FRAGMENT_SHADER));
     Finalize();
 
@@ -182,6 +186,17 @@ breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetColorTextureUn
     return *this;
 }
 
+breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetSkyBoxTextureUnit(GLuint texture_unit)
+{
+	if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+	GLuint color_sampler_loc = GetUniformLocation(CUBEMAP_UNIFORM);
+
+	glUniform1i(color_sampler_loc, texture_unit);
+
+	return *this;
+}
+
 breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetTessLevel(GLfloat level)
 {
 	if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
@@ -200,6 +215,17 @@ breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::SetTessAlpha(GLfl
 	GLuint alpha_loc = GetUniformLocation(TESSALPHA_UNIFORM);
 
 	glUniform1f(alpha_loc, alpha);
+
+	return *this;
+}
+
+breene::DefShadingGeomProgram & breene::DefShadingGeomProgram::IsRenderingSkyBox(bool on_off)
+{
+	if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+	GLuint is_rendering_skybox_loc = GetUniformLocation(SKYBOX_BOOLEAN_UNIFORM);
+
+	glUniform1i(is_rendering_skybox_loc, static_cast<GLint>(on_off));
 
 	return *this;
 }

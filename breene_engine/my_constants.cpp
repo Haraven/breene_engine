@@ -16,6 +16,7 @@ const unsigned int RANDOM_TEXTURE_UNIT       = GL_TEXTURE3;
 const unsigned int DISPLACEMENT_TEXTURE_UNIT = GL_TEXTURE4;
 const unsigned int TEXT_TEXTURE_UNIT         = GL_TEXTURE5;
 const unsigned int POSITION_TEXTURE_UNIT     = GL_TEXTURE6;
+const unsigned int SKYBOX_TEXTURE_UNIT       = GL_TEXTURE7;
 
 const char LIGHTING_VERTEX_SHADER[]                     = "shaders/instanced_rendering_tess_shader.vert";
 const char LIGHTING_FRAGMENT_SHADER[]                   = "shaders/instanced_rendering_tess_shader.frag";
@@ -115,6 +116,7 @@ const char DISPLACEMENT_FACTOR_UNIFORM[]               = "g_displacement_factor"
 const char COLOR_UNIFORM[]                             = "g_color";
 const char DISCARD_COLOR_UNIFORM[]                     = "g_discard";
 const char SCREENSIZE_UNIFORM[]                        = "g_screen_size";
+const char SKYBOX_BOOLEAN_UNIFORM[]                    = "g_is_rendering_skybox";
 
 const int INVALID_VAL = 0xFFFFFFFF;
 

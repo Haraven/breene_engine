@@ -27,12 +27,16 @@ namespace breene
 		breene::GeometryBuffer& BindStencilPass();
 		breene::GeometryBuffer& BindLightPass();
 		breene::GeometryBuffer& BindFinalPass();
+		GLuint GetWidth() const { return _width; }
+		GLuint GetHeight() const { return _height; }
 
         ~GeometryBuffer();
     private:
         GLuint _textures[GBUFFER_NUM_TEXTURES];
         GLuint _depth_tex;
 		GLuint _final_tex;
+		GLuint _width;
+		GLuint _height;
     };
 
     class DefShadingGeomProgram : public ShaderProgram 
@@ -45,8 +49,10 @@ namespace breene
         breene::DefShadingGeomProgram& SetWVP(const glm::mat4& wvp);
         breene::DefShadingGeomProgram& SetWorldMatrix(const glm::mat4& world);
         breene::DefShadingGeomProgram& SetColorTextureUnit(GLuint texture_unit);
+		breene::DefShadingGeomProgram& SetSkyBoxTextureUnit(GLuint texture_unit);
 		breene::DefShadingGeomProgram& SetTessLevel(GLfloat level);
 		breene::DefShadingGeomProgram& SetTessAlpha(GLfloat alpha);
+		breene::DefShadingGeomProgram& IsRenderingSkyBox(bool on_off);
     };
 
     class DefShadingLight : public ShaderProgram

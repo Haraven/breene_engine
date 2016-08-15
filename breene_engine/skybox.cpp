@@ -49,16 +49,17 @@ breene::SkyBox::SkyBox(const Camera * cam, const transform::PerspectiveProjectio
 
 breene::SkyBox & breene::SkyBox::Init(const GLchar* mesh_file, const std::string & posx_file, const std::string & negx_file, const std::string & posy_file, const std::string & negy_file, const std::string & posz_file, const std::string & negz_file)
 {
-    _program = new SkyBoxProgram();
-
-    _program->Init();
-
-    _program->Use();
+	if (_program == nullptr)
+		_program = new SkyBoxProgram();
+    _program->Init().Use();
     _program->SetTextureUnit(COLOR_TEXTURE_UNIT_INDEX);
-    _tex = new TextureCubeMap(posx_file, negx_file, posy_file, negy_file, posz_file, negz_file);
+    
+	if (_tex == nullptr)
+		_tex = new TextureCubeMap(posx_file, negx_file, posy_file, negy_file, posz_file, negz_file);
     _tex->Load();
 
-    _mesh = new Mesh();
+	if (_mesh == nullptr)
+		_mesh = new Mesh();
     _mesh->Load(mesh_file);
 
     return *this;
@@ -66,6 +67,8 @@ breene::SkyBox & breene::SkyBox::Init(const GLchar* mesh_file, const std::string
 
 breene::SkyBox & breene::SkyBox::Render()
 {
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_FALSE);
     _program->Use();
 
     GLint old_cull_face, old_depth_fn;
@@ -84,12 +87,12 @@ breene::SkyBox & breene::SkyBox::Render()
         .PerspectiveProjection(_perspective_info);
 
     _program->SetWVP(trans.WVPTransform());
-    _tex->Bind(GL_TEXTURE0);
+    _tex->Bind(COLOR_TEXTURE_UNIT);
     _mesh->Render();
 
     glCullFace(old_cull_face);
     glDepthFunc(old_depth_fn);
-
+	_program->Disable();
     return *this;
 }
 

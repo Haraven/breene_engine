@@ -12,7 +12,8 @@ enum UnitIndex
     NORMAL_TEXTURE_UNIT_INDEX,
     RANDOM_TEXTURE_UNIT_INDEX,
     DISPLACEMENT_TEXTURE_UNIT_INDEX,
-    TEXT_TEXTURE_UNIT_INDEX
+    TEXT_TEXTURE_UNIT_INDEX,
+	SKYBOX_TEXTURE_UNIT_INDEX = 7
 };
 extern const unsigned int COLOR_TEXTURE_UNIT;
 extern const unsigned int SHADOW_TEXTURE_UNIT;
@@ -21,6 +22,7 @@ extern const unsigned int RANDOM_TEXTURE_UNIT;
 extern const unsigned int DISPLACEMENT_TEXTURE_UNIT;
 extern const unsigned int TEXT_TEXTURE_UNIT;
 extern const unsigned int POSITION_TEXTURE_UNIT;
+extern const unsigned int SKYBOX_TEXTURE_UNIT;
 
 extern const float Z_NEAR;
 extern const float Z_FAR;
@@ -125,6 +127,7 @@ extern const char DISPLACEMENT_FACTOR_UNIFORM[];
 extern const char COLOR_UNIFORM[];
 extern const char DISCARD_COLOR_UNIFORM[];
 extern const char SCREENSIZE_UNIFORM[];
+extern const char SKYBOX_BOOLEAN_UNIFORM[];
 
 extern const int INVALID_VAL;
 
