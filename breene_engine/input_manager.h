@@ -1,0 +1,163 @@
+#pragma once
+
+#include <glfw\glfw3.h>
+#include <string>
+#include <map>
+
+namespace breene
+{
+	enum Key
+	{
+		BREENE_KEY_UNKNOWN,
+		BREENE_KEY_GRAVE_ACCENT,
+		BREENE_KEY_ONE,
+		BREENE_KEY_TWO,
+		BREENE_KEY_THREE,
+		BREENE_KEY_FOUR,
+		BREENE_KEY_FIVE,
+		BREENE_KEY_SIX,
+		BREENE_KEY_SEVEN,
+		BREENE_KEY_EIGHT,
+		BREENE_KEY_NINE,
+		BREENE_KEY_ZERO,
+		BREENE_KEY_MINUS,
+		BREENE_KEY_EQUAL,
+		BREENE_KEY_BACKSPACE,
+		BREENE_KEY_Q,
+		BREENE_KEY_W,
+		BREENE_KEY_E,
+		BREENE_KEY_R,
+		BREENE_KEY_T,
+		BREENE_KEY_Y,
+		BREENE_KEY_U,
+		BREENE_KEY_I,
+		BREENE_KEY_O,
+		BREENE_KEY_P,
+		BREENE_KEY_SQUARE_BRACKET_OPEN,
+		BREENE_KEY_SQUARE_BRACKET_CLOSE,
+		BREENE_KEY_A,
+		BREENE_KEY_S,
+		BREENE_KEY_D,
+		BREENE_KEY_F,
+		BREENE_KEY_G,
+		BREENE_KEY_H,
+		BREENE_KEY_J,
+		BREENE_KEY_K,
+		BREENE_KEY_L,
+		BREENE_KEY_SEMICOLON,
+		BREENE_KEY_APOSTROPHE,
+		BREENE_KEY_BACKSLASH,
+		BREENE_KEY_ENTER,
+		BREENE_KEY_Z,
+		BREENE_KEY_X,
+		BREENE_KEY_C,
+		BREENE_KEY_V,
+		BREENE_KEY_B,
+		BREENE_KEY_N,
+		BREENE_KEY_M,
+		BREENE_KEY_COMMA,
+		BREENE_KEY_PERIOD,
+		BREENE_KEY_FORWARD_SLASH,
+		BREENE_KEY_TAB,
+		BREENE_KEY_CAPS,
+		BREENE_KEY_LSHIFT,
+		BREENE_KEY_LCTRL,
+		BREENE_KEY_LALT,
+		BREENE_KEY_SPACE,
+		BREENE_KEY_RALT,
+		BREENE_KEY_RCTRL,
+		BREENE_KEY_RSHIFT,
+		BREENE_KEY_ESC,
+		BREENE_KEY_F1,
+		BREENE_KEY_F2,
+		BREENE_KEY_F3,
+		BREENE_KEY_F4,
+		BREENE_KEY_F5,
+		BREENE_KEY_F6,
+		BREENE_KEY_F7,
+		BREENE_KEY_F8,
+		BREENE_KEY_F9,
+		BREENE_KEY_F10,
+		BREENE_KEY_F11,
+		BREENE_KEY_F12,
+		BREENE_KEY_PRT_SCR,
+		BREENE_KEY_SCROLL_LOCK,
+		BREENE_KEY_PAUSE,
+		BREENE_KEY_INS,
+		BREENE_KEY_HOME,
+		BREENE_KEY_PG_UP,
+		BREENE_KEY_PG_DOWN,
+		BREENE_KEY_DEL,
+		BREENE_KEY_END,
+		BREENE_KEY_UP,
+		BREENE_KEY_DOWN,
+		BREENE_KEY_LEFT,
+		BREENE_KEY_RIGHT,
+		BREENE_KEY_NUM_LOCK,
+		BREENE_KEY_NUM_DIVIDE,
+		BREENE_KEY_NUM_MULTIPLY,
+		BREENE_KEY_NUM_SUBTRACT,
+		BREENE_KEY_NUM_ADD,
+		BREENE_KEY_NUM_ENTER,
+		BREENE_KEY_NUM_0,
+		BREENE_KEY_NUM_1,
+		BREENE_KEY_NUM_2,
+		BREENE_KEY_NUM_3,
+		BREENE_KEY_NUM_4,
+		BREENE_KEY_NUM_5,
+		BREENE_KEY_NUM_6,
+		BREENE_KEY_NUM_7,
+		BREENE_KEY_NUM_8,
+		BREENE_KEY_NUM_9,
+		BREENE_KEYCOUNT // do not use for actual keyboard input
+	};
+	enum MouseKey
+	{
+		BREENE_MOUSE_KEY_UNKNOWN,
+		BREENE_MOUSE_KEY_LEFT,
+		BREENE_MOUSE_KEY_RIGHT,
+		BREENE_MOUSE_KEY_MIDDLE,
+		BREENE_MOUSE_KEY_4,
+		BREENE_MOUSE_KEY_5,
+		BREENE_MOUSE_KEY_6,
+		BREENE_MOUSE_KEY_7,
+		BREENE_MOUSE_KEY_8,
+		BREENE_MOUSE_KEYCOUNT
+	};
+	enum KeyStatus
+	{
+		BREENE_KEY_PRESSED = true,
+		BREENE_KEY_RELEASED = false
+	};
+
+	class KeyboardManager
+	{
+	public:
+		typedef std::pair<Key, KeyStatus> KeyPair;
+
+		KeyboardManager();
+		
+		breene::KeyboardManager::KeyPair Input(GLint key, GLint action);
+		static Key ConvertKey(GLint glfw_key);
+		KeyStatus GetKeyStatus(Key);
+		static std::string KeyToString(Key);
+	private:
+		std::map<Key, KeyStatus> _keys;
+	};
+
+	class MouseManager
+	{
+	public:
+		typedef std::pair<MouseKey, KeyStatus> KeyPair;
+
+		MouseManager();
+
+		breene::MouseManager::KeyPair Input(GLint key, GLint action);
+
+		static MouseKey ConvertKey(GLint glfw_key);
+		KeyStatus GetKeyStatus(MouseKey);
+		static std::string KeyToString(MouseKey);
+	private:
+		std::map<MouseKey, KeyStatus> _keys;
+	};
+}

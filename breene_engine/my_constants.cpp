@@ -129,3 +129,16 @@ const glm::vec3 COLOR_GREEN(0.0f, 1.0f, 0.0f);
 const glm::vec3 COLOR_BLUE(0.0f, 0.0f, 1.0f);
 const glm::vec3 COLOR_CYAN(0.0f, 1.0f, 1.0f);
 const glm::vec3 COLOR_MAGENTA(1.0f, 0.0f, 1.0f);
+
+const glm::vec3 EYE_ORIGIN(0.0f, 0.0f, 0.0f);
+const glm::vec3 LOOK_AT_ORIGIN(0.0f, 0.0f, -1.0f);
+const glm::vec3 UP_ORIGIN(0.0f, 1.0f, 0.0f);
+
+const float YAW                   = 90.0f;
+const float PITCH                 = 0.0f;
+const float ROLL                  = 0.0f;
+const float MOVEMENT_SPEED_INCR   = 1.0f;
+const float MOVEMENT_SPEED_MAX    = 10.0f;
+const float MOUSE_SENSITIVTY      = 0.20f;
+const float PITCH_MIN             = -89.0f;
+const float PITCH_MAX             = 89.0f;

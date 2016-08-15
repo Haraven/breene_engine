@@ -12,6 +12,7 @@
 #include "utils.h"
 #include "skybox.h"
 #include "basic_shader_programs.h"
+#include "player_controller.h"
 #include "my_constants.h"
 
 namespace breene
@@ -94,7 +95,7 @@ namespace breene
         //gl_app::OpenGLApplication& SetTesselationLevel(const GLfloat level);
         //gl_app::OpenGLApplication& SetTesselationAlpha(const GLfloat alpha);
         std::pair<GLint, GLint> GetMousePos();
-        Camera* GetCamera() const { return _camera; }
+		PlayerController* const GetPlayerController() const { return _player_ctrl; }
 
         //struct MouseButton
         //{
@@ -117,7 +118,7 @@ namespace breene
         GLFWwindow* _wnd;
         GLulong _wnd_width;
         GLulong _wnd_height;
-        Camera* _camera;
+		PlayerController* _player_ctrl;
         Mesh* _box;
 		Mesh* _quad;
 		Mesh* _sphere;

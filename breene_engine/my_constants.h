@@ -141,6 +141,18 @@ extern const glm::vec3 COLOR_BLUE;
 extern const glm::vec3 COLOR_CYAN;
 extern const glm::vec3 COLOR_MAGENTA;
 
+extern const glm::vec3 EYE_ORIGIN;
+extern const glm::vec3 LOOK_AT_ORIGIN;
+extern const glm::vec3 UP_ORIGIN;
+
+extern const float YAW;
+extern const float PITCH;
+extern const float ROLL;
+extern const float MOVEMENT_SPEED_INCR;
+extern const float MOVEMENT_SPEED_MAX;
+extern const float MOUSE_SENSITIVTY;
+extern const float PITCH_MIN;
+extern const float PITCH_MAX;
 
 enum RetCodes
 {
