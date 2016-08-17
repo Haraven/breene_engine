@@ -164,6 +164,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="fbo.cpp" />
     <ClCompile Include="deferred_shading.cpp" />
+    <ClCompile Include="fxaa.cpp" />
     <ClCompile Include="input_manager.cpp" />
     <ClCompile Include="lighting.cpp" />
     <ClCompile Include="main.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="fbo.h" />
     <ClInclude Include="deferred_shading.h" />
+    <ClInclude Include="fxaa.h" />
     <ClInclude Include="input_manager.h" />
     <ClInclude Include="lighting.h" />
     <ClInclude Include="mesh.h" />
@@ -205,7 +207,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
-    <None Include="light_pass_vertex_shader.vert" />
     <None Include="shaders\billboard_fragment_shader.frag" />
     <None Include="shaders\billboard_geometry_shader.geom" />
     <None Include="shaders\billboard_vertex_shader.vert" />
@@ -221,6 +222,8 @@
     <None Include="shaders\fragment_shader.frag" />
     <None Include="shaders\fragment_specular_lighting_shader.frag" />
     <None Include="shaders\fragment_texture_shader.frag" />
+    <None Include="shaders\fxaa_fragment_shader.frag" />
+    <None Include="shaders\fxaa_vertex_shader.vert" />
     <None Include="shaders\geom_pass_fragment_shader.frag" />
     <None Include="shaders\geom_pass_tess_shader.tesc" />
     <None Include="shaders\geom_pass_tess_shader.tese" />

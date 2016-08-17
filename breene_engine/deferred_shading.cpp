@@ -98,8 +98,17 @@ breene::GeometryBuffer & breene::GeometryBuffer::BindFinalPass()
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
 	glReadBuffer(GL_COLOR_ATTACHMENT0 + GBUFFER_NUM_TEXTURES);
+
+	return *this;
+}
+
+breene::GeometryBuffer & breene::GeometryBuffer::BindPostProcessPass()
+{
+	glDrawBuffer(GL_COLOR_ATTACHMENT0 + GBUFFER_NUM_TEXTURES);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, _textures[0]);
 
 	return *this;
 }

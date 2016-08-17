@@ -8,6 +8,8 @@ const glm::vec3 UP(0.0f, 1.0f, 0.0f);
 
 void breene::BreeneApplication::Init()
 {
+	glm::mat4 identity_matrix(1.0f);
+
 	if (_blank_program == nullptr)
 		_blank_program = new BlankProgram();
 	_blank_program->Init();
@@ -36,7 +38,7 @@ void breene::BreeneApplication::Init()
 		//.SetSpecularPower(0.5f)
 		.SetScreenSize(_wnd_width, _wnd_height);
 	_dir_light_program->SetDirectionalLight(_dir_light)
-		.SetWVP(glm::mat4(1.0f));
+		.SetWVP(identity_matrix);
 
 	if (_pt_light_program == nullptr)
 		_pt_light_program = new DefShadingPointLight();
@@ -55,6 +57,18 @@ void breene::BreeneApplication::Init()
 		.SetScreenSize(_wnd_width, _wnd_height);
 	_spot_light_program->SetSpotLight(_spot_light);
 
+	if (_fxaa_buffer == nullptr)
+		_fxaa_buffer = new FXAABuffer();
+	_fxaa_buffer->Init(_wnd_width, _wnd_height);
+	if (_fxaa_program == nullptr)
+		_fxaa_program = new FXAAProgram();
+	_fxaa_program->Init().Use();
+	_fxaa_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX)
+		.SetWVP(identity_matrix)
+		.SetInverseTextureSize(glm::vec2(1.0f / _wnd_width, 1.0f / _wnd_height))
+		.SetReductionMin(1.0f / 128.0f)
+		.SetReductionMultiple(1.0f / 8.0f)
+		.SetSpanMax(8.0f);
     if (_text_renderer == nullptr)
         _text_renderer = new text_rendering::TextRenderer();
     _text_renderer->Init(_wnd_width, _wnd_height);
@@ -113,6 +127,9 @@ void breene::BreeneApplication::Init()
     //_shadowmap_program->Init();
     try
     {
+		/*if (_plane == nullptr)
+			_plane = new Mesh();
+		_plane->Load("resources/models/plane.obj");*/
         if (_box == nullptr)
             _box = new Mesh();
         _box->Load("resources/models/box.obj");
@@ -473,9 +490,16 @@ void breene::BreeneApplication::DefShadingSpotLightPass()
 	glDisable(GL_BLEND);
 }
 
-void breene::BreeneApplication::DefShadingFinalPass()
+void breene::BreeneApplication::DefShadingPostProcessPass()
 {
-	_geometry_buffer->BindFinalPass();
+	//_geometry_buffer->BindFinalPass();
+	
+	_fxaa_buffer->CopyFBO(*_geometry_buffer, _geometry_buffer->GetFinalTexColorAttachment());
+	_fxaa_buffer->StartPostProcess();
+	_fxaa_program->Use();
+	_quad->Render();
+
+	_fxaa_buffer->BindFinalPass();
 	glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }
 
@@ -559,6 +583,21 @@ void breene::BreeneApplication::DeallocateResources()
         delete _box;
         _box = nullptr;
     }
+	if (_plane != nullptr)
+	{
+		delete _plane;
+		_plane = nullptr;
+	}
+	if (_fxaa_buffer != nullptr)
+	{
+		delete _fxaa_buffer;
+		_fxaa_buffer = nullptr;
+	}
+	if (_fxaa_program != nullptr)
+	{
+		delete _fxaa_program;
+		_fxaa_program = nullptr;
+	}
     //if (_shadowmap_program != nullptr)
     //{
     //    delete _shadowmap_program;
@@ -681,6 +720,8 @@ breene::BreeneApplication::BreeneApplication(GLulong _wnd_width, GLulong _wnd_he
 //, _picking_program(nullptr)
 , _blank_program(nullptr)
 , _deferred_shading_geometry_program(nullptr)
+, _fxaa_buffer(nullptr)
+, _fxaa_program(nullptr)
 , _lighting_program(nullptr)
 , _dir_light_program(nullptr)
 , _pt_light_program(nullptr)
@@ -769,9 +810,7 @@ RetCodes breene::BreeneApplication::MakeWindow(GLchar* title, GLenum is_fullscre
         glEnable(GL_DEPTH_TEST);
 
     glfwSetCursorPos(_wnd, _wnd_width / 2, _wnd_height / 2);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     Init();
-    
     return SUCCESS;
 }
 
@@ -789,20 +828,6 @@ breene::BreeneApplication & breene::BreeneApplication::SetWindowHeight(GLulong h
     return *this;
 }
 
-//breene::BreeneApplication & breene::BreeneApplication::SetBackgroundColor(const glm::vec4& rgba)
-//{
-//    _clear_color = rgba;
-//
-//    return *this;
-//}
-//
-//breene::BreeneApplication & breene::BreeneApplication::SetBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-//{
-//    SetBackgroundColor(glm::vec4(r, g, b, a));
-//
-//    return *this;
-//}
-
 breene::BreeneApplication & breene::BreeneApplication::Run()
 {
     if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
@@ -812,6 +837,7 @@ breene::BreeneApplication & breene::BreeneApplication::Run()
 		static GLfloat last_frame = 0.0f;
 		_scale += 0.05f;
 
+		//glEnable(GL_MULTISAMPLE);
 		_geometry_buffer->StartFrame();
         DeferredShadingGeometryPass();
 		
@@ -827,10 +853,10 @@ breene::BreeneApplication & breene::BreeneApplication::Run()
 		glDisable(GL_STENCIL_TEST);
 
 		DeferredShadingDirLightPass();
-
+		
 		_skybox->Render();
 		RenderFPS();
-		DefShadingFinalPass();
+		DefShadingPostProcessPass();
 
         glfwSwapBuffers(_wnd);
         glfwPollEvents();

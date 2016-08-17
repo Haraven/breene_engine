@@ -8,6 +8,7 @@
 #include "camera.h"
 #include "mesh.h"
 #include "deferred_shading.h"
+#include "fxaa.h"
 #include "text_rendering.h"
 #include "utils.h"
 #include "skybox.h"
@@ -53,7 +54,7 @@ namespace breene
 		void DefShadingPointLightStencilPass();
 		void DefShadingPointLightPass(GLuint index);
 		void DefShadingSpotLightPass();
-		void DefShadingFinalPass();
+		void DefShadingPostProcessPass();
 		void DeferredShadingDirLightPass();
     public:
         typedef GLFWkeyfun KeyCallbackFn;
@@ -119,6 +120,7 @@ namespace breene
         GLulong _wnd_width;
         GLulong _wnd_height;
 		PlayerController* _player_ctrl;
+		Mesh* _plane;
         Mesh* _box;
 		Mesh* _quad;
 		Mesh* _sphere;
@@ -133,6 +135,8 @@ namespace breene
 		DefShadingPointLight* _pt_light_program;
 		DefShadingSpotLight* _spot_light_program;
         GeometryBuffer* _geometry_buffer;
+		FXAABuffer* _fxaa_buffer;
+		FXAAProgram* _fxaa_program;
         LightingProgram* _lighting_program;
         text_rendering::TextRenderer* _text_renderer;
         text_rendering::TextureAtlas* _verdana;

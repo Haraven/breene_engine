@@ -59,6 +59,8 @@ extern const char DEFSHADING_LIGHT_PASS_VERTEX_SHADER[];
 extern const char DEFSHADING_DIRLIGHT_PASS_FRAGMENT_SHADER[];
 extern const char DEFSHADING_PTLIGHT_PASS_FRAGMENT_SHADER[];
 extern const char DEFSHADING_SPOTLIGHT_PASS_FRAGMENT_SHADER[];
+extern const char FXAA_VERT_SHADER[];
+extern const char FXAA_FRAG_SHADER[];
 
 extern const int INVALID_UNIFORM_LOCATION;
 
@@ -128,6 +130,10 @@ extern const char COLOR_UNIFORM[];
 extern const char DISCARD_COLOR_UNIFORM[];
 extern const char SCREENSIZE_UNIFORM[];
 extern const char SKYBOX_BOOLEAN_UNIFORM[];
+extern const char FXAA_TEX_INVERSE_SIZE_UNIFORM[];
+extern const char FXAA_SPAN_MAX_UNIFORM[];
+extern const char FXAA_REDUCTION_MIN_UNIFORM[];
+extern const char FXAA_REDUCTION_MUL_UNIFORM[];
 
 extern const int INVALID_VAL;
 

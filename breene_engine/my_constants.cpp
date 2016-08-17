@@ -48,6 +48,8 @@ const char DEFSHADING_LIGHT_PASS_VERTEX_SHADER[]        = "shaders/light_pass_ve
 const char DEFSHADING_DIRLIGHT_PASS_FRAGMENT_SHADER[]   = "shaders/dirlight_pass_fragment_shader.frag";
 const char DEFSHADING_PTLIGHT_PASS_FRAGMENT_SHADER[]    = "shaders/ptlight_pass_fragment_shader.frag";
 const char DEFSHADING_SPOTLIGHT_PASS_FRAGMENT_SHADER[]  = "shaders/spotlight_pass_fragment_shader.frag";
+const char FXAA_VERT_SHADER[]                           = "shaders/fxaa_vertex_shader.vert";
+const char FXAA_FRAG_SHADER[]                           = "shaders/fxaa_fragment_shader.frag";
 
 const int INVALID_UNIFORM_LOCATION = 0xFFFFFFFF;
 
@@ -117,6 +119,10 @@ const char COLOR_UNIFORM[]                             = "g_color";
 const char DISCARD_COLOR_UNIFORM[]                     = "g_discard";
 const char SCREENSIZE_UNIFORM[]                        = "g_screen_size";
 const char SKYBOX_BOOLEAN_UNIFORM[]                    = "g_is_rendering_skybox";
+const char FXAA_TEX_INVERSE_SIZE_UNIFORM[]             = "g_tex_inverse_size";
+const char FXAA_SPAN_MAX_UNIFORM[]                     = "g_span_max";
+const char FXAA_REDUCTION_MIN_UNIFORM[]                = "g_reduction_min";
+const char FXAA_REDUCTION_MUL_UNIFORM[]                = "g_reduction_mul";
 
 const int INVALID_VAL = 0xFFFFFFFF;
 

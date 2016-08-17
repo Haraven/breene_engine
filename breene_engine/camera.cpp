@@ -29,7 +29,7 @@ breene::Camera::Camera(const glm::vec3 & pos, const glm::vec3 & up, GLfloat yaw,
 breene::Camera & breene::Camera::KeyboardMove(CameraDirection direction, GLfloat time_delta)
 {
 	GLfloat velocity = _movement_speed * time_delta;
-	_movement_speed += MOVEMENT_SPEED_INCR / 3.0f;
+	_movement_speed += MOVEMENT_SPEED_INCR;
 	_movement_speed = glm::clamp(_movement_speed, 0.0f, MOVEMENT_SPEED_MAX);
 	if (direction & FORWARD)
 		_eye += _look_at * velocity;

@@ -27,6 +27,10 @@ namespace breene
 		breene::GeometryBuffer& BindStencilPass();
 		breene::GeometryBuffer& BindLightPass();
 		breene::GeometryBuffer& BindFinalPass();
+		breene::GeometryBuffer& BindPostProcessPass();
+
+		GLuint GetTexCount() const { return GBUFFER_NUM_TEXTURES; }
+		GLenum GetFinalTexColorAttachment() const { return GL_COLOR_ATTACHMENT0 + GBUFFER_NUM_TEXTURES; }
 		GLuint GetWidth() const { return _width; }
 		GLuint GetHeight() const { return _height; }
 

@@ -117,6 +117,9 @@
     <ClCompile Include="input_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fxaa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d_picking.h">
@@ -180,6 +183,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="input_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fxaa.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -313,9 +319,6 @@
     <None Include="shaders\geom_pass_fragment_shader.frag">
       <Filter>Resource Files\shaders\fragment</Filter>
     </None>
-    <None Include="light_pass_vertex_shader.vert">
-      <Filter>Resource Files\shaders\vertex</Filter>
-    </None>
     <None Include="shaders\dirlight_pass_fragment_shader.frag">
       <Filter>Resource Files\shaders\fragment</Filter>
     </None>
@@ -351,6 +354,12 @@
     </None>
     <None Include="shaders\instanced_rendering_tess_shader.vert">
       <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\fxaa_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\fxaa_fragment_shader.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

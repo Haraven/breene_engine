@@ -57,8 +57,6 @@ breene::PlayerController & breene::PlayerController::HandleInput()
 		++movement_keys_pressed;
 		_camera->KeyboardMove(Camera::CameraDirection::RIGHT, _time_delta);
 	}
-	if (movement_keys_pressed == 0)
-		_camera->ResetMoveSpeed();
 	if (_key_manager.GetKeyStatus(BREENE_KEY_R) == BREENE_KEY_PRESSED)
 		_camera->Reset();
 
@@ -88,13 +86,6 @@ breene::PlayerController & breene::PlayerController::SetTimeDelta(GLfloat delta)
 
 	return *this;
 }
-
-//breene::PlayerController & breene::PlayerController::UpdateCamera()
-//{
-//	_camera->OnRender();
-//
-//	return *this;
-//}
 
 breene::PlayerController::~PlayerController()
 {
