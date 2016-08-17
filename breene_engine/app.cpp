@@ -855,11 +855,13 @@ breene::BreeneApplication & breene::BreeneApplication::Run()
 		DeferredShadingDirLightPass();
 		
 		_skybox->Render();
-		RenderFPS();
 		DefShadingPostProcessPass();
+		
+		//RenderFPS();
 
         glfwSwapBuffers(_wnd);
         glfwPollEvents();
+
 		current_frame = static_cast<GLfloat>(glfwGetTime());
 		_player_ctrl->SetTimeDelta(current_frame - last_frame);
 		last_frame = current_frame;
