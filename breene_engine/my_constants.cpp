@@ -18,8 +18,8 @@ const unsigned int TEXT_TEXTURE_UNIT         = GL_TEXTURE5;
 const unsigned int POSITION_TEXTURE_UNIT     = GL_TEXTURE6;
 const unsigned int SKYBOX_TEXTURE_UNIT       = GL_TEXTURE7;
 
-const char LIGHTING_VERTEX_SHADER[]                     = "shaders/instanced_rendering_tess_shader.vert";
-const char LIGHTING_FRAGMENT_SHADER[]                   = "shaders/instanced_rendering_tess_shader.frag";
+const char LIGHTING_VERTEX_SHADER[]                     = "shaders/lighting_vertex_shader.vert";
+const char LIGHTING_FRAGMENT_SHADER[]                   = "shaders/light_shader.frag";
 const char SHADOW_VERTEX_SHADER[]                       = "shaders/shadow_shader.vert";
 const char SHADOW_FRAGMENT_SHADER[]                     = "shaders/shadow_shader.frag";
 const char SKYBOX_VERTEX_SHADER[]                       = "shaders/skybox_shader.vert";

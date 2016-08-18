@@ -361,6 +361,9 @@
     <None Include="shaders\fxaa_fragment_shader.frag">
       <Filter>Resource Files\shaders\fragment</Filter>
     </None>
+    <None Include="shaders\lighting_vertex_shader.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\arial.ttf">

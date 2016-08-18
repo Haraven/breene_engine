@@ -100,10 +100,12 @@ void breene::BreeneApplication::Init()
     //    _normal_map = new Texture2D("diffuse_normal.png", GL_TEXTURE_2D);
     //_normal_map->Load();
 
-	//if (_lighting_program == nullptr)
-	//	_lighting_program = new LightingProgram();
-	//_lighting_program->Init().Use();
-	//_lighting_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX)
+	if (_lighting_program == nullptr)
+		_lighting_program = new LightingProgram();
+	_lighting_program->Init().Use();
+	_lighting_program->SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX)
+		.SetWM(identity_matrix)
+		.SetWVP(identity_matrix);
 	//	//.AddPointLight(_point_lights[0])
 	//	//.SetPointLightsCount(1)
 	//	//.SetSpotLightsCount(1)
@@ -492,14 +494,16 @@ void breene::BreeneApplication::DefShadingSpotLightPass()
 
 void breene::BreeneApplication::DefShadingPostProcessPass()
 {
-	//_geometry_buffer->BindFinalPass();
+	_geometry_buffer->BindFinalPass();
 	
-	_fxaa_buffer->CopyFBO(*_geometry_buffer, _geometry_buffer->GetFinalTexColorAttachment());
-	_fxaa_buffer->StartPostProcess();
-	_fxaa_program->Use();
-	_quad->Render();
+	//_fxaa_buffer->CopyFBO(*_geometry_buffer, _geometry_buffer->GetFinalTexColorAttachment());
+	//_fxaa_buffer->StartPostProcess();
+	//_fxaa_program->Use();
+	//_quad->Render();
 
-	_fxaa_buffer->BindFinalPass();
+	//_fxaa_buffer->BindFinalPass();
+	/*glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	std::cout << glGetError() << std::endl;*/
 	glBlitFramebuffer(0, 0, _wnd_width, _wnd_height, 0, 0, _wnd_width, _wnd_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }
 
@@ -854,10 +858,11 @@ breene::BreeneApplication & breene::BreeneApplication::Run()
 
 		DeferredShadingDirLightPass();
 		
-		_skybox->Render();
 		DefShadingPostProcessPass();
 		
-		//RenderFPS();
+		_skybox->Render();
+		//_lighting_program->Use();
+		RenderFPS();
 
         glfwSwapBuffers(_wnd);
         glfwPollEvents();

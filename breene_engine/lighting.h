@@ -154,11 +154,11 @@ namespace breene
 
         GLfloat GetSpecularIntensity() const { return _specular_intensity; }
         GLfloat GetSpecularPower() const { return _specular_power; }
-        //gl_app::LightingProgram& SetWVP(const glm::mat4& wvp);
+        breene::LightingProgram& SetWVP(const glm::mat4& wvp);
         breene::LightingProgram& SetVP(const glm::mat4& vp);
         breene::LightingProgram& SetLightWVP(const glm::mat4& wvp);
         breene::LightingProgram& SetEWP(const glm::vec3& eye);
-        //gl_app::LightingProgram& SetWM(const glm::mat4& matrix);
+        breene::LightingProgram& SetWM(const glm::mat4& matrix);
         breene::LightingProgram& SetColorTextureUnit(GLuint texture_unit);
         breene::LightingProgram& SetShadowMapTextureUnit(GLuint texture_unit);
         breene::LightingProgram& SetNormalMapTextureUnit(GLuint texture_unit);

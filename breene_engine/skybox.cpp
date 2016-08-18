@@ -67,9 +67,9 @@ breene::SkyBox & breene::SkyBox::Init(const GLchar* mesh_file, const std::string
 
 breene::SkyBox & breene::SkyBox::Render()
 {
+    _program->Use();
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_FALSE);
-    _program->Use();
 
     GLint old_cull_face, old_depth_fn;
     glGetIntegerv(GL_CULL_FACE_MODE, &old_cull_face);

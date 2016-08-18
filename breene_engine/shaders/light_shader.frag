@@ -27,9 +27,9 @@ vec3 light_dir = vec3(0.0f);
 
 in vec2 tex_coord_0;
 in vec3 normal_0;
-in vec3 tangent_0;
+//in vec3 tangent_0;
 in vec3 world_pos_0;
-in vec4 light_space_pos;
+//in vec4 light_space_pos;
 
 out vec4 frag_color;
 
@@ -91,19 +91,19 @@ float Random(vec3 seed, int freq)
     return fract(sin(dot_prod) * 43758.5453f);
 }
 
-vec3 CalcBumpedNormal()
-{
-    vec3 normal = normalize(normal_0);
-    vec3 normalized_tangent = normalize(tangent_0);
-    vec3 tangent = normalize(normalized_tangent - dot(normalized_tangent, normal) * normal);
-    vec3 bitangent = cross(tangent, normal);
+//vec3 CalcBumpedNormal()
+//{
+//    vec3 normal = normalize(normal_0);
+//    vec3 normalized_tangent = normalize(tangent_0);
+//    vec3 tangent = normalize(normalized_tangent - dot(normalized_tangent, normal) * normal);
+//    vec3 bitangent = cross(tangent, normal);
     
-    vec3 bump_map_normal = 2.0f * texture(g_normal_map, tex_coord_0).xyz - vec3(1.0f);
-    mat3 tbn = mat3(tangent, bitangent, normal);
-    vec3 res = normalize(tbn * bump_map_normal);
+//    vec3 bump_map_normal = 2.0f * texture(g_normal_map, tex_coord_0).xyz - vec3(1.0f);
+//    mat3 tbn = mat3(tangent, bitangent, normal);
+//    vec3 res = normalize(tbn * bump_map_normal);
 
-    return res;
-}
+//    return res;
+//}
 
 float CalcShadowFactor(vec4 light_pos, vec3 normal)
 {
@@ -172,12 +172,13 @@ vec4 CalcDirectionalLight(vec3 normal)
     return CalcLightInternal(g_directional_light.base, g_directional_light.direction, normal, 1.0f);
 }
 
-vec4 CalcPointLight(PointLight light, vec3 normal, vec4 light_pos)
+vec4 CalcPointLight(PointLight light, vec3 normal)//, vec4 light_pos)
 {
     vec3 light_direction = world_pos_0 - light.position;
     float distance = length(light_direction);
     light_direction = normalize(light_direction);
-    float shadow_factor = CalcShadowFactor(light_pos, normal);
+    //float shadow_factor = CalcShadowFactor(light_pos, normal);
+	float shadow_factor = 1.0f;
 
     vec4 color = CalcLightInternal(light.base, light_direction, normal, shadow_factor);
     float attenuation =  light.attenuation.constant +
@@ -187,7 +188,7 @@ vec4 CalcPointLight(PointLight light, vec3 normal, vec4 light_pos)
     return color / attenuation;
 }
 
-vec4 CalcSpotLight(SpotLight light, vec3 normal, vec4 light_pos)
+vec4 CalcSpotLight(SpotLight light, vec3 normal)//, vec4 light_pos)
 {
     vec3 light_to_pixel = normalize(world_pos_0 - light.base.position);
     float spotlight_factor = dot(light_to_pixel, light.direction);
@@ -196,7 +197,7 @@ vec4 CalcSpotLight(SpotLight light, vec3 normal, vec4 light_pos)
     if (spotlight_factor > light.cone_angle)
     {
         light_dir = light.direction;
-        vec4 color = CalcPointLight(light.base, normal, light_pos);
+        vec4 color = CalcPointLight(light.base, normal);//, light_pos);
         spotlight_color = color * (1.0f - (1.0f - spotlight_factor) / (1.0f - light.cone_angle));
     }
 
@@ -205,14 +206,14 @@ vec4 CalcSpotLight(SpotLight light, vec3 normal, vec4 light_pos)
 
 void main()
 {
-    vec3 normal = CalcBumpedNormal();
+    vec3 normal = normalize(normal_0);//CalcBumpedNormal();
     vec4 total_light = CalcDirectionalLight(normal);
 
     for (int i = 0 ; i < g_point_lights_count; ++i)
-        total_light += CalcPointLight(g_point_lights[i], normal, light_space_pos);
+        total_light += CalcPointLight(g_point_lights[i], normal);//, light_space_pos);
 
     for (int i = 0; i < g_spot_lights_count; ++i)
-        total_light += CalcSpotLight(g_spot_lights[i], normal, light_space_pos);
+        total_light += CalcSpotLight(g_spot_lights[i], normal);//, light_space_pos);
 
     vec4 sampled_color = texture2D(g_color_map, tex_coord_0);
     frag_color = sampled_color * total_light;

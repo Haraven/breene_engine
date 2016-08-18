@@ -232,6 +232,7 @@
     <None Include="shaders\instanced_rendering_shader.vert" />
     <None Include="shaders\instanced_rendering_tess_shader.frag" />
     <None Include="shaders\instanced_rendering_tess_shader.vert" />
+    <None Include="shaders\lighting_vertex_shader.vert" />
     <None Include="shaders\light_pass_vertex_shader.vert" />
     <None Include="shaders\light_shader.frag" />
     <None Include="shaders\partsysupdate_fragment_shader.frag" />

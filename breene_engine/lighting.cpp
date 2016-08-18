@@ -62,24 +62,24 @@ breene::LightingProgram & breene::LightingProgram::Init()
     ShaderProgram::Init();
 
     AddShader(Shader(LIGHTING_VERTEX_SHADER, GL_VERTEX_SHADER));
-    AddShader(Shader(TCS_SHADER, GL_TESS_CONTROL_SHADER));
-    AddShader(Shader(TES_SHADER, GL_TESS_EVALUATION_SHADER));
+    //AddShader(Shader(TCS_SHADER, GL_TESS_CONTROL_SHADER));
+    //AddShader(Shader(TES_SHADER, GL_TESS_EVALUATION_SHADER));
     AddShader(Shader(LIGHTING_FRAGMENT_SHADER, GL_FRAGMENT_SHADER));
     Finalize();
 
     return *this;
 }
 
-//gl_app::LightingProgram& gl_app::LightingProgram::SetWVP(const glm::mat4& wvp)
-//{
-//    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
-//
-//    GLuint wvp_uniform_loc = GetUniformLocation(WVP_UNIFORM);
-//
-//    glUniformMatrix4fv(wvp_uniform_loc, 1, GL_TRUE, glm::value_ptr(wvp));
-//
-//    return *this;
-//}
+breene::LightingProgram& breene::LightingProgram::SetWVP(const glm::mat4& wvp)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    GLuint wvp_uniform_loc = GetUniformLocation(WVP_UNIFORM);
+
+    glUniformMatrix4fv(wvp_uniform_loc, 1, GL_TRUE, glm::value_ptr(wvp));
+
+    return *this;
+}
 
 breene::LightingProgram & breene::LightingProgram::SetVP(const glm::mat4 & vp)
 {
@@ -114,15 +114,15 @@ breene::LightingProgram & breene::LightingProgram::SetEWP(const glm::vec3 & eye)
     return *this;
 }
 
-//gl_app::LightingProgram& gl_app::LightingProgram::SetWM(const glm::mat4 & matrix)
-//{
-//    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
-//
-//    GLuint world_uniform_loc = GetUniformLocation(W_UNIFORM);
-//    glUniformMatrix4fv(world_uniform_loc, 1, GL_TRUE, glm::value_ptr(matrix));
-//
-//    return *this;
-//}
+breene::LightingProgram& breene::LightingProgram::SetWM(const glm::mat4 & matrix)
+{
+    if (glfwGetCurrentContext() == nullptr) throw std::runtime_error("OpenGL context has not been initialized");
+
+    GLuint world_uniform_loc = GetUniformLocation(W_UNIFORM);
+    glUniformMatrix4fv(world_uniform_loc, 1, GL_TRUE, glm::value_ptr(matrix));
+
+    return *this;
+}
 
 breene::LightingProgram& breene::LightingProgram::SetColorTextureUnit(GLuint texture_unit)
 {
