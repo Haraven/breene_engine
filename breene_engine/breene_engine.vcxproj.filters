@@ -43,6 +43,9 @@
     <Filter Include="Resource Files\models">
       <UniqueIdentifier>{8fcd6351-937a-4818-9b83-d2c7e4e7f7ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\docs">
+      <UniqueIdentifier>{d6e96044-ad2c-43ab-9cff-e2e237320671}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3d_picking.cpp">
@@ -343,6 +346,9 @@
     <None Include="shaders\instanced_rendering_tess_shader.vert">
       <Filter>Resource Files\shaders\vertex</Filter>
     </None>
+    <None Include="resources\docs\summary.md">
+      <Filter>Resource Files\docs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\arial.ttf">
@@ -457,6 +463,9 @@
     </Image>
     <Image Include="resources\images\sp3top.jpg">
       <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="resources\docs\pipeline.jpg">
+      <Filter>Resource Files\docs</Filter>
     </Image>
   </ItemGroup>
 </Project>

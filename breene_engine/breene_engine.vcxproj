@@ -206,6 +206,7 @@
   <ItemGroup>
     <None Include="..\README.md" />
     <None Include="light_pass_vertex_shader.vert" />
+    <None Include="resources\docs\summary.md" />
     <None Include="shaders\billboard_fragment_shader.frag" />
     <None Include="shaders\billboard_geometry_shader.geom" />
     <None Include="shaders\billboard_vertex_shader.vert" />
@@ -277,6 +278,7 @@
     <Font Include="resources\fonts\verdanaz.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resources\docs\pipeline.jpg" />
     <Image Include="resources\images\bricks.jpg" />
     <Image Include="resources\images\desert_bk.tga" />
     <Image Include="resources\images\desert_dn.tga" />

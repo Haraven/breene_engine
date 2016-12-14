@@ -34,7 +34,7 @@ namespace breene
         void CalcPositions();
         GLfloat CalcUptime();
         void CalcFPS();
-		void RenderFPS();
+		void StatsPass();
 
 		void Init();
 		void InitLights();
@@ -43,7 +43,7 @@ namespace breene
 
         void ShadowMapPass();
         void PickingPass();
-        void RenderPass();
+        void GeometryPass();
 
 		GLfloat CalcPointLightSphere(const PointLight& light);
 		GLfloat CalcSpotLightSphere(const SpotLight& light);

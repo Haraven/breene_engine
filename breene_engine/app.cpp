@@ -248,7 +248,7 @@ void breene::BreeneApplication::PickingPass()
     //_picking_fbo->DisableWrite();
 }
 
-void breene::BreeneApplication::RenderPass()
+void breene::BreeneApplication::GeometryPass()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -445,7 +445,7 @@ void breene::BreeneApplication::CalcFPS()
     }
 }
 
-void breene::BreeneApplication::RenderFPS()
+void breene::BreeneApplication::StatsPass()
 {
 	if (_display_stats)
 		if (_stats_to_display & DISPLAY_FPS)
@@ -712,9 +712,9 @@ breene::BreeneApplication & breene::BreeneApplication::Run()
 		glClearColor(_clear_color.r, _clear_color.g, _clear_color.b, _clear_color.a);
         _scale += 0.005f;
         
-		RenderPass();
+		GeometryPass();
 
-		RenderFPS();
+		StatsPass();
 
         glfwSwapBuffers(_wnd);
         glfwPollEvents();
