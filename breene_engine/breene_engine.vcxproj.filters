@@ -102,6 +102,12 @@
     <ClCompile Include="basic_shader_programs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="player_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="input_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d_picking.h">
@@ -159,6 +165,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="basic_shader_programs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="input_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="player_controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

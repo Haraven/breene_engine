@@ -180,6 +180,9 @@ namespace breene
         breene::LightingProgram& SetTesselationLevel(GLfloat level);
         breene::LightingProgram& SetTesselationAlpha(GLfloat alpha);
         breene::LightingProgram& SetColor(GLuint index, const glm::vec4& color);
+        GLuint GetPointLightsCount() const { return _point_lights_count; }
+        GLuint GetSpotLightsCount() const { return _spot_lights_count; }
+
     private:
         GLfloat _specular_intensity;
         GLfloat _specular_power;

@@ -14,7 +14,6 @@ flat out int instance_id_tesc;
 
 void main()
 {
-    //gl_Position    = vec4(position, 1.0f);
 	wvp_tesc         = wvp;
     tex_coord_tesc   = tex_coord;
     normal_tesc      = normal;

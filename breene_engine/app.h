@@ -12,6 +12,7 @@
 #include "utils.h"
 #include "basic_shader_programs.h"
 #include "my_constants.h"
+#include "player_controller.h"
 
 namespace breene
 {
@@ -27,7 +28,7 @@ namespace breene
     class BreeneApplication
     {
     private:
-        const static size_t ROWCOUNT = 50, COLCOUNT = 2;
+        const static size_t ROWCOUNT = 5, COLCOUNT = 2;
         const static size_t INSTANCE_COUNT = ROWCOUNT * COLCOUNT;
 
         void CalcPositions();
@@ -61,14 +62,13 @@ namespace breene
 
         BreeneApplication();
         BreeneApplication(GLulong window_width, GLulong window_height);
-        BreeneApplication(GLulong window_width, GLulong window_height, Camera* camera);
+        //BreeneApplication(GLulong window_width, GLulong window_height, Camera* camera);
                 
         breene::BreeneApplication& Run();
 		static breene::ApplicationBuilder& GetBuilder();
 
-        /*GLfloat GetDisplacementFactor() const { return _displacement_factor; }
         GLfloat GetTesselationLevel() const { return _tess_level; }
-        GLfloat GetTesselationAlpha() const { return _tess_alpha; }*/
+        GLfloat GetTesselationAlpha() const { return _tess_alpha; }
 
         RetCodes MakeWindow(GLchar* title, GLenum is_fullscreen, GLint sampling, GLint openGL_version_major, GLint openGL_version_minor, GLint openGL_profile, GLenum capture_input, GLenum hide_cursor = GL_FALSE, GLenum depth_test = GL_FALSE);
 
@@ -87,34 +87,19 @@ namespace breene
         breene::BreeneApplication& ToggleStatsDisplay();
 		breene::BreeneApplication& SetStatsToDisplay(uint8_t stats);
 		breene::BreeneApplication& SetVsync(GLenum on_off);
+        PlayerController* GetPlayerController();
         //gl_app::OpenGLApplication& SetDisplacementFactor(GLfloat displacement_factor);
-        //gl_app::OpenGLApplication& SetTesselationLevel(const GLfloat level);
-        //gl_app::OpenGLApplication& SetTesselationAlpha(const GLfloat alpha);
+        breene::BreeneApplication& SetTesselationLevel(const GLfloat level);
+        breene::BreeneApplication& SetTesselationAlpha(const GLfloat alpha);
         std::pair<GLint, GLint> GetMousePos();
-        Camera* GetCamera() const { return _camera; }
-
-        //struct MouseButton
-        //{
-        //    MouseButton() {}
-        //    MouseButton(bool is_pressed, GLint x, GLint y)
-        //    : is_pressed(is_pressed)
-        //    , x(x)
-        //    , y(y)
-        //    {}
-
-        //    bool is_pressed;
-        //    GLint x;
-        //    GLint y;
-        //};
-        //MouseButton _left_mb;
+        breene::BreeneApplication& ToggleSpotLight(bool toggle); // demo-purposes only
 
         ~BreeneApplication();
     private:
-
         GLFWwindow* _wnd;
         GLulong _wnd_width;
         GLulong _wnd_height;
-        Camera* _camera;
+        PlayerController* _player_ctrl;
         Mesh* _mesh;
 		Mesh* _quad;
 		Mesh* _sphere;
@@ -137,8 +122,8 @@ namespace breene
         //Texture2D* _color_map;
         //Texture2D* _normal_map;
         //GLfloat _displacement_factor;
-        //GLfloat _tess_level;
-        //GLfloat _tess_alpha;
+        GLfloat _tess_level;
+        GLfloat _tess_alpha;
         //bool _is_wireframe;
         //PickingProgram* _picking_program;
         //PlainColorProgram* _plain_program;
@@ -159,7 +144,7 @@ namespace breene
         GLfloat _fps;
         long long _frametime;
         long long _start_time;
-        //long long _crt_time_ms;
+        bool _spotlight_toggle;
     };
 
 	class ApplicationBuilder

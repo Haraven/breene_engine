@@ -4,6 +4,8 @@
 
 extern const unsigned long DEFAULT_WND_WIDTH;
 extern const unsigned long DEFAULT_WND_HEIGHT;
+extern const float TESS_ALPHA_MAX;
+extern const float TESS_LEVEL_MAX;
 
 enum UnitIndex
 {
@@ -12,7 +14,8 @@ enum UnitIndex
     NORMAL_TEXTURE_UNIT_INDEX,
     RANDOM_TEXTURE_UNIT_INDEX,
     DISPLACEMENT_TEXTURE_UNIT_INDEX,
-    TEXT_TEXTURE_UNIT_INDEX
+    TEXT_TEXTURE_UNIT_INDEX,
+    SKYBOX_TEXTURE_UNIT_INDEX = 7
 };
 extern const unsigned int COLOR_TEXTURE_UNIT;
 extern const unsigned int SHADOW_TEXTURE_UNIT;
@@ -21,6 +24,7 @@ extern const unsigned int RANDOM_TEXTURE_UNIT;
 extern const unsigned int DISPLACEMENT_TEXTURE_UNIT;
 extern const unsigned int TEXT_TEXTURE_UNIT;
 extern const unsigned int POSITION_TEXTURE_UNIT;
+extern const unsigned int SKYBOX_TEXTURE_UNIT;
 
 extern const float Z_NEAR;
 extern const float Z_FAR;
@@ -125,6 +129,7 @@ extern const char DISPLACEMENT_FACTOR_UNIFORM[];
 extern const char COLOR_UNIFORM[];
 extern const char DISCARD_COLOR_UNIFORM[];
 extern const char SCREENSIZE_UNIFORM[];
+extern const char SKYBOX_BOOLEAN_UNIFORM[];
 
 extern const int INVALID_VAL;
 
@@ -138,6 +143,18 @@ extern const glm::vec3 COLOR_BLUE;
 extern const glm::vec3 COLOR_CYAN;
 extern const glm::vec3 COLOR_MAGENTA;
 
+extern const glm::vec3 EYE_ORIGIN;
+extern const glm::vec3 LOOK_AT_ORIGIN;
+extern const glm::vec3 UP_ORIGIN;
+
+extern const float YAW;
+extern const float PITCH;
+extern const float ROLL;
+extern const float MOVEMENT_SPEED_INCR;
+extern const float MOVEMENT_SPEED_MAX;
+extern const float MOUSE_SENSITIVTY;
+extern const float PITCH_MIN;
+extern const float PITCH_MAX;
 
 enum RetCodes
 {
