@@ -93,6 +93,7 @@ namespace breene
         breene::BreeneApplication& SetTesselationAlpha(const GLfloat alpha);
         std::pair<GLint, GLint> GetMousePos();
         breene::BreeneApplication& ToggleSpotLight(bool toggle); // demo-purposes only
+        breene::BreeneApplication& ToggleWireframe();
 
         ~BreeneApplication();
     private:

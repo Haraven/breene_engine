@@ -667,7 +667,6 @@ RetCodes breene::BreeneApplication::MakeWindow(GLchar* title, GLenum is_fullscre
         glEnable(GL_DEPTH_TEST);
 
     glfwSetCursorPos(_wnd, _wnd_width / 2, _wnd_height / 2);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     Init();
     
     return SUCCESS;
@@ -863,6 +862,16 @@ std::pair<GLint, GLint> breene::BreeneApplication::GetMousePos()
 breene::BreeneApplication & breene::BreeneApplication::ToggleSpotLight(bool toggle)
 {
     _spotlight_toggle = toggle;
+
+    return *this;
+}
+
+breene::BreeneApplication & breene::BreeneApplication::ToggleWireframe()
+{
+    static bool show_wireframe = false;
+    show_wireframe = !show_wireframe;
+
+    glPolygonMode(GL_FRONT_AND_BACK, show_wireframe ? GL_LINE : GL_FILL);
 
     return *this;
 }

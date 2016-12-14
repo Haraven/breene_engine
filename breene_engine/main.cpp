@@ -87,6 +87,10 @@ void KeyCallback(GLFWwindow * wnd, GLint key, GLint scan_code, GLint action, GLi
         else if (action == GLFW_RELEASE)
             app->ToggleSpotLight(false);
         break;
+    case GLFW_KEY_B:
+        if (action == GLFW_PRESS)
+            app->ToggleWireframe();
+        break;
     default:
         break;
     }
