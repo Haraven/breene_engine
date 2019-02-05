@@ -22,7 +22,7 @@ You can send me a message on either one of the following:
 
 ---
 ### Notes
-All of the project dependencies are already included, compiled with Visual Studio 2015, for 64-bit only. You can simply clone the project, and run it, to see the current feature that I am working on implementing, or have just finished implementing. **For now, run the application in _Release x64_ configuration mode. For some reason, running in debug mode causes low framerate, and black textures. Assuming it's caused by my Assimp build being in release mode. Will look into it.**
+All of the project dependencies are already included, compiled with Visual Studio 2015, for 64-bit only. You can simply clone the project, and run it, to see the current feature that I am working on implementing, or have just finished implementing. **For now, run the application in _Release x64_ configuration mode. For some reason, running in debug mode causes black textures to appear. Assuming it's caused by my Assimp build being in release mode. Will look into it.**
 <br>
 <br>
 Expect bugs. You are free to report them, and I will try to address them ASAP.
